@@ -1,0 +1,16 @@
+{strip}
+
+{$wa->globals("isPage", true)}
+{$wa->globals("globalHeader", $page.title)}
+
+{* POST PAGE *}
+<article class="s-post-page">
+
+    {* POST CONTENT *}
+    <div class="s-text-wrapper s-user-content">
+        {$page.content}
+    </div>
+
+</article>
+
+{/strip}

@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE theme PUBLIC "wa-app-theme" "http://www.webasyst.com/wa-content/xml/wa-app-theme.dtd">
+<theme id="hypermarket" app="shop" vendor="webasyst" author="webasyst" parent_theme_id="site:hypermarket" version="1.3.20">
+    <name locale="en_US">Hypermarket</name>
+    <name locale="ru_RU">Гипермаркет</name>
+    <files>
+        <!-- parent resources -->
+        <file path="css/custom.css" parent="1">
+        </file>
+        <file path="js/custom.js" parent="1">
+        </file>
+        <!-- shop resources -->
+        <file path="css/custom.shop.css">
+        </file>
+        <file path="js/cart.js">
+            <description locale="en_US">Cart page JavaScript</description>
+            <description locale="ru_RU">JavaScript-код страницы корзины</description>
+        </file>
+        <file path="js/checkout.js">
+        </file>
+        <file path="js/custom.shop.js">
+        </file>
+        <file path="js/product.js">
+            <description locale="en_US">Product page JavaScript</description>
+            <description locale="ru_RU">JavaScript-код страницы товара</description>
+        </file>
+        <file path="js/products.js">
+        </file>
+        <file path="js/reviews.js">
+            <description locale="en_US">Reviews JavaScript</description>
+            <description locale="ru_RU">JavaScript-код отзывов</description>
+        </file>
+        <!-- parent templates -->
+        <file path="index.html" parent="1">
+        </file>
+        <file path="error.html" parent="1">
+        </file>
+        <file path="signup.html" parent="1">
+        </file>
+        <file path="login.html" parent="1">
+        </file>
+        <file path="forgotpassword.html" parent="1">
+        </file>
+        <file path="page.html" parent="1">
+            <description locale="en_US">Static page content</description>
+            <description locale="ru_RU">Содержимое информационной страницы</description>
+        </file>
+        <file path="my.profile.html" parent="1">
+        </file>
+        <!-- shop templates -->
+        <file path="breadcrumbs.html">
+        </file>
+        <file path="cart.html">
+            <description locale="en_US">Shopping cart page</description>
+            <description locale="ru_RU">Страница с товарами корзины</description>
+        </file>
+        <file path="category.filters.html">
+        </file>
+        <file path="category.html">
+            <description locale="en_US">Wrapper for a category page</description>
+            <description locale="ru_RU">Обертка для страницы категории</description>
+        </file>
+        <file path="checkout.auth.html">
+        </file>
+        <file path="checkout.confirmation.html">
+            <description locale="en_US">Checkout: order confirmation</description>
+            <description locale="ru_RU">Оформление заказа: подтверждение заказа</description>
+        </file>
+        <file path="checkout.contactinfo.html">
+            <description locale="en_US">Checkout: customer contact information form</description>
+            <description locale="ru_RU">Оформление заказа: форма ввода контактной информации</description>
+        </file>
+        <file path="checkout.error.html">
+            <description locale="en_US">Checkout: error page</description>
+            <description locale="ru_RU">Оформление заказа: страница с сообщением об ошибке</description>
+        </file>
+        <file path="checkout.html">
+            <description locale="en_US">Checkout: main wrapper</description>
+            <description locale="ru_RU">Шаблон страниц оформления заказа</description>
+        </file>
+        <file path="checkout.payment.html">
+            <description locale="en_US">Checkout: payment method selection</description>
+            <description locale="ru_RU">Оформление заказа: выбор способа оплаты</description>
+        </file>
+        <file path="checkout.shipping.html">
+            <description locale="en_US">Checkout: shipping method selection</description>
+            <description locale="ru_RU">Оформление заказа: выбор способа доставки</description>
+        </file>
+        <file path="checkout.success.html">
+            <description locale="en_US">Checkout: “thank you” page</description>
+            <description locale="ru_RU">Оформление заказа: последняя страница</description>
+        </file>
+        <file path="compare.html">
+            <description locale="en_US">Product comparison</description>
+            <description locale="ru_RU">Сравнение товаров</description>
+        </file>
+        <file path="footer.html">
+            <description locale="en_US">Storefront footer content</description>
+            <description locale="ru_RU">Футер страниц витрины</description>
+        </file>
+        <file path="head.html">
+            <description locale="en_US">Storefront &lt;head&gt; block</description>
+            <description locale="en_US">Блок &lt;head&gt; витрины</description>
+        </file>
+        <file path="header.html">
+            <description locale="en_US">Storefront header content</description>
+            <description locale="ru_RU">Шапка страниц витрины</description>
+        </file>
+        <file path="home.html">
+            <description locale="en_US">Storefront home page</description>
+            <description locale="ru_RU">Главная страница витрины</description>
+        </file>
+        <file path="home.slider.html">
+        </file>
+        <file path="list-thumbs.html">
+            <description locale="en_US">Product list thumbnail view</description>
+            <description locale="ru_RU">Список товаров в виде эскизов</description>
+        </file>
+        <file path="main.html">
+            <description locale="en_US">Main storefront layout and navigation</description>
+            <description locale="ru_RU">Основной макет содержимого и навигации витрины</description>
+        </file>
+        <file path="my.affiliate.html">
+            <description locale="en_US">Customer account: affiliate program</description>
+            <description locale="ru_RU">Личный кабинет: партнерская программа</description>
+        </file>
+        <file path="my.nav.html">
+        </file>
+        <file path="my.order.html">
+            <description locale="en_US">Customer account: order-viewing page</description>
+            <description locale="ru_RU">Личный кабинет: просмотр заказа</description>
+        </file>
+        <file path="my.orders.html">
+            <description locale="en_US">Customer account: order list</description>
+            <description locale="ru_RU">Личный кабинет: список заказов</description>
+        </file>
+        <file path="order.html">
+        </file>
+        <file path="product.cart.dialog.html">
+            <description locale="en_US">Product adding to cart dialog</description>
+            <description locale="ru_RU">Диалог добавления товара в корзину</description>
+        </file>
+        <file path="product.cart.html">
+            <description locale="en_US">Product adding to cart block</description>
+            <description locale="ru_RU">Блок добавления товара в корзину</description>
+        </file>
+        <file path="product.html">
+            <description locale="en_US">Product-viewing page</description>
+            <description locale="ru_RU">Страница просмотра товара</description>
+        </file>
+        <file path="product.page.html">
+        </file>
+        <file path="products.html">
+        </file>
+        <file path="products.items.html">
+        </file>
+        <file path="products.short.html">
+        </file>
+        <file path="products.sorting.html">
+        </file>
+        <file path="review.html">
+            <description locale="en_US">Single product review template</description>
+            <description locale="ru_RU">Шаблон отображения отзыва о товаре</description>
+        </file>
+        <file path="reviews.html">
+            <description locale="en_US">Product review list</description>
+            <description locale="ru_RU">Список отзывов о товаре</description>
+        </file>
+        <file path="search.html">
+            <description locale="en_US">Wrapper for product search (filtering) results; e.g., by name or tag</description>
+            <description locale="ru_RU">Обертка для страницы поиска (фильтрации) товаров, например, по ключевому слову или тегу</description>
+        </file>
+        <file path="sidebar.html">
+        </file>
+    </files>
+    <settings>
+        <setting var="shop_divider_1" control_type="group_divider">
+            <value></value>
+            <name locale="en_US">Home page</name>
+            <name locale="ru_RU">Главная страница</name>
+        </setting>
+
+
+            <setting var="shop_divider_1_1" control_type="group_divider">
+                <value>shop_divider_1/shop_divider_1_1</value>
+                <name locale="en_US">Home page</name>
+                <name locale="ru_RU">Режим слайдера</name>
+            </setting>
+
+                <setting var="slider_mode" control_type="radio">
+                    <value>products</value>
+                    <name locale="en_US">Slider</name>
+                    <name locale="ru_RU">Слайдер</name>
+                    <options>
+                        <option value="promos">
+                            <name locale="en_US">Promo cards with shaded background</name>
+                            <name locale="ru_RU">Промокарточки с затемнением фона</name>
+                            <description locale="en_US">Slider will display promo cards editable in “Products → Promos” section. The shading color is obtained from a promo’s “Background color” setting.</description>
+                            <description locale="ru_RU">В слайдере будут показаны промокарточки, созданные в разделе «Товары → Промо». Для затемнения фона используется цвет из настройки промокарточки «Цвет фона».</description>
+                        </option>
+                        <option value="promos_without_mask">
+                            <name locale="en_US">Promo cards</name>
+                            <name locale="ru_RU">Промокарточки</name>
+                            <description locale="en_US">Slider will display promo cards editable in “Products → Promos” section.</description>
+                            <description locale="ru_RU">В слайдере будут показаны промокарточки, созданные в разделе «Товары → Промо».</description>
+                        </option>
+                        <option value="products">
+                            <name locale="en_US">Products</name>
+                            <name locale="ru_RU">Товары</name>
+                            <description locale="en_US">Slider will display main images of products from a product set with ID specified below. Product sets are editable in “Products → Sets” section.</description>
+                            <description locale="ru_RU">В слайдере будут показаны основные изображения товаров из списка с указанным ниже идентификатором. Списки товаров редактируются в разделе «Товары → Списки».</description>
+                        </option>
+                        <option value="products_wide">
+                            <name locale="en_US">Products: last photo as a background</name>
+                            <name locale="ru_RU">Товары: последнее фото в качестве фона</name>
+                            <description locale="en_US">Slider will display last images of products from a product set with ID specified below, as background for entire slider area.</description>
+                            <description locale="ru_RU">В слайдере будут показаны последние изображения товаров из списка с указанным ниже идентификатором — в качестве фона по размерам всего слайдера.</description>
+                        </option>
+                        <option value="hidden">
+                            <name locale="ru_RU">Не показывать слайдер</name>
+                            <name locale="en_US">Don’t show the slider</name>
+                        </option>
+                    </options>
+                </setting>
+                <setting var="slider_product_list_id" control_type="text">
+                    <value>promo</value>
+                    <name locale="en_US">Slider product set ID</name>
+                    <name locale="ru_RU">Список промотоваров в слайдере</name>
+                    <description locale="en_US">ID of product set whose products will be shown in home page slider if selected in the slider setting above.</description>
+                    <description locale="ru_RU">Идентификатор списка товаров, которые будут показаны в слайдере, если это выбрано в настройке слайдера выше.</description>
+                </setting>
+                <setting var="slider_height" control_type="text">
+                    <value>320</value>
+                    <name locale="en_US">Slider height</name>
+                    <name locale="ru_RU">Высота слайдера</name>
+                    <description locale="en_US">Default: 320 (pixels)</description>
+                    <description locale="ru_RU">По умолчанию 320 (пикселей).</description>
+                </setting>
+                <setting var="show_promos_below_slider" control_type="radio">
+                    <value>show_with_mask</value>
+                    <name locale="en_US">Display smaller promo cards below the slider</name>
+                    <name locale="ru_RU">Показывать маленькие промокарточки под слайдером</name>
+                    <options>
+                        <option value="hide">
+                            <name locale="en_US">Hide</name>
+                            <name locale="ru_RU">Не показывать</name>
+                            <description locale="en_US"> </description>
+                            <description locale="ru_RU"> </description>
+                        </option>
+                        <option value="show_with_mask">
+                            <name locale="en_US">Show with shaded background</name>
+                            <name locale="ru_RU">Показывать с затемнением фона</name>
+                            <description locale="en_US">The shading color is obtained from a promo’s “Background color” setting.</description>
+                            <description locale="ru_RU">Для затемнения фона используется цвет из настройки промокарточки «Цвет фона».</description>
+                        </option>
+                        <option value="show_without_mask">
+                            <name locale="en_US">Show without shading</name>
+                            <name locale="ru_RU">Показывать без затемнения</name>
+                            <description locale="en_US"> </description>
+                            <description locale="ru_RU"> </description>
+                        </option>
+                    </options>
+                </setting>
+
+
+            <setting var="shop_divider_1_2" control_type="group_divider">
+                <value>shop_divider_1/shop_divider_1_2</value>
+                <name locale="en_US">First product list</name>
+                <name locale="ru_RU">Первый список товаров</name>
+            </setting>
+                <setting var="homepage_novelties_title" control_type="text">
+                    <value locale="en_US">New items</value>
+                    <value locale="ru_RU">Новинки</value>
+                    <name locale="en_US">Title</name>
+                    <name locale="ru_RU">Заголовок</name>
+                </setting>
+                <setting var="homepage_novelties_list_id" control_type="text">
+                    <value>topproducts</value>
+                    <name locale="en_US">Product list ID</name>
+                    <name locale="ru_RU">ID списка товаров</name>
+                </setting>
+
+
+            <setting var="shop_divider_1_3" control_type="group_divider">
+                <value>shop_divider_1/shop_divider_1_3</value>
+                <name locale="en_US">Second product list</name>
+                <name locale="ru_RU">Второй список товаров</name>
+            </setting>
+                <setting var="homepage_bestsellers_title" control_type="text">
+                    <value locale="en_US">Hot offers</value>
+                    <value locale="ru_RU">Лучшие предложения</value>
+                    <name locale="en_US">Title</name>
+                    <name locale="ru_RU">Заголовок</name>
+                </setting>
+                <setting var="homepage_bestsellers_list_id" control_type="text">
+                    <value>bestsellers</value>
+                    <name locale="en_US">Product list ID</name>
+                    <name locale="ru_RU">ID списка товаров</name>
+                </setting>
+
+
+            <setting var="shop_divider_1_4" control_type="group_divider">
+                <value>shop_divider_1/shop_divider_1_4</value>
+                <name locale="en_US">Third product list</name>
+                <name locale="ru_RU">Третий список товаров</name>
+            </setting>
+                <setting var="homepage_onsale_title" control_type="text">
+                    <value locale="en_US">Sale</value>
+                    <value locale="ru_RU">Распродажа</value>
+                    <name locale="en_US">Title</name>
+                    <name locale="ru_RU">Заголовок</name>
+                </setting>
+                <setting var="homepage_onsale_list_id" control_type="text">
+                    <value>promo</value>
+                    <name locale="en_US">Product list ID</name>
+                    <name locale="ru_RU">ID списка товаров</name>
+                </setting>
+
+
+        <setting var="shop_divider_2" control_type="group_divider">
+            <value></value>
+            <name locale="en_US">Shop settings</name>
+            <name locale="ru_RU">Настройки «Магазина»</name>
+        </setting>
+            <setting var="show_product_actions_on_main_page" control_type="checkbox">
+                <value></value>
+                <name locale="en_US">Show “Buy” and “Compare” buttons in product lists on the home page</name>
+                <name locale="ru_RU">Показывать кнопки «Купить» и «Сравнить» в списках товаров на главной странице</name>
+            </setting>
+            <setting var="enable_compare" control_type="checkbox">
+                <value>1</value>
+                <name locale="en_US">Compare products in other product lists</name>
+                <name locale="ru_RU">Сравнение товаров в остальных списках товаров</name>
+            </setting>
+            <setting var="selectable_features_control" control_type="radio">
+                <value>inline</value>
+                <name locale="ru_RU">Выбор характеристик</name>
+                <name locale="en_US">Selectable features</name>
+                <options>
+                    <option value="inline">
+                        <name locale="ru_RU">Показывать все значения крупно в ряд</name>
+                        <name locale="en_US">Display all values inline</name>
+                        <description locale="ru_RU">Для товаров в режиме продажи «Выбор параметров» значения характеристик будут показаны одной строкой друг за другом. Рекомендуется, если названия значений относительно короткие и по ним однозначно можно определить, о какой характеристике товара идет речь, например, XL, 16 GB, 13”.</description>
+                        <description locale="en_US">For products sold in “Selectable parameters” mode, feature values will be displayed inline. Recommended if feature value names are short and self-explanatory in the context of a product; e.g., XL, 16 GB, 13”.</description>
+                    </option>
+                    <option value="select">
+                        <name locale="ru_RU"><![CDATA[Выбор из списка &lt;select&gt;]]></name>
+                        <name locale="en_US"><![CDATA[Selection from a &lt;select&gt; list]]></name>
+                        <description locale="ru_RU"><![CDATA[Для товаров в режиме продажи «Выбор параметров» значения характеристик будут предложены на выбор с помощью выпадающего списка &lt;select&gt;. Рекомендуется, если названия значений характеристик содержат более одного-двух слов или по значениям нельзя однозначно понять, о какой характеристике товара идет речь, например, «до 10 часов», «не предусмотрено».]]></description>
+                        <description locale="en_US"><![CDATA[For products sold in “Selectable parameters” mode, feature values will be displayed using a &lt;select&gt; drop-down list. Recommended if value names are either long or ambiguous in the context of a product; e.g., “up to 10 hours”, “not available”.]]></description>
+                    </option>
+                </options>
+            </setting>
+            <setting var="products_default_view_type" control_type="radio">
+                <value>table</value>
+                <name locale="ru_RU">Вид списков товаров по умолчанию</name>
+                <name locale="en_US">Default product list view mode</name>
+                <options>
+                    <option value="table">
+                        <name locale="ru_RU">Таблица</name>
+                        <name locale="en_US">Table</name>
+                        <description locale="ru_RU"> </description>
+                        <description locale="en_US"> </description>
+                    </option>
+                    <option value="thumbs">
+                        <name locale="ru_RU">Плитка</name>
+                        <name locale="en_US">Thumbs</name>
+                        <description locale="ru_RU"> </description>
+                        <description locale="en_US"> </description>
+                    </option>
+                </options>
+            </setting>
+            <setting var="menu_limit" control_type="text">
+                <value>20</value>
+                <name locale="en_US">Maximum number of displayed 1st-level sections in the catalog menu</name>
+                <name locale="ru_RU">Максимальное количество отображаемых разделов первого уровня в меню каталога</name>
+            </setting>
+            <setting var="sub_menu_limit" control_type="text">
+                <value>5</value>
+                <name locale="en_US">Maximum number of displayed 3rd-level subsections in the catalog menu</name>
+                <name locale="ru_RU">Максимальное количество отображаемых подразделов третьего уровня в меню каталога</name>
+            </setting>
+            <setting var="currency_toggle" control_type="checkbox">
+                <value></value>
+                <name locale="en_US">Show currency selector in footer</name>
+                <name locale="ru_RU">Показывать выбор валюты внизу страниц</name>
+            </setting>
+            <setting var="language_toggle" control_type="checkbox">
+                <value></value>
+                <name locale="en_US">Show language selector in footer</name>
+                <name locale="ru_RU">Показывать переключатель языка внизу страниц</name>
+                <description locale="en_US"><![CDATA[Enable if you are using an app or plugin to create an international website.]]></description>
+                <description locale="ru_RU"><![CDATA[Включите, если вы используете приложение или плагин для создания многоязычного сайта.]]></description>
+            </setting>
+            <setting var="category_description_place" control_type="radio">
+                <value>sidebar</value>
+                <name locale="en_US">Product category description location</name>
+                <name locale="ru_RU">Отображение описания категории товаров</name>
+                <options>
+                    <option value="sidebar">
+                        <name locale="ru_RU">В боковой панели слева</name>
+                        <name locale="en_US">In the sidebar on the left</name>
+                        <description locale="en_US"> </description>
+                        <description locale="ru_RU"> </description>
+                    </option>
+                    <option value="content_top">
+                        <name locale="ru_RU">Над списком товаров</name>
+                        <name locale="en_US">Above the product list</name>
+                        <description locale="en_US"> </description>
+                        <description locale="ru_RU"> </description>
+                    </option>
+                    <option value="content_bottom">
+                        <name locale="ru_RU">Под списком товаров</name>
+                        <name locale="en_US">Below the product list</name>
+                        <description locale="en_US"> </description>
+                        <description locale="ru_RU"> </description>
+                    </option>
+                </options>
+            </setting>
+            <setting var="show_neighboring_categories" control_type="checkbox">
+                <value></value>
+                <name locale="en_US">Show sibling categories in category selection menu</name>
+                <name locale="ru_RU">Показывать соседние категории в меню выбора категорий</name>
+                <description locale="en_US">Sibling categories are displayed if a current category contains no subcategories.</description>
+                <description locale="ru_RU">Соседние категории отображаются, если у текущей категории нет подкатегорий.</description>
+            </setting>
+            <setting var="checkout_payment_success_title" control_type="text">
+                <value locale="en_US">Your payment has been accepted</value>
+                <value locale="ru_RU">Оплата получена</value>
+                <name locale="en_US">Successful payment page title</name>
+                <name locale="ru_RU">Заголовок страницы с сообщением об успешной оплате</name>
+            </setting>
+            <setting var="checkout_payment_success_description" control_type="text">
+                <value locale="en_US">We will process your order and will contact you shortly.</value>
+                <value locale="ru_RU">Мы вскоре обработаем ваш заказ и свяжемся с вами в ближайшее время.</value>
+                <name locale="en_US">Successful payment message</name>
+                <name locale="ru_RU">Сообщение после завершения оплаты заказа</name>
+            </setting>
+
+    </settings>
+    <thumbs>
+        <thumb>48x48</thumb>
+        <thumb>96x96</thumb>
+        <thumb>200</thumb>
+        <thumb>0x320</thumb>
+        <thumb>750</thumb>
+        <thumb>970</thumb>
+    </thumbs>
+    <locales>
+        <locale>
+            <msgid>No reviews</msgid>
+            <msgstr locale="ru_RU">Отзывов нет</msgstr>
+        </locale>
+        <locale>
+            <msgid>All reviews</msgid>
+            <msgstr locale="ru_RU">Все отзывы</msgstr>
+        </locale>
+        <locale>
+            <msgid>Customer reviews and ratings</msgid>
+            <msgstr locale="ru_RU">Отзывы и оценки покупателей</msgstr>
+        </locale>
+        <locale>
+            <msgid>Sorting</msgid>
+            <msgstr locale="ru_RU">Сортировка</msgstr>
+        </locale>
+        <locale>
+            <msgid>Table</msgid>
+            <msgstr locale="ru_RU">Таблица</msgstr>
+        </locale>
+        <locale>
+            <msgid>Thumbs</msgid>
+            <msgstr locale="ru_RU">Плитка</msgstr>
+        </locale>
+        <locale>
+            <msgid>Bonus program</msgid>
+            <msgstr locale="ru_RU">Бонусная программа</msgstr>
+        </locale>
+        <locale>
+            <msgid>Used bonus</msgid>
+            <msgstr locale="ru_RU">Используемые бонусные баллы</msgstr>
+        </locale>
+        <locale>
+            <msgid>Next</msgid>
+            <msgstr locale="ru_RU">Далее</msgstr>
+        </locale>
+        <locale>
+            <msgid>Shipping method</msgid>
+            <msgstr locale="ru_RU">Способ доставки</msgstr>
+        </locale>
+        <locale>
+            <msgid>Payment method</msgid>
+            <msgstr locale="ru_RU">Способ оплаты</msgstr>
+        </locale>
+        <locale>
+            <msgid>Amount</msgid>
+            <msgstr locale="ru_RU">Сумма</msgstr>
+        </locale>
+        <locale>
+            <msgid>Added</msgid>
+            <msgstr locale="ru_RU">Добавлен</msgstr>
+        </locale>
+        <locale>
+            <msgid>Send order</msgid>
+            <msgstr locale="ru_RU">Отправить заказ</msgstr>
+        </locale>
+        <locale>
+            <msgid>Product page</msgid>
+            <msgstr locale="ru_RU">Карточка товара</msgstr>
+        </locale>
+        <locale>
+            <msgid>Product reviews</msgid>
+            <msgstr locale="ru_RU">Отзывы на товар</msgstr>
+        </locale>
+        <locale>
+            <msgid>Show product features</msgid>
+            <msgstr locale="ru_RU">Показывать характеристики товаров</msgstr>
+        </locale>
+        <locale>
+            <msgid>Search results for</msgid>
+            <msgstr locale="ru_RU">Результаты поиска по запросу</msgstr>
+        </locale>
+        <locale>
+            <msgid>Filters</msgid>
+            <msgstr locale="ru_RU">Фильтр товаров</msgstr>
+        </locale>
+        <locale>
+            <msgid>Reset</msgid>
+            <msgstr locale="ru_RU">Сбросить</msgstr>
+        </locale>
+        <locale>
+            <msgid>Please add new products to the cart</msgid>
+            <msgstr locale="ru_RU">Пожалуйста, добавьте новые товары в корзину</msgstr>
+        </locale>
+        <locale>
+            <msgid>All products have been removed from the cart.</msgid>
+            <msgstr locale="ru_RU">Все товары удалены из корзины.</msgstr>
+        </locale>
+        <locale>
+            <msgid>Related</msgid>
+            <msgstr locale="ru_RU">Рекомендуемые</msgstr>
+        </locale>
+        <locale>
+            <msgid>To comparison</msgid>
+            <msgstr locale="ru_RU">К сравнению</msgstr>
+        </locale>
+        <locale>
+            <msgid>In comparison list</msgid>
+            <msgstr locale="ru_RU">В сравнении</msgstr>
+        </locale>
+        <locale>
+            <msgid>Delete all products</msgid>
+            <msgstr locale="ru_RU">Удалить все товары</msgstr>
+        </locale>
+        <locale>
+            <msgid>Catalog view</msgid>
+            <msgstr locale="ru_RU">Вид каталога</msgstr>
+        </locale>
+    </locales>
+</theme>

@@ -1,0 +1,134 @@
+{strip}
+
+{if empty($_is_personal_area)}
+    {$rss = $wa->blog->rssUrl()}
+
+    {* TIMELINE NAVIGATION *}
+    {$timeline = $wa->blog->timeline()}
+    {if !empty($timeline)}
+        <section class="s-sidebar-section b-timeline-section">
+            <div class="s-section-body">
+                <nav class="s-nav-wrapper">
+
+                    <ul class="b-timeline-list js-deep-list">
+                        {$year=null}
+                        {foreach $timeline as $year_month => $item}
+                            {if $year neq $item.year}
+                                {if !$item@first}
+                                        </ul>
+                                    </li>
+                                {/if}
+                                <li class="{if $item.year_selected}is-selected is-opened{/if} has-menu">
+                                    {$year=$item.year}
+                                    <span class="s-toggle js-toggle"></span>
+                                    <a href="{$item.year_link}">{$item.year|default:'NULL'}</a>
+                                    <ul>
+                            {/if}
+
+                            <li class="{if $item.selected}is-selected{/if}">
+                                <a href="{$item.link}" title="{_w("%d post","%d posts",$item.count)}">{_ws(date("F",gmmktime(0,0,0,$item.month,1)))}</a>
+                            </li>
+
+                            {if $item@last}
+                                    </ul>
+                                </li>
+                            {/if}
+
+                        {/foreach}
+                    </ul>
+                </nav>
+
+                <div class="s-sidebar-search" role="search">
+                    {$_query = $smarty.get.query|default:''|escape}
+
+                    <form method="get" action="{$wa->getUrl("blog/frontend/search")}">
+                        <input class="h-text-input" type="text" name="query" value="{if !empty($_query)}{$_query}{/if}" placeholder="[`Search news`]">
+                    </form>
+                </div>
+            </div>
+        </section>
+    {/if}
+
+    {* SIDEBAR NAV *}
+    {$_pages = $wa->blog->pages()}
+    {if !empty($_pages)}
+        <section class="s-sidebar-section">
+            <div class="s-section-body">
+
+                <nav class="s-nav-wrapper">
+                    {_renderPagesList pages=$_pages}
+                </nav>
+
+            </div>
+        </section>
+    {/if}
+
+    {* SUBSCRIBE *}
+    {$_subscribe_items = []}
+    {if !empty($rss)}
+        {$_subscribe_items[] = [
+            "uri" => $rss,
+            "name" => "[s`RSS`]",
+            "icon_class" => "rss"
+        ]}
+    {/if}
+    {$_socials_links = [
+        "subscribe_page_link" => [
+            "name" => "[`By email`]",
+            "class" => "email-gold"
+        ],
+        "vk_page_link" => [
+            "name" => "[s`VK`]",
+            "class" => "vk"
+        ],
+        "fb_page_link" => [
+            "name" => "[s`Facebook`]",
+            "class" => "facebook"
+        ],
+        "tw_page_link" => [
+            "name" => "[`Twitter`]",
+            "class" => "twitter"
+        ]
+    ]}
+    {foreach $_socials_links as $name => $_social}
+        {if !empty($theme_settings[$name])}
+            {$_subscribe_items[] = [
+                "uri" => $theme_settings[$name],
+                "name" => $_social.name,
+                "icon_class" => $_social.class
+            ]}
+        {/if}
+    {/foreach}
+
+    {if !empty($_subscribe_items)}
+        <section class="s-sidebar-section">
+            <header class="s-section-header">
+                <h2 class="s-header">[`Subscribe to blog`]</h2>
+            </header>
+            <div class="s-section-body">
+
+                <ul class="b-subscribe-list">
+                    {foreach $_subscribe_items as $_item}
+                        <li>
+                            <a href="{$_item.uri}" title="{$_item.name|escape}">
+                                <i class="icon16 {$_item.icon_class}"></i>&nbsp;{$_item.name|escape}
+                            </a>
+                        </li>
+                    {/foreach}
+                </ul>
+
+            </div>
+        </section>
+    {/if}
+
+    {* PLUGINS *}
+    {* @event (frontend_action_default|frontend_action_post|frontend_action_page|frontend_action_error).%plugin_id%.sidebar *}
+    {foreach $frontend_action as $plugin => $output}
+        {if !empty($output.sidebar)}
+            <div class="b-sidebar-plugin {$plugin}">{$output.sidebar}</div>
+        {/if}
+    {/foreach}
+{/if}
+
+{/strip}
+

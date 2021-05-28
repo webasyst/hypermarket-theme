@@ -1,0 +1,40 @@
+{strip}
+
+{* SOCIAL ACCOUNTS *}
+{$auth_adapters = $wa->authAdapters(true)}
+{if $auth_adapters}
+    {$_supported_icons = ["vkontakte", "facebook", "mailru", "twitter", "google", "yandex", "webasystID"]}
+
+    <section class="s-adapters-section">
+        {$linked_adapters = []}
+        {$other_adapters = []}
+        {foreach $auth_adapters as $a}
+            {if $wa->user("{$a->getId()}_id")}
+                {$linked_adapters[] = $a}
+            {else}
+                {$other_adapters[] = $a}
+            {/if}
+        {/foreach}
+
+        {if $other_adapters}
+            <ul class="s-adapters-list">
+                {foreach $other_adapters as $a}
+                    {$_id = $a->getId()}
+                    {$_name = $a->getName()}
+
+                    <li>
+                        <a href="{$a->getUrl()}" title="{$_name|escape}">
+                            {if in_array($_id, $_supported_icons)}
+                                <i class="icon32 rounded {$_id}"></i>
+                            {else}
+                                <img alt="{$_name|escape}" src="{$a->getIcon()}"/>
+                            {/if}
+                        </a>
+                    </li>
+                {/foreach}
+            </ul>
+        {/if}
+    </section>
+{/if}
+
+{/strip}

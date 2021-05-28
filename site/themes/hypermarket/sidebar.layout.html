@@ -1,0 +1,130 @@
+{$_is_personal_area = ( $wa->globals("isMyAccount") || !empty($my_nav_selected) )}
+{$_show_widgets = $wa->globals("showWidgets")}
+
+{if $_is_personal_area}
+    {if $wa->user()->isAuth()}
+        <section class="s-sidebar-section">
+            <div class="s-section-header">
+                <h2 class="s-header">[`My account`]</h2>
+            </div>
+            <div class="s-section-body">
+
+                <nav class="s-nav-wrapper">
+                    <ul>
+                        {foreach $wa->myNav(false) as $nav}{$nav}{/foreach}
+                        <li>
+                            <a href="?logout">[`Logout`]</a>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+        </section>
+    {/if}
+{/if}
+
+{function _renderPagesList pages=[] show_deep=true}
+    {$_current_url = $wa->currentUrl()}
+
+    {function _renderPage page=[]}
+        {$_is_selected = false}
+        {$_is_current = false}
+
+        {if strlen($page.url) > 1}
+            {if $_current_url === $page.url}
+                {$_is_current = true}
+            {elseif $_current_url|strstr:$page.url}
+                {$_is_selected = true}
+            {/if}
+        {/if}
+
+        {$_has_menu = ($show_deep && !empty($page.childs))}
+
+        {$_page_classes = []}
+        {if !empty($_is_selected)}
+            {$_page_classes[] = "is-selected"}
+            {$_page_classes[] = "is-opened"}
+        {/if}
+        {if !empty($_is_current)}
+            {$_page_classes[] = "is-current"}
+            {$_page_classes[] = "is-opened"}
+        {/if}
+        {if !empty($_has_menu)}
+            {$_page_classes[] = "has-menu"}
+        {/if}
+
+        <li class="{$_page_classes|join:" "}">
+            {* TOGGLE *}
+            {if !empty($_has_menu)}
+                <span class="s-toggle js-toggle"></span>
+            {/if}
+
+            {$_page_url = $page.url}
+            {*
+            {if !empty($_is_selected) && empty($_has_menu)}
+                {$_page_url = "javascript:void(0);"}
+            {/if}
+            *}
+
+            {* NAME *}
+            {if !empty($_is_current)}
+                <span class="s-link">{$page.name}</span>
+            {else}
+                <a class="s-link" href="{$_page_url}">{$page.name}</a>
+            {/if}
+
+            {* MENU *}
+            {if !empty($_has_menu)}
+                <ul>
+                    {foreach $page.childs as $_sub_page}
+                        {_renderPage page=$_sub_page}
+                    {/foreach}
+                </ul>
+            {/if}
+        </li>
+    {/function}
+
+    {if !empty($pages)}
+        <ul class="{if !empty($show_deep)}js-deep-list{/if}">
+            {foreach $pages as $_page}
+                {_renderPage page=$_page}
+            {/foreach}
+        </ul>
+    {/if}
+{/function}
+
+{include file="`$wa_active_theme_path`/sidebar.html" _is_personal_area=$_is_personal_area inline}
+
+{if empty($_is_personal_area)}
+    {* BANNER *}
+    {if !empty($theme_settings.sidebar_banner_image)}
+        {$_banner_uri = "#"}
+        {if !empty($theme_settings.sidebar_banner_link)}
+            {$_banner_uri = $theme_settings.sidebar_banner_link}
+        {/if}
+        <div class="s-banner-wrapper">
+            <a href="{$_banner_uri}">
+                <img src="{$wa_theme_url}{$theme_settings.sidebar_banner_image}?v{$wa_theme_version}">
+            </a>
+        </div>
+    {/if}
+
+    {if !empty($_show_widgets)}
+        {* WIDGETS *}
+        {if !empty($theme_settings.facebook_likebox_code)}
+            <div class="b-widget-wrapper">
+                {$theme_settings.facebook_likebox_code}
+            </div>
+        {/if}
+        {if !empty($theme_settings.twitter_timeline_code)}
+            <div class="b-widget-wrapper">
+                {$theme_settings.twitter_timeline_code}
+            </div>
+        {/if}
+        {if !empty($theme_settings.vk_widget_code)}
+            <div class="b-widget-wrapper">
+                {$theme_settings.vk_widget_code}
+            </div>
+        {/if}
+    {/if}
+{/if}

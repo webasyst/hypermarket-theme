@@ -1,0 +1,36 @@
+{strip}
+
+{$wa->globals("globalHeader", $category.name|escape)}
+{$_is_full = false}
+{if !empty($category.view_type) && $category.view_type == helpdeskFaqCategoryModel::VIEW_TYPE_COLLECTIVE}
+    {$_is_full = true}
+{/if}
+
+<div class="h-category-wrapper">
+    {if !empty($faq_list)}
+        <ul class="h-faq-list">
+            {foreach $faq_list as $_faq}
+                <li class="h-faq-wrapper">
+                    <header class="h-faq-header">
+                        <h2 class="h-name">
+                            {if !empty($_is_full)}
+                                {$_faq.question}
+                            {else}
+                                <a href="{$_faq.url}/">{$_faq.question}</a>
+                            {/if}
+                        </h2>
+                    </header>
+                    {if !empty($_is_full)}
+                        <div class="h-faq-body">
+                            <div class="h-faq-answer">{$_faq.answer}</div>
+                        </div>
+                    {/if}
+                </li>
+            {/foreach}
+        </ul>
+    {else}
+        <p>[`no records`]</p>
+    {/if}
+</div>
+
+{/strip}

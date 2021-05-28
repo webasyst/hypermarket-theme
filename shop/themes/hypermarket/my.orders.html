@@ -1,0 +1,89 @@
+{strip}
+
+{$_title = "[`My orders`]"}
+
+{$wa->globals("globalHeader", $_title)}
+{$wa->globals("isMyAccount", true)}
+{$wa->globals("isOrdersPage", true)}
+
+<div class="s-orders-page">
+
+    {if !empty($orders)}
+        <div class="s-orders-list">
+            {foreach $orders as $_order}
+                <div class="s-order-section {$_order.state_id}">
+                    <div class="s-section-header">
+                        <div class="s-layout">
+                            <div class="s-column">
+                                <a class="s-name" href="{$_order.url}">[`Order`] {$_order.id_str}</a>
+                                <span class="s-date">[`from`] {$_order.create_datetime|wa_datetime:'humandate'}</span>
+                                <span class="s-time">{$_order.create_datetime|wa_datetime:'time'}</span>
+                            </div>
+                            <div class="s-column right">
+
+                                <a href="{$_order.url}" class="s-order-status nowrap" style="{$_order.state->getStyle(1)}">{$_order.state->getName()}</a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="s-section-body">
+
+                        <div class="s-layout fixed">
+                            <div class="s-column">
+                                {if !empty($_order.shipping_name)}
+                                    <div class="s-block">
+                                        <div>
+                                            <span class="s-label">[`Shipping method`]:</span>
+                                        </div>
+                                        <div class="s-text">{$_order.shipping_name|escape}</div>
+                                    </div>
+                                {/if}
+
+                                {if !empty($_order.payment_name)}
+                                    <div class="s-block">
+                                        <div>
+                                            <span class="s-label">[`Payment method`]:</span>
+                                        </div>
+                                        <div class="s-text">{$_order.payment_name|escape}</div>
+                                    </div>
+                                {/if}
+
+                                {if !empty($_order.total)}
+                                    <div class="s-price-wrapper">
+                                        <span class="s-label">[`Amount`]:</span>
+                                        <span class="s-price">{wa_currency_html($_order.total, $_order.currency)}</span>
+                                    </div>
+                                {/if}
+                            </div>
+                            <div class="s-column">
+                                {if !empty($_order.items)}
+                                    <ul class="s-items-list">
+                                        {foreach $_order.items as $i}
+                                            <li class="s-item">
+                                                <span class="s-name">{$i.name|escape}</span> x {$i.quantity}
+                                            </li>
+                                        {/foreach}
+                                    </ul>
+                                {/if}
+
+                                <div class="s-link-wrapper">
+                                    <a class="s-order-link" href="{$_order.url}">[`More info`]...</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {/foreach}
+        </div>
+    {else}
+
+        <p>[`You have no order history yet.`]</p>
+    {/if}
+
+    <!-- plugin hook: 'frontend_my_orders' -->
+    {* @event frontend_my_orders.%plugin_id% *}
+    {foreach $frontend_my_orders as $_}{$_}{/foreach}
+</div>
+
+{/strip}

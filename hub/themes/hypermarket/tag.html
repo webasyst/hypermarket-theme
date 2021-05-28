@@ -1,0 +1,50 @@
+{strip}
+
+{$wa->globals("globalHeader", $tag|escape)}
+
+<div class="h-tag-page">
+
+    {* @event frontend_tag.%plugin_id% *}
+    {foreach $frontend_tag as $_}{$_}{/foreach}
+
+    <div class="s-sorting-list">
+        {$_sorting = [
+            "recent" => [
+                "id" => "recent",
+                "uri" => "?sort=recent",
+                "name" => "[`Most recent`]"
+            ],
+            "unanswered" => [
+                "id" => "unanswered",
+                "uri" => "?sort=unanswered",
+                "name" => "[`Unanswered`]"
+            ],
+            "popular" => [
+                "id" => "popular",
+                "uri" => "?sort=popular",
+                "name" => "[`Popular topics`]"
+            ]
+        ]}
+        {$_active_sort = reset($_sorting)}
+        {if !empty($sort) && !empty($_sorting[$sort])}
+            {$_active_sort = $_sorting[$sort]}
+        {/if}
+
+        <span class="s-label">[`Sorting`]:</span>
+        <div class="s-styled-dropdown">
+            <span class="s-visible">{$_active_sort.name|escape}</span>
+            <ul class="s-hidden right">
+                {foreach $_sorting as $_sort}
+                    <li class="{if $_active_sort.id == $_sort.id}is-active{/if}">
+                        <a href="{$_sort.uri}">{$_sort.name|escape}</a>
+                    </li>
+                {/foreach}
+            </ul>
+        </div>
+    </div>
+
+    {include file="./topics.html" inline}
+
+</div>
+
+{/strip}

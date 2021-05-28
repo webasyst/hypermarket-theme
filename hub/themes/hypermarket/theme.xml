@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE theme PUBLIC "wa-app-theme" "http://www.webasyst.com/wa-content/xml/wa-app-theme.dtd">
+<theme id="hypermarket" app="hub" vendor="webasyst" author="webasyst" parent_theme_id="site:hypermarket" version="1.3.11">
+    <name locale="en_US">Hypermarket</name>
+    <name locale="ru_RU">Гипермаркет</name>
+    <files>
+        <!-- parent resources -->
+        <file path="css/custom.css" parent="1">
+        </file>
+        <file path="js/custom.js" parent="1">
+        </file>
+        <!-- hub resources -->
+        <file path="css/custom.hub.css">
+        </file>
+        <file path="js/custom.hub.js">
+        </file>
+        <!-- parent templates -->
+        <file path="index.html" parent="1">
+        </file>
+        <file path="error.html" parent="1">
+        </file>
+        <file path="signup.html" parent="1">
+        </file>
+        <file path="login.html" parent="1">
+        </file>
+        <file path="forgotpassword.html" parent="1">
+        </file>
+        <file path="page.html" parent="1">
+        </file>
+        <file path="my.profile.html" parent="1">
+        </file>
+        <!-- hub templates -->
+        <file path="add.html">
+            <description locale="en_US">Topic adding and editing form</description>
+            <description locale="ru_RU">Форма создания и редактирования темы</description>
+        </file>
+        <file path="author.comments.html">
+        </file>
+        <file path="author.html">
+            <description locale="en_US">Author profile</description>
+            <description locale="ru_RU">Профиль автора</description>
+        </file>
+        <file path="authors.html">
+            <description locale="en_US">List of all authors</description>
+            <description locale="ru_RU">Список всех авторов</description>
+        </file>
+        <file path="breadcrumbs.html">
+        </file>
+        <file path="category.html">
+            <description locale="en_US">Hub category</description>
+            <description locale="ru_RU">Категория хаба</description>
+        </file>
+        <file path="comment.add.html">
+            <description locale="en_US">Comment-adding form</description>
+            <description locale="ru_RU">Форма добавления комментария</description>
+        </file>
+        <file path="comment.html">
+            <description locale="en_US">Comment to a topic</description>
+            <description locale="ru_RU">Комментарий к топику</description>
+        </file>
+        <file path="comments.html">
+        </file>
+        <file path="footer.html">
+            <description locale="en_US">Hub footer content</description>
+            <description locale="ru_RU">Футер страниц «Хаба»</description>
+        </file>
+        <file path="head.html">
+            <description locale="en_US">Hub’s &lt;head&gt; block</description>
+            <description locale="ru_RU">Блок &lt;head&gt; «Хаба»</description>
+        </file>
+        <file path="header.html">
+            <description locale="en_US">Hub’s header</description>
+            <description locale="ru_RU">Шапка страниц «Хаба»</description>
+        </file>
+        <file path="home.html">
+            <description locale="en_US">Hub’s home page</description>
+            <description locale="ru_RU">Главная страница «Хаба»</description>
+        </file>
+        <file path="main.html">
+            <description locale="en_US">Main layout and navigation for Hub app content</description>
+            <description locale="ru_RU">Основной макет вывода содержимого и навигации «Хаба»</description>
+        </file>
+        <file path="my.nav.html">
+        </file>
+        <file path="search.html">
+            <description locale="en_US">Wrapper for the search results page</description>
+            <description locale="ru_RU">Обертка для страницы результатов поиска</description>
+        </file>
+        <file path="sidebar.html">
+        </file>
+        <file path="tag.html">
+            <description locale="en_US">Wrapper for topic filtering by tag</description>
+            <description locale="ru_RU">Обертка для страницы поиска топиков по тегу</description>
+        </file>
+        <file path="topic.custom.html">
+            <description locale="en_US">Custom topic type</description>
+            <description locale="ru_RU">Произвольный тип темы</description>
+        </file>
+        <file path="topic.feedback.html">
+            <description locale="en_US">Feedback topic type (+/-)</description>
+            <description locale="ru_RU">Тема типа «Обратная связь» (+/-)</description>
+        </file>
+        <file path="topic.forum.html">
+            <description locale="en_US">Forum topic type</description>
+            <description locale="ru_RU">Тема типа «Обсуждение»</description>
+        </file>
+        <file path="topic.html">
+            <description locale="en_US">Wrapper for topic page</description>
+            <description locale="ru_RU">Обертка для страницы темы</description>
+        </file>
+        <file path="topic.page.html">
+            <description locale="en_US">Page topic type</description>
+            <description locale="ru_RU">Тема типа «Страница»</description>
+        </file>
+        <file path="topic.question.html">
+            <description locale="en_US">Question &amp; Answers topic type</description>
+            <description locale="ru_RU">Тема типа «Вопрос и ответы»</description>
+        </file>
+        <file path="topics.html">
+        </file>
+    </files>
+    <settings>
+        <setting var="hub_divider_1" control_type="group_divider">
+            <value></value>
+            <name locale="en_US">Hub settings</name>
+            <name locale="ru_RU">Настройки «Хаба»</name>
+        </setting>
+        <setting var="hub_breadcrumb_title" control_type="text">
+            <value locale="en_US">Help</value>
+            <value locale="ru_RU">Помощь</value>
+            <name locale="en_US">Breadcrumbs section name</name>
+            <name locale="ru_RU">Название раздела для «хлебных крошек»</name>
+        </setting>
+    </settings>
+    <locales>
+        <locale>
+            <msgid>Forum</msgid>
+            <msgstr locale="ru_RU">Форум</msgstr>
+        </locale>
+        <locale>
+            <msgid>Sorting</msgid>
+            <msgstr locale="ru_RU">Сортировка</msgstr>
+        </locale>
+        <locale>
+            <msgid>Forum search</msgid>
+            <msgstr locale="ru_RU">Поиск по форуму</msgstr>
+        </locale>
+        <locale>
+            <msgid>Topic deleted</msgid>
+            <msgstr locale="ru_RU">Тема удалена</msgstr>
+        </locale>
+        <locale>
+            <msgid>Return to hub</msgid>
+            <msgstr locale="ru_RU">Вернуться в хаб</msgstr>
+        </locale>
+        <locale>
+            <msgid>In reply to</msgid>
+            <msgstr locale="ru_RU">Ответ на</msgstr>
+        </locale>
+        <locale>
+            <msgid>Search topics</msgid>
+            <msgstr locale="ru_RU">Искать темы</msgstr>
+        </locale>
+    </locales>
+</theme>

@@ -1,0 +1,124 @@
+{strip}
+
+<div class="s-confirm-wrapper">
+
+    {if !empty($error)}
+
+        <div class="s-checkout-result">
+            <p class="error">{$error}</p>
+            <p><a href="{$wa->getUrl('/frontend/checkout')}">[`Restart checkout`]</a></p>
+        </div>
+
+    {else}
+
+        <div class="s-contacts-wrapper">
+            <div class="s-contact-wrapper">
+                <div class="s-contact-header">[`Ship to`]</div>
+                <h4 class="s-contact-block">
+                    <img class="s-userpic" src="{$contact->getPhoto("28")}" alt="{$contact.name|escape}">
+                    <span class="s-user-name">{$contact.name|escape}</span>
+                </h4>
+                <div class="s-address-wrapper">
+                    {$shipping_address.value}
+                </div>
+            </div>
+
+            {if $billing_address}
+                <div class="s-contact-wrapper">
+                    <div class="s-contact-header">[`Bill to`]</div>
+                    <h4 class="s-contact-block">
+                        <img class="s-userpic" src="{$contact->getPhoto("28")}" alt="{$contact.name|escape}">
+                        <span class="s-user-name">{$contact.name|escape}</span>
+                    </h4>
+                    <div class="s-address-wrapper">
+                        {$billing_address.value}
+                    </div>
+                </div>
+            {/if}
+        </div>
+
+        <table class="s-cart-table">
+            <thead>
+                <tr>
+                    <th class="s-column-name"></th>
+                    <th class="s-column-amount">[`Price`] x [`Quantity`]</th>
+                    <th class="s-column-total">[`Total`]</th>
+                </tr>
+            </thead>
+            <tbody>
+                {foreach $items as $item}
+                    <tr class="{if $item.type == 'service'}is-service{/if}">
+                        <td class="s-column-name">
+
+                            {* NAME *}
+                            <div class="s-name">{if $item.type == 'service'}+ {/if}{$item.name|escape}</div>
+
+                        </td>
+                        <td class="s-column-amount">
+
+                            {* AMOUNT *}
+                            <div class="s-value">{shop_currency_html($item.price, $item.currency)} <span class="bold">&times; {$item.quantity}</span></div>
+
+                        </td>
+                        <td class="s-column-total">
+
+                            {* TOTAL *}
+                            <div class="s-total">{shop_currency_html($item.price * $item.quantity, $item.currency)}</div>
+
+                        </td>
+                    </tr>
+                {/foreach}
+            </tbody>
+        </table>
+
+        <table class="s-total-wrapper">
+            <tr>
+                <th class="column-1">[`Subtotal`]:</th>
+                <td class="column-2">{shop_currency_html($subtotal, true)}</td>
+            </tr>
+
+            {if $discount > 0}
+                <tr>
+                    <th class="column-1">[`Discount`]:</th>
+                    <td class="column-2">&minus; {shop_currency_html($discount, true)}</td>
+                </tr>
+            {/if}
+
+            <tr>
+                <th class="column-1">[`Shipping`]{if !empty($params.shipping_name)} &mdash; <strong>{$params.shipping_name}</strong>{/if}</th>
+                <td class="column-2">{shop_currency_html($shipping, true)}</td>
+            </tr>
+            {if $tax > 0}
+                <tr>
+                    <th class="column-1">[`Tax`]:</th>
+                    <td class="column-2">{shop_currency_html($tax, true)}</td>
+                </tr>
+            {/if}
+            <tr class="s-total-sum">
+                <td class="column-1">[`Total`]:</td>
+                <td class="column-2">{shop_currency_html($total, true)}</td>
+            </tr>
+        </table>
+
+        <div class="s-textarea-wrapper">
+            <textarea class="comment" name="comment" placeholder="[`Comment`]"></textarea>
+        </div>
+
+        {if !empty($terms)}
+            <div class="s-terms-wrapper">
+                {if waRequest::method() == 'post' && !$wa->post('terms')}
+                    <p class="error">[`You must read and agree to the Terms of service to place an order.`]</p>
+                {/if}
+                <label><input type="checkbox" name="terms" value="1"> {sprintf('[`I have read and agree to the <a href="%s" target="_blank">Terms of service</a>`]', $wa->getUrl('/frontend/checkout', ['step' => 'confirmation'])|cat:'?terms=1')}</label>
+            </div>
+        {/if}
+
+    {/if}
+
+    <!-- plugin hook: 'frontend_checkout' -->
+    {* @event frontend_checkout.%plugin_id% *}
+    {foreach $frontend_checkout as $_}{$_}{/foreach}
+
+</div>
+
+{/strip}

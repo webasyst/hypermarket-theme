@@ -1,0 +1,31 @@
+{strip}
+
+{function name="_renderBreadcrumbs" breadcrumbs=[]}
+    {$_is_main_page = ($wa->currentUrl() == $wa_app_url)}
+    {$_home_uri = $wa_app_url}
+    {if $wa->shop}
+        {$_home_uri = $wa->getUrl('shop/frontend/')}
+    {/if}
+
+    {if empty($_is_main_page)}
+        <ul class="s-breadcrumbs-wrapper" itemprop="breadcrumb">
+            <li class="s-item">
+                <a class="s-link" href="{$_home_uri}" title="[`Shop`]">
+                    <i class="svg-icon home top"></i>
+                </a>
+            </li>
+
+            {if !empty($breadcrumbs)}
+                {foreach $breadcrumbs as $_breadcrumb}
+                    <li class="s-item">
+                        <a class="s-link" href="{$_breadcrumb.url}" title="{$_breadcrumb.name|escape}">{$_breadcrumb.name|escape}</a>
+                    </li>
+                {/foreach}
+            {/if}
+        </ul>
+    {/if}
+{/function}
+
+{include file="`$wa_active_theme_path`/breadcrumbs.html" inline}
+
+{/strip}

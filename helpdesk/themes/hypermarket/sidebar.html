@@ -1,0 +1,105 @@
+{strip}
+
+{$_current_url = $wa->currentUrl()}
+{$_is_new_request_page = $wa->globals("isNewRequestPage")}
+{$_is_request_page = $wa->globals("isRequestPage")}
+{$_faq_page = $wa->globals("isFAQPage")}
+
+{function name="_renderBackLink" uri=""}
+    {if !empty($uri)}
+        <div class="s-back-link-wrapper" id="js-back-link-wrapper">
+            <a href="{$uri}">
+                <i class="svg-icon back size-15"></i>[`Back`]
+            </a>
+        </div>
+    {/if}
+{/function}
+
+{if empty($_is_personal_area)}
+    {if !empty($categories)}
+        {$_active_category_uri = false}
+
+        <section class="s-sidebar-section">
+            <header class="s-section-header">
+                <h2 class="s-header">[`Categories`]</h2>
+            </header>
+            <div class="s-section-body">
+                <nav class="s-nav-wrapper">
+                    <ul>
+                        {foreach $categories as $_c}
+                            {$_url = "`$wa->getUrl('helpdesk/frontend/faq')``$_c.url`/"}
+                            {$_is_selected = ($_current_url == $_url)}
+                            {if !empty($_faq_page.faq_category_id) && $_faq_page.faq_category_id === $_c.id}
+                                {$_active_category_uri = $_url}
+                                {$_is_selected = true}
+                            {/if}
+
+                            {if !empty($_is_selected)}
+                                {$_url = "javascript:void(0);"}
+                            {/if}
+
+                            <li class="{if $_is_selected}is-selected{/if}">
+                                <a href="{$_url}">{$_c.name|escape}</a>
+                            </li>
+                        {/foreach}
+                    </ul>
+                </nav>
+            </div>
+        </section>
+
+        {if !empty($_active_category_uri)}
+            {_renderBackLink uri=$_active_category_uri}
+        {/if}
+    {/if}
+{/if}
+
+{if empty($_is_new_request_page)}
+    {if empty($_is_personal_area)}
+        {if !empty($main_source.id)}
+            <div class="h-add-request with-indent">
+                <a class="s-button" href="{$wa->getUrl('/frontend/ask')}">[`Support request`]</a>
+            </div>
+        {/if}
+
+        {* Render Pages *}
+        {$_pages = $wa->helpdesk->pages()}
+        {if !empty($_pages)}
+            <section class="s-sidebar-section">
+                <div class="s-section-body">
+
+                    <nav class="s-nav-wrapper">
+                        {_renderPagesList pages=$_pages}
+                    </nav>
+
+                </div>
+            </section>
+        {/if}
+
+    {else}
+        {$_forms = $wa->globals("requestForms")}
+        {if !empty($_forms)}
+            <div class="h-add-request">
+                {foreach $_forms as $_form}
+                    {$_uri = $wa->getUrl('helpdesk/frontend/myNew', ['id' => $_form->getId()])}
+                    <a class="s-button" href="{$_uri}">{$_form->name|escape}</a>
+                {/foreach}
+            </div>
+        {/if}
+    {/if}
+
+{else}
+    {$_back_url = $wa_app_url}
+    {if $_is_personal_area}
+        {$_back_url = $wa->getUrl('/frontend/myRequests')}
+    {/if}
+    {_renderBackLink uri=$_back_url}
+{/if}
+
+{if $_is_request_page}
+    {if $_is_personal_area}
+        {$_back_url = $wa->getUrl('/frontend/myRequests')}
+        {_renderBackLink uri=$_back_url}
+    {/if}
+{/if}
+
+{/strip}

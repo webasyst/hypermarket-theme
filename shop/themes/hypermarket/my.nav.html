@@ -1,0 +1,46 @@
+{strip}
+
+{if empty($my_nav_selected)}
+    {$my_nav_selected = ""}
+{/if}
+
+{$_is_profile = false}
+{if $my_nav_selected == "profile"}
+    {$_is_profile = true}
+{/if}
+<li class="{if !empty($_is_profile)}is-selected{/if}">
+    {if empty($_is_profile)}
+        <a class="s-link" href="{$wa->getUrl('/frontend/myProfile')}">[s`My profile`]</a>
+    {else}
+        <span class="s-link">[s`My profile`]</span>
+    {/if}
+</li>
+
+{$_is_orders_page = $wa->globals("isOrdersPage")}
+<li class="{if !empty($_is_orders_page)}is-selected{/if}">
+    {if empty($_is_orders_page)}
+        <a class="s-link" href="{$wa->getUrl('/frontend/myOrders')}">[`My orders`]</a>
+    {else}
+        <span class="s-link">[`My orders`]</span>
+    {/if}
+</li>
+
+{if shopAffiliate::isEnabled()}
+    {$_is_affiliate_page = $wa->globals("isAffiliatePage")}
+    <li class="{if !empty($_is_affiliate_page)}is-selected{/if}">
+        {if empty($_is_affiliate_page)}
+            <a class="s-link" href="{$wa->getUrl('/frontend/myAffiliate')}">[`Affiliate program`]</a>
+        {else}
+            <span class="s-link">[`Affiliate program`]</span>
+        {/if}
+    </li>
+{/if}
+
+{if !empty($frontend_my_nav)}
+    {* @event frontend_my_nav.%plugin_id% *}
+    {foreach $frontend_my_nav as $_plugin => $_}
+        <li class="{if waRequest::param('plugin') == str_replace('-plugin', '', $_plugin)}is-selected{/if}">{$_}</li>
+    {/foreach}
+{/if}
+
+{/strip}

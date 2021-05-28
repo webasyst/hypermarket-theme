@@ -1,0 +1,37 @@
+{strip}
+
+{$wa->globals("isAuthPage", true)}
+{$wa->globals("globalHeader", "[s`Sign up`]")}
+
+<div class="s-auth-page">
+    <div class="s-auth-section">
+        <header class="s-auth-header">
+            {* SOCIAL ACCOUNTS *}
+            {include file="./login.adapters.html" inline}
+
+            <p class="s-auth-text">[`Log in with your customer password or via the services listed above`]</p>
+        </header>
+
+        <div class="s-auth-body">
+            {if !empty($confirmed_email)}
+                <h2 class="page-header">[s`Thank you!`]</h2>
+                <p>[s`You have successfully confirmed your email.`]</p>
+
+            {elseif !empty($contact)}
+                <h2 class="page-header">[s`Thank you!`]</h2>
+                <p>[s`You have successfully signed up.`]</p>
+
+                {if !empty($email_confirmation_hash)}
+                    <p><em>[s`A confirmation link has been sent to you by email. Please click this link to confirm your signup and to sign in.`]</em></p>
+                {/if}
+
+            {else}
+                <div class="wa-form-wrapper">
+                    {$wa->signupForm($errors)}
+                </div>
+            {/if}
+        </div>
+    </div>
+</div>
+
+{/strip}

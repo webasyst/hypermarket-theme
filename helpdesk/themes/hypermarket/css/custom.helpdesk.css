@@ -1,0 +1,527 @@
+.request-changed-params {
+  display: none;
+}
+.request-param-changed {
+  color: #f00;
+}
+html.is-request-page .s-global-header {
+  margin-bottom: -16px;
+}
+html.is-request-page .s-global-header h1 {
+  max-width: 100%;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+html.is-request-page .s-global-header .s-column-state {
+  width: 200px;
+}
+html.is-request-page .s-global-header .s-state-section {
+  display: inline-block;
+  vertical-align: top;
+}
+html.is-request-page .s-global-header .s-state-section .h-state-wrapper {
+  text-align: right;
+}
+html.is-request-page .s-global-header .s-state-section .h-state-wrapper .h-state {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0;
+  padding: 5px 10px;
+  min-width: 60px;
+  font-size: 13px;
+  line-height: 20px;
+  background: #178318;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+html.is-request-page .s-global-header .s-state-section .h-state-wrapper .h-state.new {
+  background: #178318;
+  color: #fff;
+}
+html.is-request-page .s-global-header .s-state-section .h-state-wrapper .h-state.processing {
+  background: #3d64fa;
+  color: #fff;
+}
+html.is-request-page .s-global-header .s-state-section .h-state-wrapper .h-state.archive {
+  background: #666;
+  color: #fff;
+}
+html.is-request-page .s-global-header .s-state-section .h-state-wrapper .h-state.deleted {
+  background: #999;
+  color: #fff;
+}
+html.is-request-page .s-global-header .s-state-section .h-number-wrapper {
+  margin: 4px 0 0;
+  text-align: center;
+  line-height: 18px;
+}
+html.is-request-page .s-global-header .s-state-section .h-number-wrapper .h-number {
+  vertical-align: top;
+  color: #888;
+  font-size: 12px;
+  line-height: 18px;
+}
+.h-request-page {
+  padding: 20px 0 32px;
+}
+.h-request-page .h-confirmation-wrapper {
+  margin: 0 0 1em;
+}
+.h-request-page .wa-field {
+  margin: 9px 0 0;
+}
+.h-request-page .wa-field#comment-attachments .wa-name {
+  color: #888;
+  width: auto;
+}
+.h-request-page .wa-field#comment-attachments .wa-value {
+  margin: 2px 0 0;
+}
+.h-request-page .wa-field:not(#comment-attachments) {
+  display: table;
+  width: inline-block;
+}
+.h-request-page .wa-field:not(#comment-attachments):first-of-type {
+  margin-top: 0;
+}
+.h-request-page .wa-field:not(#comment-attachments) .wa-name,
+.h-request-page .wa-field:not(#comment-attachments) .wa-value {
+  display: table-cell;
+  float: none;
+}
+.h-request-page .wa-field:not(#comment-attachments) .wa-name {
+  font-weight: 600;
+  padding-right: 8px;
+}
+.h-request-page .wa-field:not(#comment-attachments) .wa-value.attach {
+  margin-top: 4px;
+}
+.h-request-page .wa-field:not(#comment-attachments) .wa-value.attach:first-of-type {
+  margin-top: 0;
+}
+.h-request-page .wa-field:not(#comment-attachments) .wa-value.buttons {
+  padding-top: 32px;
+}
+.h-request-page .wa-field:not(#comment-attachments) .wa-value.buttons input {
+  vertical-align: middle;
+}
+.h-request-page .wa-field:not(#comment-attachments) .wa-value textarea {
+  width: 100%;
+}
+.h-request-page .h-logs-section {
+  margin: 32px 0 0;
+}
+.h-request-page .h-logs-section .h-log-section {
+  margin: 32px 0 0;
+}
+.h-request-page .h-logs-section .h-log-section:first-child {
+  margin-top: 0;
+}
+.h-request-page .h-request-section,
+.h-request-page .h-log-section {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.h-request-page .h-request-section > .h-section-header,
+.h-request-page .h-log-section > .h-section-header {
+  background: #fff;
+  padding: 12px 32px;
+}
+.h-request-page .h-request-section > .h-section-body,
+.h-request-page .h-log-section > .h-section-body {
+  padding: 32px;
+  background: #f7f7f7;
+}
+.h-request-page .h-request-section .h-user-wrapper .h-image,
+.h-request-page .h-log-section .h-user-wrapper .h-image {
+  margin: 0 12px 0 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+.h-request-page .h-request-section .h-user-wrapper .h-name,
+.h-request-page .h-log-section .h-user-wrapper .h-name {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1em;
+}
+.h-request-page .h-request-section .h-date,
+.h-request-page .h-log-section .h-date {
+  color: #888;
+}
+.h-request-page .h-request-section .h-params,
+.h-request-page .h-log-section .h-params {
+  margin: 16px 0 0;
+}
+.h-request-page .h-request-section .h-params:first-child,
+.h-request-page .h-log-section .h-params:first-child {
+  margin-top: 0;
+}
+.h-request-page .h-request-section .h-request-data,
+.h-request-page .h-log-section .h-request-data,
+.h-request-page .h-request-section .h-log-data,
+.h-request-page .h-log-section .h-log-data {
+  margin: 16px 0 0;
+}
+.h-request-page .h-request-section .h-request-data:first-child,
+.h-request-page .h-log-section .h-request-data:first-child,
+.h-request-page .h-request-section .h-log-data:first-child,
+.h-request-page .h-log-section .h-log-data:first-child {
+  margin-top: 0;
+}
+.h-request-page .h-request-section .h-text hr,
+.h-request-page .h-log-section .h-text hr {
+  display: none;
+}
+.h-request-page .h-request-section .h-text .same-tab,
+.h-request-page .h-log-section .h-text .same-tab {
+  display: inline-block;
+  vertical-align: top;
+  max-width: 150px;
+}
+.h-request-page .h-request-section .h-text .same-tab img,
+.h-request-page .h-log-section .h-text .same-tab img {
+  vertical-align: top;
+  max-width: 100%;
+  max-height: 84.375px;
+  border-radius: 5px;
+}
+.h-request-page .h-request-section .h-text .h-request-images,
+.h-request-page .h-log-section .h-text .h-request-images {
+  margin: 16px 0 0;
+}
+.h-request-page .h-request-section .h-text .h-request-images .h-request-image,
+.h-request-page .h-log-section .h-text .h-request-images .h-request-image {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0;
+}
+.h-request-page .h-request-section .h-text .h-request-images .h-request-image p,
+.h-request-page .h-log-section .h-text .h-request-images .h-request-image p {
+  margin: 0;
+}
+.h-request-page .h-request-section .h-text .h-request-images .h-request-image .same-tab,
+.h-request-page .h-log-section .h-text .h-request-images .h-request-image .same-tab {
+  margin: 0;
+}
+.h-request-page .h-request-section .h-attachments-list,
+.h-request-page .h-log-section .h-attachments-list {
+  margin: 16px 0 0;
+  padding: 0;
+}
+.h-request-page .h-request-section .h-attachments-list .h-attachment,
+.h-request-page .h-log-section .h-attachments-list .h-attachment {
+  position: relative;
+  padding: 1px 0;
+  margin: 6px 0 0;
+  list-style: none;
+}
+.h-request-page .h-request-section .h-attachments-list .h-attachment:first-child,
+.h-request-page .h-log-section .h-attachments-list .h-attachment:first-child {
+  margin-top: 0;
+}
+.h-request-page .h-request-section .h-attachments-list .h-attachment:before,
+.h-request-page .h-log-section .h-attachments-list .h-attachment:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  display: block;
+  width: 4px;
+  height: 4px;
+  margin: -2px 7px 0 0;
+  background: #206dc4;
+  border-radius: 50%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.h-request-page .h-request-section .h-attachments-list .h-attachment:first-child,
+.h-request-page .h-log-section .h-attachments-list .h-attachment:first-child {
+  margin-top: 0;
+}
+.h-request-page .h-request-section .h-attachments-list .h-attachment .h-size,
+.h-request-page .h-log-section .h-attachments-list .h-attachment .h-size {
+  margin: 0 0 0 4px;
+  color: #888;
+}
+.h-request-page .h-actions-section {
+  margin: 32px 0 0;
+}
+.h-request-page .h-actions-section .h-actions {
+  text-align: center;
+  line-height: 32px;
+}
+.h-request-page .h-actions-section .h-actions > * {
+  margin-right: 8px;
+}
+.h-request-page .h-actions-section .h-actions > *:last-child {
+  margin-right: 0;
+}
+.h-request-page .h-actions-section .h-actions .loading {
+  vertical-align: middle;
+}
+.h-request-page .h-actions-section .h-actions .s-delete-link {
+  margin: 0 0 0 16px;
+}
+.h-request-page .h-actions-section .h-action-content form {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 32px;
+  background: #f7f7f7;
+}
+.h-request-page .h-actions-section .h-action-content iframe {
+  position: absolute;
+}
+.h-request-page .h-actions-section .h-action-content #comment-comment {
+  width: 100%;
+}
+.h-requests-page .h-requests-actions a {
+  margin: 0 0 0 1em;
+  text-decoration: underline;
+}
+.h-requests-page .h-requests-actions a:first-child {
+  margin-left: 0;
+}
+.h-requests-page .h-requests-list {
+  margin: 0;
+  padding: 1px 0 0;
+}
+.h-requests-page .h-requests-list .h-request-wrapper {
+  position: relative;
+  margin: -1px 0 0 0;
+  padding: 16px 64px;
+  list-style: none;
+  border: 1px solid rgba(0,0,0,0.1);
+  -webkit-transition: all linear 200ms;
+  -moz-transition: all linear 200ms;
+  -o-transition: all linear 200ms;
+  -ms-transition: all linear 200ms;
+  transition: all linear 200ms;
+}
+.h-requests-page .h-requests-list .h-request-wrapper:hover {
+  z-index: 1;
+  -webkit-box-shadow: -2px 2px 10px rgba(0,0,0,0.15);
+  box-shadow: -2px 2px 10px rgba(0,0,0,0.15);
+}
+.h-requests-page .h-requests-list .h-request-wrapper:hover + .h-request-wrapper {
+  border-top-color: transparent;
+}
+.h-requests-page .h-requests-list .h-request-wrapper .h-request-header {
+  font-size: 24px;
+  line-height: 30px;
+}
+.h-requests-page .h-requests-list .h-request-wrapper .h-request-header .h-date {
+  color: #888;
+}
+.h-requests-page .h-requests-list .h-request-wrapper .h-request-header .h-time {
+  color: #b2b1b1;
+}
+.h-requests-page .h-requests-list .h-request-wrapper .h-request-header .h-state {
+  display: inline-block;
+  vertical-align: top;
+  padding: 5px 10px;
+  min-width: 60px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 13px;
+  margin: 0 32px 0 0;
+  background: #178318;
+  color: #fff;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+.h-requests-page .h-requests-list .h-request-wrapper .h-request-header .h-state.new {
+  background: #178318;
+  color: #fff;
+}
+.h-requests-page .h-requests-list .h-request-wrapper .h-request-header .h-state.processing {
+  background: #3d64fa;
+  color: #fff;
+}
+.h-requests-page .h-requests-list .h-request-wrapper .h-request-header .h-state.archive {
+  background: #666;
+  color: #fff;
+}
+.h-requests-page .h-requests-list .h-request-wrapper .h-request-header .h-state.deleted {
+  background: #999;
+  color: #fff;
+}
+.h-requests-page .h-requests-list .h-request-wrapper .h-request-header .h-link:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.h-requests-page .h-requests-list .h-request-wrapper .h-request-body {
+  margin: 16px 0 0;
+}
+.s-sidebar-wrapper .h-add-request {
+  text-align: center;
+}
+.s-sidebar-wrapper .h-add-request.with-indent {
+  margin: 32px 0;
+}
+.s-sidebar-wrapper .h-add-request .s-button {
+  width: 100%;
+  margin-top: 16px;
+}
+.s-sidebar-wrapper .h-add-request .s-button:first-child {
+  margin-top: 0;
+}
+.h-category-wrapper .h-faq-list,
+.h-search-page .h-faq-list {
+  margin: 0;
+}
+.h-category-wrapper .h-faq-list .h-faq-wrapper,
+.h-search-page .h-faq-list .h-faq-wrapper {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 32px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.h-category-wrapper .h-faq-list .h-faq-wrapper:first-child,
+.h-search-page .h-faq-list .h-faq-wrapper:first-child {
+  margin-top: 0;
+}
+.h-category-wrapper .h-faq-list .h-faq-wrapper > .h-faq-header,
+.h-search-page .h-faq-list .h-faq-wrapper > .h-faq-header {
+  background: #fff;
+  padding: 20px 50px;
+}
+.h-category-wrapper .h-faq-list .h-faq-wrapper > .h-faq-header .h-name,
+.h-search-page .h-faq-list .h-faq-wrapper > .h-faq-header .h-name {
+  font-size: 16px;
+  line-height: 20px;
+  color: #5f5f5f;
+  margin: 0;
+}
+.h-category-wrapper .h-faq-list .h-faq-wrapper > .h-faq-body,
+.h-search-page .h-faq-list .h-faq-wrapper > .h-faq-body {
+  padding: 30px 50px;
+  background: #f7f7f7;
+}
+.h-question-page .h-question-section {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.h-question-page .h-question-section > .h-section-header {
+  background: #fff;
+  padding: 20px 50px;
+}
+.h-question-page .h-question-section > .h-section-header .h-name {
+  font-size: 16px;
+  line-height: 20px;
+  color: #5f5f5f;
+  margin: 0;
+}
+.h-question-page .h-question-section > .h-section-body {
+  padding: 30px 50px;
+  background: #f7f7f7;
+}
+.h-add-request-page .h-request-section {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.h-add-request-page .h-request-section > .h-section-header {
+  background: #fff;
+  padding: 32px;
+}
+.h-add-request-page .h-request-section > .h-section-header .h-name {
+  font-size: 16px;
+  line-height: 20px;
+  color: #5f5f5f;
+  margin: 0;
+}
+.h-add-request-page .h-request-section > .h-section-body {
+  padding: 32px;
+  background: #f7f7f7;
+}
+.h-add-request-page .h-request-form iframe {
+  position: absolute;
+}
+.h-add-request-page .h-request-form .wa-form {
+  margin: 0;
+  width: auto;
+}
+.h-add-request-page .h-request-form .wa-form .wa-error-msg {
+  color: #f00;
+}
+.h-add-request-page .h-request-form .wa-form .wa-field {
+  margin: 9px 0 0;
+  color: #888;
+  padding: 0;
+  width: auto;
+}
+.h-add-request-page .h-request-form .wa-form .wa-field:first-of-type {
+  margin-top: 0;
+}
+.h-add-request-page .h-request-form .wa-form .wa-field:first-of-type .wa-value {
+  margin-top: 0;
+}
+.h-add-request-page .h-request-form .wa-form .wa-field:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.h-add-request-page .h-request-form .wa-form .wa-field:last-child .wa-value {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.h-add-request-page .h-request-form .wa-form .wa-field .wa-name {
+  position: relative;
+  left: 6px;
+  float: none;
+  width: auto;
+  padding: 0;
+  margin: 0;
+}
+.h-add-request-page .h-request-form .wa-form .wa-field .wa-value {
+  width: auto;
+  padding: 0;
+  margin: 0;
+}
+.h-add-request-page .h-request-form .wa-form .wa-field .wa-value.buttons {
+  padding-top: 32px;
+  line-height: 32px;
+}
+.h-add-request-page .h-request-form .wa-form .wa-field .wa-value.buttons .loading {
+  top: 0;
+  vertical-align: middle;
+}
+.h-add-request-page .h-request-form .wa-form .wa-field .wa-value input[type="text"],
+.h-add-request-page .h-request-form .wa-form .wa-field .wa-value input[type="password"] {
+  width: 100%;
+  -webkit-box-shadow: 3px 3px 3px -3px rgba(0,0,0,0.1) inset;
+  box-shadow: 3px 3px 3px -3px rgba(0,0,0,0.1) inset;
+}
+.h-add-request-page .h-request-form .wa-form .wa-field .wa-value input[type="text"]:not(.error),
+.h-add-request-page .h-request-form .wa-form .wa-field .wa-value input[type="password"]:not(.error) {
+  border-top-color: #d0d0d0;
+  border-left-color: #d0d0d0;
+}
+.h-add-request-page .h-request-form .wa-form .wa-field .wa-value textarea {
+  min-width: 0;
+  width: 100%;
+  height: 70px;
+  resize: vertical;
+}

@@ -1,0 +1,18 @@
+{strip}
+
+{if empty($_is_personal_area)}
+    {$_pages = $wa->site->pages()}
+    {if !empty($_pages)}
+        <section class="s-sidebar-section">
+            <div class="s-section-body">
+
+                <nav class="s-nav-wrapper">
+                    {_renderPagesList pages=$_pages}
+                </nav>
+
+            </div>
+        </section>
+    {/if}
+{/if}
+
+{/strip}

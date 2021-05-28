@@ -1,0 +1,31 @@
+{strip}
+
+{$_is_personal_area = $wa->globals("isMyAccount")}
+{$_global_breadcrumbs = $wa->globals("breadcrumbs")}
+
+{$_breadcrumbs = []}
+{if empty($_is_personal_area)}
+    {$_name = "[`Photo archive`]"}
+    {if !empty($theme_settings.photos_breadcrumb_title)}
+        {$_name = $theme_settings.photos_breadcrumb_title}
+    {/if}
+
+    {$_breadcrumbs[] = [
+        "name" => $_name,
+        "url" => $wa_app_url
+    ]}
+{/if}
+
+{if !empty($breadcrumbs)}
+    {$breadcrumbs = array_merge($_breadcrumbs, $breadcrumbs)}
+
+{elseif !empty($_global_breadcrumbs)}
+    {$breadcrumbs = array_merge($_breadcrumbs, $_global_breadcrumbs)}
+
+{else}
+    {$breadcrumbs = $_breadcrumbs}
+{/if}
+
+{_renderBreadcrumbs breadcrumbs=$breadcrumbs}
+
+{/strip}

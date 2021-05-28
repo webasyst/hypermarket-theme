@@ -1,0 +1,85 @@
+{strip}
+
+{$_current_uri = $wa->currentUrl(0, 1)}
+{$_active_sort_name = waRequest::get('sort', null)}
+{$_sort_fields = [
+    "name" => [
+        "id" => "name",
+        "name" => _w("Name"),
+        "uri" => "{$_current_uri}?sort=name"
+    ],
+    "price" => [
+        "id" => "price",
+        "name" => _w("Price"),
+        "uri" => "{$_current_uri}?sort=price"
+    ],
+    "total_sales" => [
+        "id" => "total_sales",
+        "name" => _w("Bestsellers"),
+        "uri" => "{$_current_uri}?sort=total_sales"
+    ],
+    "rating" => [
+        "id" => "rating",
+        "name" => _w("Customer rating"),
+        "uri" => "{$_current_uri}?sort=rating"
+    ],
+    "create_datetime" => [
+        "id" => "create_datetime",
+        "name" => _w("Date added"),
+        "uri" => "{$_current_uri}?sort=create_datetime"
+    ],
+    "stock" => [
+        "id" => "stock",
+        "name" => _w("In stock"),
+        "uri" => "{$_current_uri}?sort=stock"
+    ]
+]}
+
+{$_active_sort = $_sort_fields["create_datetime"]}
+
+{if !empty($category) && empty($category.sort_products)}
+    {$_part = [
+        "new" => [
+            "id" => "new",
+            "name" => _w("New & Popular"),
+            "uri" => "{$_current_uri}"
+        ]
+    ]}
+
+    {$_sort_fields = array_merge($_part, $_sort_fields)}
+    {$_active_sort = $_sort_fields["new"]}
+{/if}
+
+{if !empty($active_sort) && !empty($_sort_fields[$active_sort])}
+    {$_active_sort = $_sort_fields[$active_sort]}
+
+{elseif !empty($_active_sort_name) && !empty($_sort_fields[$_active_sort_name])}
+    {$_active_sort = $_sort_fields[$_active_sort_name]}
+{/if}
+
+{if !empty($_active_sort.name)}
+    {$wa->title( $wa->title()|cat:' — '|cat:$_active_sort.name)}
+{/if}
+
+{if !empty($category)}
+    <div class="s-sorting-list sort-filters">
+        <span class="s-label">[`Sorting`]:</span>
+        <div class="s-dropdown-wrapper">
+            <span class="s-sort-active">{$_active_sort.name|escape}</span>
+            <ul>
+                {foreach $_sort_fields as $_sort}
+                    {$_is_active = false}
+                    {if $_active_sort.id == $_sort.id}
+                        {$_is_active = true}
+                    {/if}
+
+                    <li class="{if !empty($_is_active)}is-active{/if}">
+                        {$wa->shop->sortUrl($_sort.id, $_sort.name, $_active_sort.id)}
+                    </li>
+                {/foreach}
+            </ul>
+        </div>
+    </div>
+{/if}
+
+{/strip}

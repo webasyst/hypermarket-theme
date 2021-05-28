@@ -1,0 +1,164 @@
+{strip}
+
+{$_photo_page = $wa->globals("photoPage")}
+{$_album_page = $wa->globals("albumPage")}
+
+{$_current_album = null}
+{$_current_album_frontend_link = null}
+{if !empty($_album_page)}
+    {$_current_album = $_album_page.album}
+    {$_current_album_frontend_link = $wa->currentUrl(true)}
+{elseif !empty($_photo_page) && !empty($_photo_page.album)}
+    {$_current_album = $_photo_page.album}
+    {$_current_album_frontend_link = $_current_album.frontend_link}
+{/if}
+
+{function _renderAlbumsList albums=[] show_deep=true}
+
+    {function _renderAlbum album=[]}
+
+        {$_album_frontend_link = $album.url}
+
+        {$_is_selected = false}
+
+        {if strlen($album.url) > 1 && $_current_album_frontend_link|strstr:$_album_frontend_link}
+            {$_is_selected = true}
+        {/if}
+
+        {$_has_menu = ($show_deep && !empty($album.childs))}
+
+        {$_album_classes = []}
+        {if !empty($_is_selected)}
+            {$_album_classes[] = "is-selected"}
+            {$_album_classes[] = "is-opened"}
+        {/if}
+        {if !empty($_has_menu)}
+            {$_album_classes[] = "has-menu"}
+        {/if}
+
+        <li class="{$_album_classes|join:" "}">
+
+            {* TOGGLE *}
+            {if !empty($_has_menu)}
+                <span class="s-toggle js-toggle"></span>
+            {/if}
+
+            {* NAME *}
+            <a href="{$_album_frontend_link}">{$album.name|escape}</a>
+
+            {* MENU *}
+            {if !empty($_has_menu)}
+                <ul>
+                    {foreach $album.childs as $_sub_album}
+                        {_renderAlbum album=$_sub_album}
+                    {/foreach}
+                </ul>
+            {/if}
+        </li>
+    {/function}
+
+    {if !empty($albums)}
+        <ul class="{if !empty($show_deep)}js-deep-list{/if}">
+            {foreach $albums as $_album}
+                {_renderAlbum album=$_album}
+            {/foreach}
+        </ul>
+    {/if}
+{/function}
+
+{if empty($_is_personal_area)}
+    {$_albums = $wa->photos->albums(false)}
+
+    {if !empty($_album_page.child_albums)}
+        {$_child_albums = $_album_page["child_albums"]}
+    {elseif !empty($_album_page.album.parent_id)}
+        {$_child_albums = $wa->photos->childAlbums($_album_page.album.parent_id)}
+    {elseif !empty($_photo_page.album.parent_id)}
+        {$_child_albums = $wa->photos->childAlbums($_photo_page.album.parent_id)}
+    {else}
+        {$_child_albums = $wa->photos->childAlbums()}
+    {/if}
+
+    <div class="s-sidebar-section s-albums-section">
+        <header class="s-section-header">
+            <h2 class="s-header">[`Albums`]</h2>
+        </header>
+        <div class="s-section-body">
+            <nav class="s-nav-wrapper">
+                <ul>
+                    {*
+                    <li class="{if $wa->currentUrl() == $wa_app_url}selected{/if}">
+                        <a href="{$wa_app_url}">[`All photos`]</a>
+                    </li>
+                    *}
+                    <li class="{if $wa->currentUrl()=== "`$wa_app_url`favorites/"}is-selected{/if} with-icon">
+                        <i class="svg-icon star-yellow size-10 s-icon"></i>
+                        <a href="{$wa_app_url}favorites/">[`Editors’ choice`]</a>
+                    </li>
+                </ul>
+
+                {if !empty($_albums)}
+                    {_renderAlbumsList albums=$_albums}
+                {/if}
+            </nav>
+        </div>
+        {if !empty($_child_albums)}
+            {$_html = []}
+            {foreach $_child_albums as $_album}
+
+                {$_album_frontend_link = $_album.full_url}
+
+                {if !empty($_album.key_photo)}
+                    {$_image_url = photosPhoto::getPhotoUrl($_album.key_photo, 480)}
+                    {if $_album.key_photo.edit_datetime}
+                        {$_image_url = $_album.key_photo.thumb.url|cat: "?"|cat: strtotime($_album.key_photo.edit_datetime)}
+                    {/if}
+
+                    {$_is_active = false}
+                    {if !empty($_album_page.album.id) && $_album_page.album.id === $_album.id}
+                        {$_is_active = true}
+                    {/if}
+                    {if !empty($_photo_page.album.id) && $_photo_page.album.id === $_album.id}
+                        {$_is_active = true}
+                    {/if}
+
+                    {capture append="_html"}
+                        <li class="s-album-wrapper {if !empty($_is_active)}is-active{/if}">
+                            <div class="s-album" style="background-image: url({$_image_url});">
+                                <div class="s-name">{$_album.name|escape} ({$_album.count})</div>
+                                <a class="s-link" href="{$_album_frontend_link}"></a>
+                            </div>
+                        </li>
+                    {/capture}
+                {/if}
+            {/foreach}
+
+            {if !empty($_html)}
+                <div class="s-section-footer">
+                    <section class="s-albums-preview">
+                        <ul class="s-albums-list">
+                            {$_html|join:""}
+                        </ul>
+                    </section>
+                </div>
+            {/if}
+        {/if}
+    </div>
+
+    {if !empty($page)}
+        {$_pages = $wa->photos->pages()}
+        {if !empty($_pages)}
+            <section class="s-sidebar-section">
+                <div class="s-section-body">
+
+                    <nav class="s-nav-wrapper">
+                        {_renderPagesList pages=$_pages}
+                    </nav>
+
+                </div>
+            </section>
+        {/if}
+    {/if}
+{/if}
+
+{/strip}

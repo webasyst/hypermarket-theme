@@ -1,0 +1,93 @@
+{strip}
+
+{$wa->globals("globalHeader", "[`All authors`]")}
+{$_user_id = false}
+{if $wa->user()->getId()}
+    {$_user_id = $wa->user()->getId()}
+{/if}
+{$wa->globals("isAuthorsPage", true)}
+
+<div class="h-authors-page">
+
+    <div class="h-authors-wrapper" id="h-authors-wrapper">
+        <ul class="h-authors corrected">
+            {foreach $authors as $author}
+                {if $_user_id !== $author.id}
+                    <li class="h-author-wrapper">
+                        <div class="h-author">
+                            <div class="h-author-block">
+                                <div class="h-image-wrapper">
+                                    <a href="{$author.url}">
+                                        <img src="{$author.photo_url_96|default:sprintf('%swa-content/img/userpic50@2x.jpg',$wa_static_url)}" class="userpic" alt="{$author.name|escape}">
+                                    </a>
+                                </div>
+
+                                <div class="h-name-wrapper">
+                                    <a href="{$author.url}" class="h-name-link">{$author.name|default:"[`Unknown`]"|escape}</a>
+
+                                    {if !empty($author.badge)}
+                                        <span class="h-staff"{if !empty($author.badge_color)} style="background-color: {$author.badge_color}"{/if}>{$author.badge}</span>
+                                    {/if}
+                                </div>
+
+                                {if !empty($hub.params.kudos)}
+                                    <div class="h-kudos-wrapper">
+                                        <span class="h-kudos {if $author.rate > 0}is-positive{elseif $author.rate < 0}is-negative{/if}" title="{_w('%d kudo', '%d kudos', $author.rate)|escape}">{if $author.rate >= 0}+{else}&minus;{/if}{abs($author.rate)}</span>
+                                    </div>
+                                {/if}
+                            </div>
+                            <ul class="h-actions-list corrected">
+                                <li>
+                                    {if !empty($author.topics_count)}
+                                        <a href="{$author.url}">
+                                            [`Topics`]
+                                            <span class="s-count">({$author.topics_count})</span>
+                                        </a>
+                                    {else}
+                                        [`Topics`]
+                                        <span class="s-count">(0)</span>
+                                    {/if}
+                                </li>
+                                <li>
+                                    {if !empty($author.comments_count)}
+                                        <a href="{$author.url}replies">
+                                            [`Answers`]
+                                            <span class="s-count">({$author.comments_count})</span>
+                                        </a>
+                                    {else}
+                                        [`Answers`]
+                                        <span class="s-count">(0)</span>
+                                    {/if}
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                {/if}
+            {/foreach}
+        </ul>
+
+        {if isset($pages_count) && $pages_count > 1}
+            <div class="s-paging-wrapper {if $theme_settings.pagination == "lazyloading"}is-lazy-loading{/if}" data-loading-text="[`Loading...`]">
+                {wa_pagination total=$pages_count attrs=["class" => "s-paging-list"]}
+            </div>
+        {/if}
+    </div>
+
+    <script>
+        ( function($) {
+            var initLazyLoading = {if isset($pages_count) && $pages_count > 1 && $theme_settings.pagination == "lazyloading"}true{else}false{/if};
+            if (initLazyLoading) {
+                new window.waTheme.init.hub.LazyLoading({
+                    $wrapper: $("#h-authors-wrapper"),
+                    names: {
+                        list: ".h-authors",
+                        items: "> li",
+                        paging: ".s-paging-wrapper"
+                    }
+                });
+            }
+        })(jQuery);
+    </script>
+</div>
+
+{/strip}

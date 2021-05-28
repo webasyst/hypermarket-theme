@@ -1,0 +1,26 @@
+{strip}
+
+{$_breadcrumbs = [
+    [
+        "name" => $category.name,
+        "url" => "`$wa_app_url`faq/`$category.url`/"
+    ]
+]}
+{$wa->globals("breadcrumbs", $_breadcrumbs)}
+{$wa->globals("globalHeader", $faq.question|escape)}
+{$wa->globals("isFAQPage", $faq)}
+
+<div class="h-question-page">
+
+    <section class="h-question-section">
+        <header class="h-section-header">
+            <h2 class="h-name">{$faq.question|escape}</h2>
+        </header>
+        <div class="h-section-body">
+            <div class="h-question-content">{$faq.answer}</div>
+        </div>
+    </section>
+
+</div>
+
+{/strip}

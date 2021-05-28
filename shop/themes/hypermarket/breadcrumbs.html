@@ -1,0 +1,23 @@
+{strip}
+
+{$_is_personal_area = $wa->globals("isMyAccount")}
+{$_global_breadcrumbs = $wa->globals("breadcrumbs")}
+{$_hide_crumbs = $wa->globals("hideCrumbs")}
+
+{$_breadcrumbs = []}
+
+{if !empty($breadcrumbs)}
+    {$breadcrumbs = array_merge($_breadcrumbs, $breadcrumbs)}
+
+{elseif !empty($_global_breadcrumbs)}
+    {$breadcrumbs = array_merge($_breadcrumbs, $_global_breadcrumbs)}
+
+{else}
+    {$breadcrumbs = $_breadcrumbs}
+{/if}
+
+{if empty($_hide_crumbs)}
+    {_renderBreadcrumbs breadcrumbs=$breadcrumbs}
+{/if}
+
+{/strip}

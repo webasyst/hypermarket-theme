@@ -1,0 +1,11 @@
+{$wa->globals('isMyAccount', true)}
+
+{$_is_active = $wa->globals('isSubscriptionPage')}
+
+<li class="{if !empty($_is_active)}is-selected{/if}">
+    {if empty($_is_active)}
+        <a class="s-link" href="{$wa->getUrl('/frontend/mySubscriptions')}">[`My subscriptions`]</a>
+    {else}
+        <span class="s-link">[`My subscriptions`]</span>
+    {/if}
+</li>

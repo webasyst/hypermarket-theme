@@ -1,0 +1,266 @@
+{strip}
+
+{$_name = ""}
+{if $wa->shop}
+    {$_name = $wa->shop->settings('name')}
+    {$_phone = $wa->shop->settings('phone')}
+{/if}
+
+<footer class="s-footer-wrapper" id="js-footer-wrapper">
+    <div class="s-footer-block">
+
+        <div class="s-footer-top">
+            <div class="s-layout">
+                <div class="s-column">
+
+                    <ul class="s-nav-list">
+                        {$_links = []}
+                        {if $theme_settings.header_links == 'site-pages'}
+                            {if $wa->site}{$_links = $wa->site->pages()}{/if}
+                        {elseif $theme_settings.header_links == 'shop-pages'}
+                            {if $wa->shop}{$_links = $wa->shop->pages()}{/if}
+                        {elseif $theme_settings.header_links == 'blog-pages'}
+                            {if $wa->blog}{$_links = $wa->blog->pages()}{/if}
+                        {elseif $theme_settings.header_links == 'photos-pages'}
+                            {if $wa->photos}{$_links = $wa->photos->pages()}{/if}
+                        {elseif $theme_settings.header_links == 'hub-pages'}
+                            {if $wa->hub}{$_links = $wa->hub->pages()}{/if}
+                        {elseif $theme_settings.header_links != 'none'}
+                            {$_links = $wa->apps()}
+                        {/if}
+                        {foreach $_links as $a}
+                            {if !($a.url == $wa_url && $a.name == $wa->accountName())}
+                                {$_is_selected = false}
+                                {if $a.url == $wa_app_url && !$wa->globals('isMyAccount') || strlen($a.url)>1 && $wa->currentUrl()|strstr:$a.url}
+                                    {$_is_selected = true}
+                                {/if}
+
+                                <li class="{if $_is_selected}is-selected{/if}">
+                                    <a href="{$a.url}" title="{$a.name}">{$a.name}</a>
+                                </li>
+                            {/if}
+                        {/foreach}
+                    </ul>
+
+                    <div class="s-layout inline">
+                        {if !empty($theme_settings.footer_rating_widget)}
+                            <div class="s-column">
+                                <div class="s-rating-wrapper">{$theme_settings.footer_rating_widget}</div>
+                            </div>
+                        {/if}
+                        {if !empty($theme_settings.footer_subscribe_form_use) && $wa->mailer && $wa->getUrl('mailer/frontend/subscribe')}
+                            <div class="s-column">
+                                <section class="s-subscribe-section" id="js-subscribe-section">
+
+                                    {if !empty($theme_settings.footer_subscribe_form_title)}
+                                        <h4 class="s-header">{$theme_settings.footer_subscribe_form_title}</h4>
+                                    {/if}
+
+                                    <form>
+                                        <div class="s-visible">
+                                            <input class="s-text-field js-email-field custom-placeholder" type="email" name="email" placeholder="your@email.here" required>
+                                            <input class="s-submit-button js-submit-button" type="submit" value="[s`Subscribe`]">
+                                        </div>
+                                        <div class="s-hidden">{$wa->captcha(['app_id'=>'mailer'])}</div>
+                                    </form>
+
+                                    <p class="js-success-message" style="display:none">
+                                        <i>[s`Thank you! We’ll keep you posted.`]</i>
+                                    </p>
+
+                                    {if !empty($theme_settings.footer_subscribe_personal_data)}
+                                        <div class="s-form-desc">{$theme_settings.footer_subscribe_personal_data}</div>
+                                    {/if}
+
+                                    <script>
+                                        ( function($, waTheme) {
+                                            new waTheme.init.site.SubscribeSection({
+                                                $wrapper: $("#js-subscribe-section"),
+                                                request_uri: "{$wa->getUrl('mailer/frontend/subscribe')}"
+                                            });
+                                        })(jQuery, window.waTheme);
+                                    </script>
+                                </section>
+                            </div>
+                        {/if}
+                    </div>
+                </div>
+                <div class="s-column right">
+
+                    {if !empty($theme_settings.footer_phones_available)}
+                        <div class="s-phone-section">
+                            <div class="s-layout" style="width: auto;">
+                                <div class="s-column">
+                                    {if !empty($_phone)}
+                                        <div class="s-phone-wrapper">
+                                            <i class="svg-icon phone size-16 top"></i>
+                                            <span class="s-phone">{$_phone}</span>
+                                            {if !empty($theme_settings.tip_the_phone_1)}
+                                                <span class="s-tip">{$theme_settings.tip_the_phone_1}</span>
+                                            {/if}
+                                            {if !empty($theme_settings.store_address)}
+                                                <span class="s-text">{$theme_settings.store_address}</span>
+                                            {/if}
+                                        </div>
+                                    {/if}
+                                </div>
+
+                                <div class="s-column s-phone-2">
+                                    {if !empty($theme_settings.additional_phone)}
+                                        <div class="s-phone-wrapper">
+                                            <i class="svg-icon phone size-16 top"></i>
+                                            <span class="s-phone">{$theme_settings.additional_phone}</span>
+                                            {if !empty($theme_settings.tip_the_phone_2)}
+                                                <span class="s-tip">{$theme_settings.tip_the_phone_2}</span>
+                                            {/if}
+                                            {strip}
+                                            {if $wa->shop}
+                                                {if !empty($theme_settings.use_shop_schedule) && method_exists($wa->shop, 'schedule')}
+                                                    {$_schedule = $wa->shop->schedule()}
+
+                                                    <div class="s-schedule-wrapper" id="js-footer-schedule-wrapper">
+                                                        <div class="s-visible">
+                                                            <div class="s-label-wrapper js-show-schedule" title="{_wd("shop", "Business hours")}">
+                                                                {_wd("shop", "Business hours")} <i class="s-icon black"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="s-hidden top right">
+                                                            <div class="s-days-wrapper">
+                                                                {foreach $_schedule.current_week as $_day}
+                                                                    <div class="s-day-wrapper">
+                                                                        <div class="s-date">{$_day.name|escape}</div>
+                                                                        <div class="s-value">
+                                                                            {if !empty($_day.work)}
+                                                                                <div class="s-time">{$_day.start_work|escape} — {$_day.end_work|escape}</div>
+                                                                            {else}
+                                                                                <div class="s-text">{_wd("shop", "day off")}</div>
+                                                                            {/if}
+                                                                        </div>
+                                                                    </div>
+                                                                {/foreach}
+                                                            </div>
+                                                            <i class="s-close-icon js-close-schedule" title="[`Close`]"></i>
+                                                        </div>
+                                                        <script>
+                                                            ( function($) {
+                                                                new window.waTheme.init.site.ScheduleSection({
+                                                                    $wrapper: $("#js-footer-schedule-wrapper")
+                                                                });
+                                                            })(jQuery);
+                                                        </script>
+                                                    </div>
+                                                {elseif !empty($theme_settings.manual_schedule)}
+                                                    <span class="s-text">{$theme_settings.manual_schedule|escape}</span>
+                                                {/if}
+                                            {/if}
+                                            {/strip}
+                                        </div>
+                                    {/if}
+
+                                </div>
+                            </div>
+                        </div>
+                    {/if}
+
+                </div>
+            </div>
+        </div>
+
+        <div class="s-footer-middle">
+            <div class="s-layout is-adaptive">
+                <div class="s-column">
+
+                    {if $wa->shop && !empty($theme_settings.footer_payment_available)}
+                        <div class="s-payments-wrapper">
+                            {if !empty($theme_settings.footer_payment_title)}
+                                <h4 class="s-header">{$theme_settings.footer_payment_title}</h4>
+                            {/if}
+                            <ul class="s-payments-list">
+                                {$_count = 0}
+                                {$_payments = $wa->shop->payment()}
+                                {foreach $_payments as $_payment}
+                                    {if $_count >= 8}{break}{/if}
+                                    {if $_payment.logo}
+                                        {$_count = $_count + 1}
+
+                                        <li>
+                                            <img src="{$_payment.logo}" alt="{$_payment.name}">
+                                        </li>
+                                    {/if}
+                                {/foreach}
+                            </ul>
+                        </div>
+                    {/if}
+
+                </div>
+                <div class="s-column">
+
+                    <!-- SOCIAL LINKS -->
+                    <ul class="s-socials-list">
+                        {$_socials_links = [
+                            "vk_page_link" => [
+                                "name" => "Вконтакте",
+                                "class" => "vk"
+                            ],
+                            "fb_page_link" => [
+                                "name" => "Facebook",
+                                "class" => "facebook"
+                            ],
+                            "od_page_link" => [
+                                "name" => "Одноклассники",
+                                "class" => "od"
+                            ],
+                            "mail_page_link" => [
+                                "name" => "Мой мир",
+                                "class" => "moimir"
+                            ],
+                            "tw_page_link" => [
+                                "name" => "Twitter",
+                                "class" => "twitter"
+                            ],
+                            "gplus_page_link" => [
+                                "name" => "Google+",
+                                "class" => "gplus"
+                            ],
+                            "instagram_page_link" => [
+                                "name" => "Instagram",
+                                "class" => "instagram"
+                            ],
+                            "youtube_page_link" => [
+                                "name" => "Youtube",
+                                "class" => "youtube"
+                            ],
+                            "foursquare_page_link" => [
+                                "name" => "Foursquare",
+                                "class" => "foursquare"
+                            ]
+                        ]}
+
+                        {foreach $_socials_links as $name => $_social}
+                            {if !empty($theme_settings[$name])}
+                                {$_uri = $theme_settings[$name]}
+
+                                <li>
+                                    <a class="s-social-link {$_social.class}" href="{$_uri}" title="{$_social.name}">
+                                        <i class="icon"></i>
+                                    </a>
+                                </li>
+                            {/if}
+                        {/foreach}
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+        {include file="`$wa_active_theme_path`/footer.html" inline}
+    </div>
+
+    <script>
+        ( function($, waTheme) {
+            waTheme.layout.$footer = $("#js-footer-wrapper");
+        })(jQuery, window.waTheme);
+    </script>
+</footer>
+
+{/strip}

@@ -1,0 +1,267 @@
+{strip}
+
+{$_topic = $wa->globals("topicPage")}
+{$_is_new_topic_page = $wa->globals("isNewTopicPage")}
+{$_author_page = $wa->globals("authorPage")}
+{$_is_authors_page = $wa->globals("isAuthorsPage")}
+{$_is_auth = $wa->user()->isAuth()}
+
+{$_is_me = false}
+{if $_is_auth && $wa->userId() == $_author_page.author.contact_id}
+    {$_is_me = true}
+{/if}
+
+{if empty($_is_personal_area)}
+
+    {if $_author_page && !$_is_me}
+        {$_author = $_author_page["author"]}
+        <div class="s-sidebar-section h-author-section">
+            <div class="h-author">
+                <div class="h-author-block">
+                    <div class="h-image-wrapper">
+                        <a href="{$_author.url}">
+                            <img src="{$_author.photo_url_96|default:sprintf('%swa-content/img/userpic50@2x.jpg',$wa_static_url)}" class="userpic" alt="{$_author.name|escape}">
+                        </a>
+                    </div>
+
+                    <div class="h-name-wrapper">
+                        <a href="{$_author.url}" class="h-name-link">{$_author.name|default:"[`Unknown`]"}</a>
+
+                        {if !empty($_author.badge)}
+                            <span class="h-staff"{if !empty($_author.badge_color)} style="background-color: {$_author.badge_color}"{/if}>{$_author.badge}</span>
+                        {/if}
+                    </div>
+
+                    {if !empty($hub.params.kudos)}
+                        <div class="h-kudos-wrapper">
+                            <span class="h-kudos {if $_author.rate > 0}is-positive{elseif $_author.rate < 0}is-negative{/if}" title="{_w('%d kudo', '%d kudos', $_author.rate)|escape}">{if $_author.rate >= 0}+{else}&minus;{/if}{abs($_author.rate)}</span>
+                        </div>
+                    {/if}
+                </div>
+                <ul class="h-actions-list corrected">
+                    <li>
+                        {if !empty($_author.topics_count)}
+                            {if !empty($_author_page.is_topics_page)}
+                                [`Topics`]
+                                <span class="s-count">({$_author.topics_count})</span>
+
+                            {else}
+                                <a href="{$_author.url}">
+                                    [`Topics`]
+                                    <span class="s-count">({$_author.topics_count})</span>
+                                </a>
+                            {/if}
+                        {else}
+                            [`Topics`]
+                            <span class="s-count">(0)</span>
+                        {/if}
+                    </li>
+                    <li>
+                        {if !empty($_author.comments_count)}
+                            {if !empty($_author_page.is_replies_page)}
+                                [`Answers`]
+                                <span class="s-count">({$_author.comments_count})</span>
+
+                            {else}
+                                <a href="{$_author.url}replies">
+                                    [`Answers`]
+                                    <span class="s-count">({$_author.comments_count})</span>
+                                </a>
+                            {/if}
+                        {else}
+                            [`Answers`]
+                            <span class="s-count">(0)</span>
+                        {/if}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    {elseif !empty($_is_auth)}
+        <section class="s-sidebar-section h-userbox-section">
+            <div class="h-user-info">
+                {* IMAGE *}
+                <div class="h-userpic-wrapper">
+                    <a href="{$wa->getUrl('/frontend/author', ['id' => $user.id])}" title="[`My topics`]">
+                        <img src="{$user.photo_url_96}" class="h-userpic" alt="{$wa->user()->getName()}">
+                    </a>
+                </div>
+
+                {* NAME *}
+                <div class="h-username">{$user.name|escape}</div>
+
+                {* KUDOS *}
+                {if !empty($hub.params.kudos)}
+                    <div class="h-kudos-wrapper">
+                        <span class="h-kudos {if $user.rate > 0}is-positive{elseif $user.rate < 0}is-negative{/if}" title="{_w('%d kudo', '%d kudos', $user.rate)|escape}">
+                            {if $user.rate >= 0}+{else}&minus;{/if}{abs($user.rate)}
+                        </span>
+                    </div>
+                {/if}
+
+                <div class="h-add-topic">
+                    <a class="s-button" href="{$wa->getUrl('/frontend/add')}{if !empty($category)}?category={$category.id}{/if}">[`New topic`]</a>
+                </div>
+            </div>
+            <div class="s-section-body">
+                <nav class="s-nav-wrapper">
+                    <ul>
+                        <li class="with-icon">
+                            <i class="svg-icon star-yellow size-10 s-icon"></i>
+                            {if !empty($user.following_count)}
+                                {if $_is_me && !empty($_author_page.is_follow_page)}
+                                    <span class="gray">[`Favorites`]</span> <span class="h-count">({$user.following_count})</span>
+                                {else}
+                                    <a href="{$wa->getUrl('/frontend/authorFollowing', ['id' => $user.id])}">
+                                        [`Favorites`] <span class="h-count">({$user.following_count})</span>
+                                    </a>
+                                {/if}
+                            {else}
+                                <span class="gray">[`Favorites`]</span> <span class="h-count">(0)</span>
+                            {/if}
+                        </li>
+                        <li>
+                            {if !empty($user.topics_count)}
+                                {if $_is_me && !empty($_author_page.is_topics_page)}
+                                    <span class="gray">[`My topics`]</span> <span class="h-count">({$user.topics_count})</span>
+                                {else}
+                                    <a href="{$wa->getUrl('/frontend/author', ['id' => $user.id])}">
+                                        [`My topics`] <span class="h-count">({$user.topics_count})</span>
+                                    </a>
+                                {/if}
+                            {else}
+                                <span class="gray">[`My topics`]</span> <span class="h-count">(0)</span>
+                            {/if}
+                        </li>
+                        <li>
+                            {if !empty($user.comments_count)}
+                                {if $_is_me && !empty($_author_page.is_replies_page)}
+                                    <span class="gray">[`My replies`]</span> <span class="h-count">({$user.comments_count})</span>
+                                {else}
+                                    <a href="{$wa->getUrl('/frontend/authorReplies', ['id' => $user.id])}">
+                                        [`My replies`] <span class="h-count">({$user.comments_count})</span>
+                                    </a>
+                                {/if}
+                            {else}
+                                <span class="gray">[`My replies`]</span> <span class="h-count">(0)</span>
+                            {/if}
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    {elseif empty($_is_new_topic_page)}
+        <div class="s-sidebar-section">
+            <div class="s-section-body">
+                <div class="h-add-topic">
+                    <a class="s-button" href="{$wa->getUrl('/frontend/add')}{if !empty($category)}?category={$category.id}{/if}">[`New topic`]</a>
+                </div>
+            </div>
+        </div>
+    {/if}
+
+    <section class="s-sidebar-section">
+        <div class="s-section-body">
+            {$_pages = $wa->hub->pages()}
+
+            <nav class="s-nav-wrapper">
+                {if !empty($_pages)}
+                    {_renderPagesList pages=$_pages}
+                {/if}
+                <ul>
+                    <li>
+                        {if empty($_is_authors_page)}
+                            <a href="{$wa_app_url}authors/">[`All authors`]</a>
+                        {else}
+                            <span class="gray">[`All authors`]</span>
+                        {/if}
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="s-sidebar-search" role="search">
+                {$_query = $smarty.get.query|default:''|escape}
+
+                <form method="get" action="{$wa->getUrl("hub/frontend/search")}">
+                    <input class="h-text-input" type="text" name="query" value="{if !empty($_query)}{$_query}{/if}" placeholder="[`Search topics`]">
+                </form>
+            </div>
+        </div>
+    </section>
+
+    {* SIDEBAR NAV *}
+    {if !empty($_topic) && !empty($tags)}
+        <section class="s-sidebar-section h-tags-section">
+            <header class="s-section-header">
+                <h2 class="s-header">[`Tags`]</h2>
+            </header>
+            <div class="s-section-body">
+                <ul class="h-tags-list corrected">
+                    {foreach $tags as $tag}
+                        <li>
+                            <a href="{$tag.url}">{$tag.name|escape}</a>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </section>
+    {/if}
+
+    {$_comments = $wa->hub->comments(10)}
+    {if !empty($_comments)}
+        <section class="s-sidebar-section">
+            <header class="s-section-header">
+                <h2 class="s-header">[`Last comments`]</h2>
+            </header>
+            <div class="s-section-body">
+                <ul class="s-news-list">
+                    {foreach $_comments as $_comment}
+                        {$_url = "`$wa->getUrl('hub/frontend/topic', ['id' => $_comment.topic.id, 'topic_url' => $_comment.topic.url])`#comment`$_comment.id`"}
+
+                        <li class="s-item">
+                            <div class="s-title">
+                                <a href="{$_url}" class="s-link">{strip_tags($_comment.text)|truncate:100}</a>
+                            </div>
+                            <div class="s-date">
+                                {$_comment.datetime|wa_datetime:humandate} <span class="s-time">{$_comment.datetime|wa_datetime:'time'}</span>
+                            </div>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </section>
+    {/if}
+
+    {* HUB STAFF *}
+    {$_staff_users = $wa->hub->staff()}
+    {if !empty($_staff_users)}
+        <section class="s-sidebar-section h-staff-section">
+            <header class="s-section-header">
+                <h2 class="s-header">[`Staff`]</h2>
+            </header>
+            <div class="s-section-body">
+
+                <ul class="h-staff-list corrected">
+                    {foreach $_staff_users as $_user}
+                        <li class="h-staff-user">
+                            <a class="h-user" href="{$wa_app_url}author/{$_user.id}/">
+                                <img src="{$_user.photo_url_50}" alt="{$_user.name|escape}">
+                                {$_user.name|escape}
+                            </a>
+
+                            {if !empty($_user.badge)}
+                                <span class="h-staff" {if !empty($_user.badge_color)} style="background-color: {$_user.badge_color}"{/if}>{$_user.badge}</span>
+                            {/if}
+                        </li>
+                    {/foreach}
+                </ul>
+
+            </div>
+        </section>
+    {/if}
+
+    {* @event frontend_nav.%plugin_id% *}
+    {foreach $frontend_nav as $_}{$_}{/foreach}
+{/if}
+
+{/strip}

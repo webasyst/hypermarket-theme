@@ -1,0 +1,142 @@
+{strip}
+
+{if empty($linear_view)}
+    {$linear_view = false}
+{/if}
+
+<section class="h-comments-wrapper" id="h-comments" style="{if empty($comments)}display: none;{/if}">
+
+    {* @event frontend_topic.%plugin_id%.comments *}
+    {foreach $frontend_topic as $_}{$_.comments}{/foreach}
+
+    {if !empty($comments)}
+        {$answers_count = 0}
+        {foreach $comments as $comment}
+            {if !$comment.depth}{$answers_count = $answers_count + 1}{/if}
+        {/foreach}
+
+        <div class="s-layout">
+            <div class="s-column middle">
+                <h3 class="h-comments-header">{_w('%d answer', '%d answers', $answers_count)}</h3>
+            </div>
+
+            {if empty($linear_view)}
+                <div class="s-column middle right">
+                    <div class="h-comment-sorting">
+                        {$_sorting = [
+                            "votes" => [
+                                "id" => "votes",
+                                "uri" => "javascript:void(0);",
+                                "name" => "[`popular`]"
+                            ],
+                            "newest" => [
+                                "id" => "newest",
+                                "uri" => "javascript:void(0);",
+                                "name" => "[`newest`]"
+                            ]
+                        ]}
+                        {$_active_sort = $_sorting["votes"]}
+
+                        <span class="s-label">[`Sorting`]:</span>
+                        <div class="s-styled-dropdown">
+                            <span class="s-visible">{$_active_sort.name|escape}</span>
+                            <ul class="s-hidden right">
+                                {foreach $_sorting as $_sort}
+                                    <li class="{if $_active_sort.id == $_sort.id}is-active{/if}">
+                                        <a href="{$_sort.uri}" data-order="{$_sort.id}">{$_sort.name|escape}</a>
+                                    </li>
+                                {/foreach}
+                            </ul>
+                        </div>
+
+                        <script>
+                            ( function($) {
+                                var $comments = $("#h-comments");
+                                $.hub.initCommentsSorting({
+                                    $comments: $comments,
+                                    $sorting: $comments.find(".h-comment-sorting"),
+                                    topic_id: "{$topic.id}"
+                                });
+                            })(jQuery);
+                        </script>
+                    </div>
+                </div>
+            {/if}
+        </div>
+
+        {if empty($linear_view)}
+            <div class="h-comment-list">
+                {$depth=-1}
+                {foreach $comments as $comment}
+                    {if $comment.depth < $depth}
+
+                        {$loop=($depth-$comment.depth)}
+                        {section name="end-comment" loop=$loop}
+                            </li></ul>
+                        {/section}
+
+                        {$depth=$comment.depth}
+                    {/if}
+
+                    {if $comment.depth == $depth}
+                        </li>
+                        <li class="h-comment-wrapper" id="h-comment-wrapper-{$comment.id}">
+                    {/if}
+
+                    {if $comment.depth > $depth}
+                        <ul>
+                            <li class="h-comment-wrapper" id="h-comment-wrapper-{$comment.id}">
+                        {$depth=$comment.depth}
+                    {/if}
+
+                    {include file="comment.html" comment=$comment inline}
+
+                {/foreach}
+
+                {section name="end-comment" loop=$depth + 1}
+                    </li></ul>
+                {/section}
+            </div>
+        {else}
+            <div class="h-comment-list" id="h-comment-list">
+                <ul class="h-list-wrapper">
+                    {foreach $comments as $comment}
+                        <li class="h-comment-wrapper" id="h-comment-wrapper-{$comment.id}">
+                            {include file="./comment.html" comment=$comment linear_view=$linear_view inline}
+                        </li>
+                    {/foreach}
+                </ul>
+
+                {if isset($pages_count) && $pages_count > 1}
+                    <div class="s-paging-wrapper {if $theme_settings.pagination == "lazyloading"}is-lazy-loading{/if}" data-loading-text="[`Loading...`]">
+                        {wa_pagination total=$pages_count attrs=["class" => "s-paging-list"]}
+                    </div>
+                {/if}
+
+                <script>
+                    ( function($) {
+                        var initLazyLoading = {if isset($pages_count) && $pages_count > 1 && $theme_settings.pagination == "lazyloading"}true{else}false{/if};
+                        if (initLazyLoading) {
+                            new window.waTheme.init.hub.LazyLoading({
+                                $wrapper: $("#h-comment-list"),
+                                names: {
+                                    list: ".h-list-wrapper",
+                                    items: ".h-comment-wrapper",
+                                    paging: ".s-paging-wrapper"
+                                }
+                            });
+                        }
+                    })(jQuery);
+                </script>
+            </div>
+        {/if}
+    {else}
+        <h3 class="h-comments-header"></h3>
+        <div class="h-comment-list">
+            <ul></ul>
+        </div>
+    {/if}
+
+</section>
+
+{/strip}

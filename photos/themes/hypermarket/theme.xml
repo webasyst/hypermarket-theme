@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE theme PUBLIC "wa-app-theme" "http://www.webasyst.com/wa-content/xml/wa-app-theme.dtd">
+<theme id="hypermarket" app="photos" vendor="webasyst" author="webasyst" parent_theme_id="site:hypermarket" version="1.3.7">
+    <name locale="en_US">Hypermarket</name>
+    <name locale="ru_RU">Гипермаркет</name>
+    <files>
+        <!-- parent resources -->
+        <file path="css/custom.css" parent="1">
+        </file>
+        <file path="js/custom.js" parent="1">
+        </file>
+        <!-- photos resources -->
+        <file path="css/custom.photos.css">
+        </file>
+        <file path="js/custom.photos.js">
+        </file>
+        <!-- parent templates -->
+        <file path="index.html" parent="1">
+        </file>
+        <file path="error.html" parent="1">
+        </file>
+        <file path="signup.html" parent="1">
+        </file>
+        <file path="login.html" parent="1">
+        </file>
+        <file path="forgotpassword.html" parent="1">
+        </file>
+        <file path="page.html" parent="1">
+            <description locale="en_US">Static page content</description>
+            <description locale="ru_RU">Содержимое информационной страницы</description>
+        </file>
+        <file path="my.profile.html" parent="1">
+        </file>
+        <!-- photos resources -->
+        <file path="album.html">
+            <description locale="en_US">Wrapper for photo album</description>
+            <description locale="ru_RU">Обертка для альбома фотографий</description>
+        </file>
+        <file path="albums.html">
+        </file>
+        <file path="breadcrumbs.html">
+        </file>
+        <file path="footer.html">
+            <description locale="en_US">Photos footer content</description>
+            <description locale="ru_RU">Футер раздела «Фото»</description>
+        </file>
+        <file path="head.html">
+            <description locale="en_US">Photos &lt;head&gt; block</description>
+            <description locale="ru_RU">Блок &lt;head&gt; приложения «Фото»</description>
+        </file>
+        <file path="header.html">
+            <description locale="en_US">Photos header content</description>
+            <description locale="ru_RU">Шапка раздела «Фото»</description>
+        </file>
+        <file path="home.html">
+            <description locale="en_US">Wrapper for the photo gallery home page</description>
+            <description locale="ru_RU">Обертка для главной страницы фотогалереи</description>
+        </file>
+        <file path="main.html">
+            <description locale="en_US">Photos’ main layout and navigation</description>
+            <description locale="ru_RU">Основной макет содержимого и навигации «Фото»</description>
+        </file>
+        <file path="my.nav.html">
+        </file>
+        <file path="photo.html">
+            <description locale="en_US">One photo and its details</description>
+            <description locale="ru_RU">Просмотр фотографий по одной</description>
+        </file>
+        <file path="photos.thumbs.html">
+        </file>
+        <file path="photos.wide.html">
+        </file>
+        <file path="search.html">
+            <description locale="en_US">Wrapper for photo search (filtering) results; e.g., by tag or author</description>
+            <description locale="ru_RU">Обертка для страницы поиска (фильтрации) фотографий, например, по тегу или автору</description>
+        </file>
+        <file path="sidebar.html">
+        </file>
+    </files>
+    <settings>
+        <setting var="photo_divider_1" control_type="group_divider">
+            <value></value>
+            <name locale="en_US">Photo settings</name>
+            <name locale="ru_RU">Настройки «Фото»</name>
+        </setting>
+        <setting var="photos_breadcrumb_title" control_type="text">
+            <value locale="en_US">Photos</value>
+            <value locale="ru_RU">Фотоархив</value>
+            <name locale="en_US">Breadcrumbs section name</name>
+            <name locale="ru_RU">Название раздела для «хлебных крошек»</name>
+        </setting>
+    </settings>
+    <thumbs>
+        <thumb>200x0</thumb>
+        <thumb>970x0</thumb>
+    </thumbs>
+    <locales>
+        <locale>
+            <msgid>Photo archive</msgid>
+            <msgstr locale="ru_RU">Фотоархив</msgstr>
+        </locale>
+    </locales>
+</theme>

@@ -1,0 +1,53 @@
+{strip}
+
+<div class="h-topic-wrapper" id="h-topic-wrapper-{$topic.id}" itemscope itemtype="http://schema.org/Question">
+    <meta itemprop="datePublished" content="{$topic.create_datetime|date_format:'Y-m-d\TH:i'}">
+    <meta itemprop="name" content="{$topic.title|escape}">
+
+    <article class="h-topic-block" id="h-topic-{$topic.id}">
+        <div class="s-layout fixed">
+            {if !empty($types[$topic.type_id].settings.voting)}
+                <div class="s-column h-column-vote">
+                    <div class="h-vote-block" id="h-topic-vote">
+                        {if !empty($types[$topic.type_id].settings.voting['+'])}<button class="h-vote-button is-up {if $voted > 0}is-active{/if}" title="+1"></button>{/if}
+                        <span class="h-vote-value {if $topic.votes_sum > 0}is-positive{elseif $topic.votes_sum < 0}is-negative{/if}" itemprop="upvoteCount">{$topic.votes_sum}</span>
+                        {if !empty($types[$topic.type_id].settings.voting['-'])}<button class="h-vote-button is-down {if $voted < 0}is-active{/if}" title="-1"></button>{/if}
+                    </div>
+
+                    <script>
+                        ( function($) {
+                            new window.waTheme.init.hub.Vote({
+                                $vote: $("#h-topic-vote"),
+                                id: {$topic.id},
+                                type: "topic",
+                                user_id: {if $wa->user()->getId()}{$wa->user()->getId()}{else}false{/if},
+                                vote_url: "{$wa->getUrl('/frontend/vote')|escape:js}",
+                                login_url: "{$wa->loginUrl()|escape:js}"
+                            });
+                        })(jQuery);
+                    </script>
+                </div>
+            {/if}
+
+            <div class="s-column">
+                <div class="h-topic-content" itemprop="text">{$topic.content}</div>
+
+                {* @event frontend_topic.%plugin_id%.body *}
+                {foreach $frontend_topic as $_}{$_.body}{/foreach}
+            </div>
+        </div>
+    </article>
+
+    {$_topic_actions_html}
+
+    {include file="./comments.html" topic=$topic comments=$comments inline}
+
+    {* Add comment form *}
+    {if !empty($topic.badge) && $topic.badge.id == 'archived'}
+        <p><em>[`This topic is in the archive. Posting new comments is disabled.`]</em></p>
+    {else}
+        {include file="comment.add.html" inline}
+    {/if}
+</div>
+
+{/strip}

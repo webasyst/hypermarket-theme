@@ -1,0 +1,149 @@
+{strip}
+
+{$_is_auth = $wa->user()->isAuth()}
+
+{capture assign="_global_header_html"}
+    <span class="h-header">{$topic.title|escape}</span>
+
+    {if !empty($topic.badge)}
+        <span class="h-badge badge-{$topic.badge.id}">{$topic.badge.name}</span>
+    {/if}
+
+    {* @event frontend_topic.%plugin_id%.title_suffix *}
+    {foreach $frontend_topic as $_}{$_.title_suffix}{/foreach}
+{/capture}
+
+{$wa->globals("globalHeaderHTML", $_global_header_html)}
+{$wa->globals("showBottomBanner", true)}
+{$wa->globals("topicPage", $topic)}
+
+{capture assign="_topic_edit_actions_html"}
+    {if !empty($topic.editable) || !empty($topic.deletable)}
+        <div class="h-edit-actions-wrapper">
+            {if !empty($topic.deletable)}
+                <button class="h-delete-topic reset" data-delete-url="{$topic.delete_url}" data-confirm="[`You are about to delete this record. Are you sure?`]">[`Delete`]</button>
+            {/if}
+            {if !empty($topic.editable)}
+                <a class="s-button" href="{$topic.edit_url}">[`Edit topic`]</a>
+            {/if}
+        </div>
+    {/if}
+{/capture}
+
+{capture assign="_topic_actions_html"}
+    {$_has_votes = false}
+    {if !empty($types[$topic.type_id].settings.voting)}
+        {$_has_votes = true}
+    {/if}
+
+    {$_topic_edit_actions_html}
+
+    {if !empty($_is_auth) && !empty($_has_votes)}
+        <div class="h-topic-actions">
+            <div class="s-layout fixed">
+                {if $_is_auth}
+                    <div class="s-column">
+                        <div class="h-follow-wrapper {if $following}following{else}not-following{/if}">
+                            <div class="h-follow-content">
+                                <input class="s-button reset" type="button" value="[`Follow`]" id="button-follow">
+                                <div class="h-text">[`New comments will be sent to you by email`]</div>
+                            </div>
+                            <div class="h-unfollow-content">
+                                <input class="s-button reset" type="button" value="[`Unfollow`]" id="button-unfollow">
+                                <div class="h-text">[`You are following this topic`]</div>
+                            </div>
+                            <script>
+                                ( function() {
+                                    window.waTheme.init.hub.initFollowingButton("{$wa->getUrl('/frontend/topicFollow')|escape:js}", "{$topic.id}");
+                                })();
+                            </script>
+                        </div>
+                    </div>
+                {/if}
+                {if !empty($_has_votes) && !empty($_is_auth)}
+                    <div class="s-column right">
+                        <div class="h-helpful-vote" id="h-helpful-vote">
+                            <div class="vote-form-question">
+                                <p>[`Was this article helpful?`]</p>
+                                {if !empty($types[$topic.type_id].settings.voting['+'])}<button title="[`Yes`]" class="h-vote-button reset is-true">[`Yes`]</button>{/if}
+                                {if !empty($types[$topic.type_id].settings.voting['-'])}<button title="[`No`]" class="h-vote-button reset is-false">[`No`]</button>{/if}
+                            </div>
+                            <p class="vote-form-yes" style="display: none;">[`Thank you for your feedback!`]</p>
+                            <div class="vote-form-no" style="display: none;">
+                                <p class="nowrap">[`In just few words, tell us what you did not like about this article?`]</p>
+                                <p><textarea></textarea></p>
+                                <p>
+                                    <input class="h-submit-false save" type="button" value="[`Send`]">
+                                </p>
+                            </div>
+                            <script>
+                                ( function($) {
+                                    new window.waTheme.init.hub.PageVote({
+                                        $vote: $("#h-helpful-vote"),
+                                        id: {$topic.id},
+                                        vote_url: "{$wa->getUrl('/frontend/vote')|escape:js}",
+                                        login_url: "{$wa->loginUrl()|escape:js}",
+                                        user_id: {if $wa->user()->getId()}{$wa->user()->getId()}{else}false{/if}
+                                    });
+                                })(jQuery);
+                            </script>
+                        </div>
+                    </div>
+                {/if}
+            </div>
+        </div>
+    {/if}
+{/capture}
+
+{capture assign="_deleted_topic_html"}
+    <div class="h-deleted-topic-section">
+        <header class="h-section-header">
+            <h2 class="h-header">[`Topic deleted`]!</h2>
+        </header>
+        <div class="h-section-body">
+            <a href="{$wa_app_url}">
+                <i class="svg-icon back size-10"></i> [`Return to hub`]
+            </a>
+        </div>
+    </div>
+{/capture}
+
+<div class="h-topic-page" id="js-topic-{$topic.id}">
+    {$wa->csrf()}
+
+    <div class="h-page-header">
+        <div class="h-credentials">
+            {if !empty($topic.author)}
+                <a class="h-user-wrapper" href="{$wa->getUrl('/frontend/author', ['id' => $topic.author.id])}">
+                    <img class="h-userpic" src="{$topic.author.photo_url_20}" alt="">
+                    <span class="h-user-name" itemprop="author">{$topic.author.name|escape}</span>
+                </a>
+
+                {if !empty($topic.author.badge)}
+                    <span class="h-staff" {if !empty($topic.author.badge_color)} style="background-color: {$topic.author.badge_color}"{/if}>{$topic.author.badge}</span>
+                {/if}
+
+                <span class="h-date">{$topic.create_datetime|wa_date:'humandate'}</span>
+            {/if}
+        </div>
+    </div>
+
+    {if !empty($topic_type)}
+        {include file="./topic.`$topic_type.type`.html" inline}
+
+    {else}
+        {include file="./topic.custom.html" inline}
+    {/if}
+
+    <script>
+        ( function($) {
+            new window.waTheme.init.hub.Topic({
+                $topic: $("#js-topic-{$topic.id}"),
+                topic_id: {$topic.id|json_encode},
+                deleted_topic_html: {$_deleted_topic_html|json_encode}
+            });
+        })(jQuery);
+    </script>
+</div>
+
+{/strip}

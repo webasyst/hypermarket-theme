@@ -1,0 +1,383 @@
+{strip}
+
+{$wa->globals("hideSidebar", true)}
+{$wa->globals("showBottomBanner", true)}
+{$badge_html = $wa->shop->badgeHtml($product.badge)}
+{if empty($sku_features)}{$sku_features = []}{/if}
+
+{function name="_render_sku_features" _features=[]}
+    <div class="s-features-wrapper">
+        <h4 class="s-header">[`Features`]</h4>
+        <table class="s-features-table">
+            {foreach $_features as $_feature_id => $_feature_value}
+                {$_true_params = ["weight", "brand", "model", "width", "height", "depth", "color", "manufacturer"]}
+                {$_is_good_param = ($_feature_id|in_array:$_true_params)}
+                {$_itemprop = ""}
+                {if $_is_good_param}{$_itemprop = $_feature_id}{/if}
+                {$_feature = ifset($sku_features, $_feature_id, null)}
+
+                {if $_feature && $_feature.type == 'divider'}
+                    <tr class="s-divider-column">
+                        <td colspan="2">
+                            <div>
+                                <div class="s-divider">{ifset($_feature, 'name', $_feature_id)|escape}</div>
+                            </div>
+                        </td>
+                    </tr>
+                {elseif $_feature}
+                    <tr>
+                        <td class="name">
+                            <div class="s-label-wrapper with-ornament">
+                                <div class="s-label">{ifset($_feature, 'name', $_feature_id)|escape}</div>
+                            </div>
+                        </td>
+                        <td class="value" itemprop="{$_itemprop|escape}">
+                            {if is_array($_feature_value)}
+                                {if $_feature.type == 'color'}
+                                    {implode('<br>', $_feature_value)}
+                                {else}
+                                    {implode(', ', $_feature_value)}
+                                {/if}
+                            {else}
+                                {$_feature_value}
+                            {/if}
+                        </td>
+                    </tr>
+                {/if}
+            {/foreach}
+        </table>
+    </div>
+{/function}
+
+{$_skus_features_html = []}
+{foreach $product.skus as $_sku}
+    {if !empty($_sku.features)}
+        {capture assign="_sku_features_html"}{_render_sku_features _features=$_sku.features}{/capture}
+        {$_skus_features_html[$_sku.id] = $_sku_features_html}
+    {/if}
+{/foreach}
+
+{* PRODUCT PAGE *}
+<article class="s-product-page" id="js-product-page" itemscope itemtype="http://schema.org/Product">
+
+    <header class="s-product-header">
+        <div class="s-layout">
+            <div class="s-column">
+
+                <h1 class="s-header" itemprop="name">{$product.name|escape}</h1>
+
+                {if !empty($product.summary)}
+                    <div class="s-summary">{$product.summary}</div>
+                {/if}
+
+            </div>
+            <div class="s-column s-column-right">
+
+                <div class="s-sku-wrapper" style="{if empty($product.skus[$product.sku_id].sku)}display:none;{/if}">
+                    <span class="s-label">[`SKU`]</span>
+                    <span class="s-sku js-product-sku">{$product.skus[$product.sku_id].sku|default:""|escape}</span>
+                </div>
+
+                <div class="s-rating-wrapper">
+                    {$_product_rate = round($product.rating, 1)}
+                    {for $_i = 0 to 4}
+                        {$_icon_class = "star-empty"}
+                        {if $_i < $_product_rate}
+                            {$_delta = $_product_rate - $_i}
+                            {if $_delta >= 1}
+                                {$_icon_class = "star"}
+                            {elseif round($_delta) == 1}
+                                {$_icon_class = "star-half"}
+                            {/if}
+                        {/if}
+
+                        <i class="s-rate-item svg-icon {$_icon_class} size-11"></i>
+                    {/for}
+
+                    <a class="s-link" href="reviews/">{$reviews_total_count}</a>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <div class="s-layout fixed">
+        <div class="s-column">
+
+            {* OVERVIEW *}
+            {capture assign="_description"}
+                {if !empty($product.description)}
+                    <div class="s-product-desc">
+                        <h4 class="s-header">[`Overview`]</h4>
+                        <div class="s-desc" itemprop="description">{$product.description}</div>
+                    </div>
+                {/if}
+            {/capture}
+
+            {* PAGES *}
+            {capture assign="_pages"}
+                {if $product.pages}
+                    <div class="s-product-pages">
+                        {foreach $product.pages as $page}
+                            <a href="{$wa->shop->productUrl($product, 'page', ['page_url' => $page.url])}">
+                                {$page.name|escape}
+                            </a>
+                        {/foreach}
+                    </div>
+                {/if}
+            {/capture}
+
+            {* FEATURES *}
+            {capture assign="_features"}
+                <div class="s-features-section js-features-section">
+                    {if !empty($_skus_features_html[$product.sku_id])}{$_skus_features_html[$product.sku_id]}{/if}
+                </div>
+            {/capture}
+
+            {* IMAGE GALLERY *}
+            {if $product.images}
+
+                {$_video = $product->video}
+                {if empty($_video.images[0])}
+                    {$_video = false}
+                {else}
+                    {$_thumb = $_video.images[0]}
+                    {$_absolute_thumb_uri = "{$wa->url(true)}{$_thumb|substr:1}"}
+                {/if}
+
+                <figure class="s-product-photos" id="s-product-photos">
+                    <div class="s-layout fixed">
+                        <div class="s-column">
+
+                            {* MAIN IMAGE *}
+                            <div class="s-photo-main">
+                                {if $_video}
+                                    <div class="s-video-wrapper" id="s-video-wrapper" itemscope itemtype="http://schema.org/VideoObject">
+                                        <div itemprop="embedHTML">
+                                            <iframe src="{$_video.url}" width="{$_video.width}" height="{$_video.height}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                        </div>
+                                        <meta itemprop="width" content="{$_video.width}">
+                                        <meta itemprop="height" content="{$_video.height}">
+                                        <meta itemprop="name" content="{$product.name|default:""|escape}">
+                                        <meta itemprop="description" content="{$product.description|default:""|escape}">
+                                        <meta itemprop="uploadDate" content="{$product.create_datetime|default:""|escape}">
+                                        <meta itemprop="thumbnailUrl" content="{$_absolute_thumb_uri|escape}" />
+                                    </div>
+                                {/if}
+                                <a class="{if $_video}is-hidden{/if}" id="s-photo-main" href="{$wa->shop->productImgUrl($product, '970')}">
+                                    {$wa->shop->productImgHtml($product, '750', [ 'itemprop' => 'image', 'alt' => $product.name|escape ])}
+                                </a>
+
+                                {if !empty($badge_html)}
+                                    <div class="s-badge-wrapper is-rounded">{$badge_html}</div>
+                                {/if}
+                            </div>
+
+                            {$_description}
+                            {$_pages}
+                            {$_features}
+
+                        </div>
+                        <div class="s-column s-photos-aside right">
+
+                            {* THUMBS *}
+                            {if count($product.images) > 1 || (count($product.images) === 1 && $_video)}
+                                <ul class="s-photos-list" id="s-photos-list">
+                                    {foreach $product.images as $image}
+                                        <li class="s-photo-thumb">
+                                            {* @hint link id needed for change product image on sku change event *}
+                                            <a id="s-image-{$image.id}" class="{if $image.id == $product.image_id && empty($_video)}is-selected{/if}" href="{$wa->shop->imgUrl($image, '970')}" data-index="{$image@index}">
+                                                {$wa->shop->imgHtml($image, '96x96')}
+                                            </a>
+                                        </li>
+                                    {/foreach}
+                                    {if $_video}
+                                        <li class="s-photo-thumb">
+                                            {* @hint link id needed for change product image on sku change event *}
+                                            <a class="is-selected is-video" href="{$_video.url}">
+                                                <img src="{$_video.images[0]}" alt="">
+                                            </a>
+                                        </li>
+                                    {/if}
+                                </ul>
+                            {/if}
+
+                        </div>
+                    </div>
+                    <script>
+                        ( function($) {
+                            new window.waTheme.init.shop.ProductPhotos({
+                                $wrapper: $("#s-product-photos")
+                            });
+                        })(jQuery);
+                    </script>
+                </figure>
+            {else}
+                <div id="s-photo-main">
+                    <img src="{$wa_active_theme_url}img/svg/empty_photo.svg" alt="[`Empty photo`]" style="width: 100%; max-height: 200px;">
+                </div>
+
+                {$_description}
+                {$_pages}
+                {$_features}
+
+            {/if}
+
+        </div>
+        <div class="s-product-aside s-column">
+
+            {* PRODUCT CART *}
+            <div class="s-product-cart-area">
+
+                {include file="product.cart.html" inline}
+
+                {if !empty($frontend_product)}
+                    {* @event frontend_product.%plugin_id%.cart *}
+                    {foreach $frontend_product as $_}{$_.cart}{/foreach}
+
+                    {* @event frontend_product.%plugin_id%.block_aux *}
+                    <div class="s-product-aux">
+                        {foreach $frontend_product as $_}{$_.block_aux}{/foreach}
+                    </div>
+                {/if}
+            </div>
+
+            {* PRODUCT REVIEWS *}
+            <section class="s-reviews-section">
+                <header class="s-section-header">[`Customer reviews and ratings`]</header>
+                <div class="s-section-body">
+                    {if !empty($reviews)}
+                        <ul class="s-reviews-list">
+                            {foreach $reviews as $review}
+                                {if $review@iteration > 3}{break}{/if}
+
+                                <li class="s-review-wrapper">
+
+                                    <div class="s-review" itemscope itemprop="review" itemtype="http://schema.org/Review">
+                                        {if $review.title}
+                                            <h4 class="s-title" itemprop="name">{$review.title}</h4>
+                                        {/if}
+
+                                        {if $review.text}
+                                            <div class="s-description" itemprop="description">{$review.text}</div>
+                                        {/if}
+
+                                        <div class="s-layout">
+                                            <div class="s-column">
+                                                {* RATES *}
+                                                {if !$review.parent_id && !empty($review.rate)}
+                                                    <div class="s-rates-wrapper" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+                                                        {$_review_rate = round($review.rate,1)}
+                                                        {for $_i = 0 to 4}
+                                                            {$_icon_class = "star-empty"}
+                                                            {if $_i < $_review_rate}
+                                                                {$_delta = $_review_rate - $_i}
+                                                                {if $_delta >= 1}
+                                                                    {$_icon_class = "star"}
+                                                                {elseif round($_delta) == 1}
+                                                                    {$_icon_class = "star-half"}
+                                                                {/if}
+                                                            {/if}
+
+                                                            <i class="s-rate-item svg-icon {$_icon_class} size-11"></i>
+                                                        {/for}
+
+                                                        <meta itemprop="worstRating" content = "1">
+                                                        <meta itemprop="ratingValue" content="{$_review_rate}">
+                                                        <meta itemprop="bestRating" content = "5">
+                                                    </div>
+                                                {/if}
+                                            </div>
+
+                                            <div class="s-column right">
+
+                                                {* NAME *}
+                                                <div class="s-author-name" itemprop="author">
+                                                    {if empty($review.site)}
+                                                        {$review.author.name}
+                                                    {else}
+                                                        <a href="{$review.site}">{$review.author.name}</a>
+                                                    {/if}
+                                                </div>
+
+                                                {* DATE *}
+                                                <div class="s-date-wrapper" title="{$review.datetime|wa_datetime}">{$review.datetime|wa_datetime:"humandatetime"}</div>
+                                            </div>
+                                        </div>
+
+                                        <meta itemprop="itemReviewed" content="{$product.name|escape}">
+                                        <meta itemprop="datePublished" content="{$review.datetime|date_format:'Y-m-d'}">
+                                    </div>
+
+                                </li>
+                            {/foreach}
+                        </ul>
+                    {else}
+                        <p class="s-no-reviews">{sprintf('[`Be the first to <a href="%s">write a review</a> of this product!`]', 'reviews/')}</p>
+                    {/if}
+                </div>
+                {if !empty($reviews)}
+                    <footer class="s-section-footer">
+                        <div class="s-layout">
+                            <div class="s-column middle">
+                                <a href="reviews/">[`All reviews`]...</a>
+                            </div>
+                            <div class="s-column middle right">
+                                <a href="reviews/?add=1">[`Write a review`] <i class="svg-icon next size-10"></i></a>
+                            </div>
+                        </div>
+                    </footer>
+                {/if}
+            </section>
+
+            {* TAGS *}
+            {if $product.tags}
+                <div class="s-product-tags">
+                    <span class="s-label">[`Tags`]:</span>
+                    {foreach $product.tags as $t}
+                        <div class="s-tag-wrapper">
+                            <a href="{$wa->getUrl('/frontend/tag', ['tag' => urlencode($t)])}">{$t}</a>
+                        </div>
+                    {/foreach}
+                </div>
+            {/if}
+
+        </div>
+    </div>
+
+    {* @event frontend_product.%plugin_id%.menu *}
+    {foreach $frontend_product as $_}{$_.menu}{/foreach}
+
+    {* @event frontend_product.%plugin_id%.block *}
+    {foreach $frontend_product as $_}{$_.block}{/foreach}
+
+    {* RELATED PRODUCTS *}
+    {$crossselling = $product->crossSelling(12)}
+    {if !empty($crossselling)}
+        <section class="s-related-products">
+            {$_title = sprintf('[`Customers who bought %s also bought`]', $product.name|escape)}
+            {include file="./products.html" products=$crossselling slider=true short=true section_title=$_title inline}
+        </section>
+    {/if}
+
+    {* RELATED PRODUCTS *}
+    {$upselling = $product->upSelling(12)}
+    {if !empty($upselling)}
+        {$compare_ids = array_merge(array($product.id), array_keys($upselling))}
+        <section class="s-related-products">
+            {$_title = "[`See also`]"}
+            {include file="./products.html" products=$upselling slider=true short=true section_title=$_title inline}
+        </section>
+    {/if}
+
+    <script>
+        ( function($, waTheme) {
+            waTheme.init.shop.initProductPage({
+                $wrapper: $("#js-product-page"),
+                skus_features_html: {$_skus_features_html|json_encode}
+            });
+        })(jQuery, window.waTheme);
+    </script>
+</article>
+
+{/strip}

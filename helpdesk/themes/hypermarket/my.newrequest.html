@@ -1,0 +1,18 @@
+{strip}
+
+{$wa->globals("globalHeader", $source.name|escape)}
+{$wa->globals("isNewRequestPage", true)}
+
+{if empty($is_public_frontend)}
+    {$wa->globals('isMyAccount', true)}
+{/if}
+
+<div class="h-add-request-page">
+    <section class="h-request-section">
+        <div class="h-section-body">
+            <div class="h-request-form">{$form_html}</div>
+        </div>
+    </section>
+</div>
+
+{/strip}

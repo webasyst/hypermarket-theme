@@ -1,0 +1,12 @@
+{strip}
+
+{$_is_requests_page = $wa->globals("isRequestsPage")}
+<li class="{if !empty($_is_requests_page)}is-selected{/if}">
+    {if empty($_is_requests_page)}
+        <a class="s-link" href="{$wa->getUrl('/frontend/myRequests')}">[`My requests`]</a>
+    {else}
+        <span class="s-link">[`My requests`]</span>
+    {/if}
+</li>
+
+{/strip}

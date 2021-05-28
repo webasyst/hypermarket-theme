@@ -1,0 +1,193 @@
+{strip}
+
+{$wa->globals("htmlClass", "is-request-page")}
+
+{capture assign="_global_header_html"}
+    <div class="s-layout fixed">
+        <div class="s-column">
+            <h1>{$request.summary|escape}</h1>
+        </div>
+        <div class="s-column s-column-state right">
+
+            <section class="s-state-section">
+                {if !empty($request.status)}
+                    <div class="h-state-wrapper">
+                        <span class="h-state {$request.state_id|escape}">{$request.status|escape}</span>
+                    </div>
+                {elseif $request.state_id === "deleted"}
+                    <div class="h-state-wrapper">
+                        <span class="h-state {$request.state_id|escape}">[`Deleted`]</span>
+                    </div>
+                {/if}
+                <div class="h-number-wrapper">
+                    <span class="h-number">[`#`] {$request.id}</span>
+                </div>
+            </section>
+
+        </div>
+    </div>
+{/capture}
+
+{$wa->globals('isMyAccount', true)}
+{$wa->globals("isRequestPage", true)}
+{$wa->globals("globalHeaderHTML", $_global_header_html)}
+
+<div class="h-request-page" id="h-request-page">
+
+    {* REQUEST STATUS *}
+    {* USER CAME FROM ANTISPAM CONFIRMATION LINK FROM EMAIL *}
+    {if !empty($just_confirmed)}
+        <div class="h-confirmation-wrapper">
+            {if $wa->locale() == 'ru_RU'}
+                <p>Ваш запрос получен и поставлен в очередь на обработку.</p>
+                <p>Мы ответим вам в ближайшее время. Спасибо!</p>
+            {else}
+                <p>Your request has been received and queued into our support tracking system.</p>
+                <p>We shall reply to you as soon as possible. Thank you!</p>
+            {/if}
+        </div>
+    {/if}
+
+    <section class="h-request-section">
+        <header class="h-section-header">
+            <div class="s-layout">
+                <div class="s-column middle">
+
+                    <div class="h-user-wrapper">
+                        <img class="h-image" src="{$wa->user()->getPhoto(60)}" alt="">
+                        <span class="h-name">{$request.client_contact->getName()|escape}</span>
+                    </div>
+
+                </div>
+                <div class="s-column middle right">
+
+                    <span class="h-date">{$request.created|wa_datetime:"humandatetime"}</span>
+
+                </div>
+            </div>
+        </header>
+        <div class="h-section-body">
+            {if !empty($request_data)}
+                <div class="h-request-data">
+                    {foreach $request_data as $data}
+                        <div class="wa-field">
+                            <div class="wa-name">{$data.name}</div>
+                            <div class="wa-value">{$data.value}</div>
+                        </div>
+                    {/foreach}
+                </div>
+            {/if}
+
+            {if !empty($request.text)}
+                <div class="h-text">{$request.text}</div>
+            {/if}
+
+            {if !empty($request.attachments)}
+                <ul class="h-attachments-list">
+                    {foreach $request.attachments as $_a}
+                        <li class="h-attachment">
+                            <a class="h-link" href="{$_a.link}">{$_a.orig_name|escape}</a>
+                            <span class="h-size">({$_a.size|wa_format_file_size})</span>
+                        </li>
+                    {/foreach}
+                </ul>
+            {/if}
+
+            {if !empty($request_data_original)}
+                <div class="h-params">
+                    <div class="wa-field">
+                        [`Attention: initial request parameters <a href="javascript:void(0);" class="request-params-changed-link">was changed</a>`]
+                    </div>
+                    {foreach $request_data_original as $row}
+                        <div class="wa-field {if $row.status == -1}request-param-changed{/if}">
+                            <div class="wa-name">{$row.name|escape}</div>
+                            <div class="wa-value">{$row.value|escape}</div>
+                        </div>
+                    {/foreach}
+                </div>
+            {/if}
+        </div>
+    </section>
+
+    {* REQUEST CONTENT *}
+    {if !empty($log)}
+        {$_logs = array_reverse($log)}
+
+        <section class="h-logs-section">
+            {foreach $_logs as $_log}
+                <div class="h-log-section">
+                    <header class="h-section-header">
+                        <div class="s-layout">
+                            {if empty($_log.is_actor_hidden)}
+                                <div class="s-column middle">
+                                    <div class="h-user-wrapper">
+                                        <img class="h-image" src="{$_log.upic}" alt="">
+                                        <span class="h-name">{$_log.contact_name|escape}</span>
+                                    </div>
+                                </div>
+                            {/if}
+
+                            <div class="s-column middle right">
+                                <span class="h-date-wrapper">{$_log.datetime|wa_datetime:"humandatetime"}</span>
+                            </div>
+                        </div>
+                    </header>
+
+                    <div class="h-section-body">
+                        <div class="h-text">
+                            {if empty($_log.fields) && empty($_log.text) && empty($_log.attachment)}
+                                {$_log.performs_action_string}
+                            {else}
+                                {$_log.text}
+                            {/if}
+                        </div>
+
+                        {if !empty($_log.attachment)}
+                            <ul class="h-attachments-list">
+                                {foreach $_log.attachment as $_a}
+                                    <li class="h-attachment">
+                                        <a class="h-link" href="{$_a.link}">{$_a.orig_name|escape}</a>
+                                        <span class="h-size">({$_a.size|wa_format_file_size})</span>
+                                    </li>
+                                {/foreach}
+                            </ul>
+                        {/if}
+
+                        {if !empty($_log.fields)}
+                            <div class="h-log-data">
+                                {foreach $_log.fields as $_field}
+                                    <div class="wa-field">
+                                        <div class="wa-name">{$_field.name}:</div>
+                                        <div class="wa-value">{$_field.value}</div>
+                                    </div>
+                                {/foreach}
+                            </div>
+                        {/if}
+                    </div>
+                </div>
+            {/foreach}
+        </section>
+    {/if}
+
+    <section class="h-actions-section">
+        {* BUTTONS *}
+        {if !empty($buttons)}
+            <div class="h-actions js-actions ticket-buttons">
+                {foreach $buttons as $_html}{$_html}{/foreach}
+            </div>
+        {/if}
+
+        <div class="h-action-content js-action-content" id="action-form-wrapper" style="display:none"></div>
+    </section>
+
+    <script>
+        ( function($, waTheme) {
+            new waTheme.init.helpdesk.RequestPage({
+                $wrapper: $("#h-request-page"),
+                form_url: "{$form_url}"
+            });
+        })(jQuery, window.waTheme);
+    </script>
+</div>
+
+{/strip}

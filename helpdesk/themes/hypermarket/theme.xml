@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE theme PUBLIC "wa-app-theme" "http://www.webasyst.com/wa-content/xml/wa-app-theme.dtd">
+<theme id="hypermarket" app="helpdesk" vendor="webasyst" author="webasyst" parent_theme_id="site:hypermarket" version="1.3.6">
+    <name locale="en_US">Hypermarket</name>
+    <name locale="ru_RU">Гипермаркет</name>
+    <files>
+        <!-- parent resources -->
+        <file path="css/custom.css" parent="1">
+        </file>
+        <file path="js/custom.js" parent="1">
+        </file>
+        <!-- helpdesk resources -->
+        <file path="css/custom.helpdesk.css">
+        </file>
+        <file path="js/custom.helpdesk.js">
+        </file>
+        <!-- parent templates -->
+        <file path="index.html" parent="1">
+        </file>
+        <file path="error.html" parent="1">
+        </file>
+        <file path="signup.html" parent="1">
+        </file>
+        <file path="login.html" parent="1">
+        </file>
+        <file path="forgotpassword.html" parent="1">
+        </file>
+        <file path="page.html" parent="1">
+            <description locale="en_US">Static page content</description>
+            <description locale="ru_RU">Содержимое информационной страницы</description>
+        </file>
+        <file path="my.profile.html" parent="1">
+            <description locale="en_US">Customer portal interface: contact info editing form</description>
+            <description locale="ru_RU">Личный кабинет клиента: редактирование контактной информации</description>
+        </file>
+        <!-- helpdesk templates -->
+        <file path="breadcrumbs.html">
+        </file>
+        <file path="content.html">
+            <description locale="en_US">Main content layout and navigation</description>
+            <description locale="ru_RU">Основной макет вывода содержимого и навигации</description>
+        </file>
+        <file path="faq.category.html">
+        </file>
+        <file path="faq.category.question.html">
+        </file>
+        <file path="footer.html">
+            <description locale="en_US">Helpdesk footer content</description>
+            <description locale="ru_RU">Содержимое футера «Поддержки»</description>
+        </file>
+        <file path="head.html">
+            <description locale="en_US">&lt;head&gt; block instructions</description>
+            <description locale="en_US">Блок &lt;head&gt;</description>
+        </file>
+        <file path="header.html">
+            <description locale="en_US">App specific header content</description>
+            <description locale="ru_RU">Содержимое «шапки» приложения</description>
+        </file>
+        <file path="home.html">
+            <description locale="en_US">Helpdesk home page</description>
+            <description locale="ru_RU">Главная страница «Поддержки»</description>
+        </file>
+        <file path="main.html">
+            <description locale="en_US">Main content layout and navigation</description>
+            <description locale="ru_RU">Основной макет вывода содержимого и навигации</description>
+        </file>
+        <file path="my.nav.html">
+        </file>
+        <file path="my.newrequest.html">
+            <description locale="en_US">Customer portal: form to submit requests</description>
+            <description locale="ru_RU">Личный кабинет: форма отправки запроса</description>
+        </file>
+        <file path="my.requestlist.html">
+            <description locale="en_US">Customer portal: list of requests</description>
+            <description locale="ru_RU">Личный кабинет: список запросов</description>
+        </file>
+        <file path="my.requestpage.html">
+            <description locale="en_US">Customer portal: single request page</description>
+            <description locale="ru_RU">Личный кабинет: страница просмотра запроса</description>
+        </file>
+        <file path="search.html">
+        </file>
+        <file path="sidebar.html">
+        </file>
+    </files>
+    <settings>
+        <setting var="helpdesk_divider_1" control_type="group_divider">
+            <value></value>
+            <name locale="en_US">Helpdesk settings</name>
+            <name locale="ru_RU">Настройки «Поддержки»</name>
+        </setting>
+        <setting var="helpdesk_breadcrumb_title" control_type="text">
+            <value locale="en_US">FAQ</value>
+            <value locale="ru_RU">Вопросы и ответы</value>
+            <name locale="en_US">Breadcrumbs section name</name>
+            <name locale="ru_RU">Название раздела для «хлебных крошек»</name>
+        </setting>
+    </settings>
+    <locales>
+        <locale>
+            <msgid>Support request</msgid>
+            <msgstr locale="ru_RU">Запрос в службу поддержки</msgstr>
+        </locale>
+        <locale>
+            <msgid>from</msgid>
+            <msgstr locale="ru_RU">от</msgstr>
+        </locale>
+        <locale>
+            <msgid>Deleted</msgid>
+            <msgstr locale="ru_RU">Удален</msgstr>
+        </locale>
+        <locale>
+            <msgid>#</msgid>
+            <msgstr locale="ru_RU">№</msgstr>
+        </locale>
+    </locales>
+</theme>
+
+
+

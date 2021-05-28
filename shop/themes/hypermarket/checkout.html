@@ -1,0 +1,214 @@
+{strip}
+
+{$_is_success = ( $checkout_current_step == "success" )}
+
+{$wa->globals("simplified", true)}
+{$wa->globals("hideCrumbs", true)}
+{$wa->globals("htmlClass", "is-checkout-page")}
+
+{if empty($_is_success)}
+    {$wa->globals("globalHeader", "[`Checkout`]")}
+{/if}
+
+{$_storage = $wa->storage('shop/checkout')}
+
+{if isset($checkout_steps)}
+    {$steps = []}
+    {$step = 0}
+    {$_steps_keys = array_keys($checkout_steps)}
+    {foreach $_steps_keys as $step_id}
+        {$_step = $checkout_steps[$step_id]}
+        {$_step.id = $step_id}
+        {$_step.index = $step_id@index}
+        {$_step.frontend_uri = "`$wa->getUrl('/frontend/checkout')``$step_id`"}
+        {if $step_id == $checkout_current_step}
+            {$step = $_step}
+        {/if}
+        {$steps[] = $_step}
+    {/foreach}
+{/if}
+
+<div class="s-checkout-page">
+    <div class="s-steps-wrapper">
+        {if isset($checkout_steps)}
+            <form method="post" action="">
+        {/if}
+
+        {if !empty($steps)}
+            {$cart_total = $wa->shop->cart->total()}
+            {if $cart_total > 0}
+                <div class="s-step-wrapper is-done">
+                    <header class="s-step-header">
+                        <div class="s-layout">
+                            <div class="s-column">
+                                <h5 class="s-name">
+                                    1. <a class="s-price" href="{$wa->getUrl('shop/frontend/cart')}">[`Cart`]: <span class="s-value">{shop_currency_html($cart_total, true)}</span></a>
+                                </h5>
+                            </div>
+
+                            <div class="s-column right middle">
+                                <div style="line-height: 1em;">
+                                    <i class="icon yes"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                </div>
+            {/if}
+
+            {$_after_current = false}
+            {$_is_current = false}
+
+            {foreach $steps as $_step}
+                {$_item_class = "is-done"}
+
+                {if !empty($_is_current)}
+                    {$_after_current = true}
+                {/if}
+
+                {if !empty($_after_current)}
+                    {$_item_class = "is-next"}
+                    {$_link_href = "javascript:void(0);"}
+                {/if}
+
+                {if $_step.id == $step.id}
+                    {$_is_current = true}
+                    {$_item_class = "is-current"}
+                    {$_link_href = "javascript:void(0);"}
+                {/if}
+
+                {if $_step.index < $step.index}
+                    <div class="s-step-wrapper {$_item_class}">
+                        <header class="s-step-header">
+                            <div class="s-layout">
+                                {if !empty($_step)}
+                                    <div class="s-column">
+                                        <h5>
+                                            {$_step.index + 2}. <a href="{$_step.frontend_uri}">{$_step.name}</a>
+                                            {if empty($_after_current) && empty($_is_current)}
+                                                {$_text = []}
+
+                                                {if $_step.id === "shipping"}
+                                                    {if !empty($_storage[$_step.id].name)}
+                                                        {$_text[] = $_storage[$_step.id].name}
+                                                    {/if}
+                                                {/if}
+
+                                                {if !empty($_text)}
+                                                    <span class="s-value">: {$_text|join:" "}</span>
+                                                {/if}
+                                            {/if}
+                                        </h5>
+                                    </div>
+
+                                    <div class="s-column right middle">
+                                        <div style="line-height: 1em;">
+                                            <i class="icon yes"></i>
+                                        </div>
+                                    </div>
+                                {/if}
+                            </div>
+                        </header>
+                    </div>
+                {/if}
+            {/foreach}
+        {/if}
+
+        <div class="s-step-wrapper" id="step-{$checkout_current_step}" data-step-id="{$checkout_current_step}">
+
+            <header class="s-step-header">
+                <div class="s-layout">
+                    {if !empty($step)}
+                        <div class="s-column">
+                            <h5 class="s-name">{$step.index + 2}. {$step.name}</h5>
+                        </div>
+                    {else}
+                        <div class="s-column">
+                            <h2 class="s-name">
+                                {if !empty($payment_success) && !empty($theme_settings["checkout_payment_success_title"])}
+                                    {$theme_settings["checkout_payment_success_title"]}
+                                {else}
+                                    [`Thank you!`]
+                                {/if}
+                            </h2>
+                        </div>
+                    {/if}
+                </div>
+            </header>
+
+            <div class="s-step-content-wrapper">
+                {if !empty($step) && !($step.index > 0) && $wa->isAuthEnabled()}
+                    {include file="checkout.auth.html" inline}
+                {/if}
+
+                <div class="s-step-content {if $wa->post('wa_auth_login')}is-hidden{/if}">
+                    {include file="checkout.`$checkout_current_step`.html" inline}
+                </div>
+            </div>
+
+            {if !$_is_success}
+                <footer class="s-step-footer">
+                    {if !empty($step.id) && $step.id === "confirmation"}
+                        <div class="s-confirm-button-wrapper">
+                            <input class="s-step-submit" type="submit" value="[`Send order`]">
+                        </div>
+                    {else}
+                        <input class="s-step-submit" type="submit" value="[`Next`]">
+                    {/if}
+                    <input type="hidden" name="step" value="{$checkout_current_step}">
+                </footer>
+            {/if}
+        </div>
+
+        {if !empty($steps)}
+
+            {$_after_current = false}
+            {$_is_current = false}
+
+            {foreach $steps as $_step}
+                {$_item_class = "is-done"}
+
+                {if !empty($_is_current)}
+                    {$_after_current = true}
+                {/if}
+
+                {if !empty($_after_current)}
+                    {$_item_class = "is-next"}
+                    {$_link_href = "javascript:void(0);"}
+                {/if}
+
+                {if $_step.id == $step.id}
+                    {$_is_current = true}
+                    {$_item_class = "is-current"}
+                    {$_link_href = "javascript:void(0);"}
+                {/if}
+
+                {if $_step.index > $step.index}
+                    {if !empty($_step)}
+                        <div class="s-step-wrapper {$_item_class}">
+                            <header class="s-step-header">
+                                <h5 class="s-name">{$_step.index + 2}. {$_step.name}</h5>
+                            </header>
+                        </div>
+                    {/if}
+                {/if}
+            {/foreach}
+        {/if}
+
+        {if isset($checkout_steps)}
+            </form>
+        {/if}
+    </div>
+</div>
+
+<script>
+( function($) {
+    $.getScript("{$wa_theme_url}js/checkout.js", function() {
+        new window.waTheme.init.shop.Checkout({
+            $wrapper: $(".s-checkout-page")
+        })
+    });
+})(jQuery);
+</script>
+
+{/strip}

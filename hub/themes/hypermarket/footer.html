@@ -1,0 +1,21 @@
+{strip}
+
+{* @event frontend_footer.%plugin_id% *}
+{foreach $frontend_footer as $_}{$_}{/foreach}
+
+<div class="s-footer-bottom">
+    <div class="s-layout">
+        <div class="s-column left middle">
+            {if !empty($theme_settings.site_copyright)}
+                <span class="s-copyright">{$theme_settings.site_copyright}</span>
+            {/if}
+        </div>
+        <div class="s-column right middle">
+            {if !empty($theme_settings.age_limit)}
+                <span class="s-age-wrapper">{$theme_settings.age_limit}</span>
+            {/if}
+        </div>
+    </div>
+</div>
+
+{/strip}

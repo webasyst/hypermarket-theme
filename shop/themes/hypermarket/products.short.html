@@ -1,0 +1,87 @@
+{strip}
+
+{$_show_compare = true}
+{if empty($theme_settings.enable_compare)}
+    {if !isset($hide_buttons) || !empty($hide_buttons)}
+        {$_show_compare = false}
+    {/if}
+{/if}
+
+{foreach $products as $product}
+    {$available = $wa->shop->settings('ignore_stock_count') || $product.count === null || $product.count > 0}
+    {$badge_html = $wa->shop->badgeHtml($product.badge)}
+    {$_product_image_src = $wa->shop->productImgUrl($product, "200")|default:"`$wa_theme_url`img/svg/empty_photo.svg"}
+
+    {if !empty($product.skus) && !empty($product.skus[$product.sku_id])}
+        {$sku = $product.skus[$product.sku_id]}
+        {if empty($sku.available) && (count($product.skus) === 1)}{$available = false}{/if}
+    {/if}
+
+    <li class="s-product-wrapper" data-product-id="{$product.id}" itemscope itemtype="http://schema.org/Product">
+        {if !empty($badge_html)}
+            <div class="s-badge-wrapper is-corner">{$badge_html}</div>
+        {/if}
+
+        <div class="s-product-block">
+            <div class="s-image-wrapper">
+                <a href="{$product.frontend_url}" title="{$product.name}">
+                    <img src="{$_product_image_src}" alt="{$product.name}" itemprop="image">
+                </a>
+            </div>
+
+            <div class="s-info-wrapper">
+                <h5 class="s-product-header" itemprop="name">
+                    <a href="{$product.frontend_url}" title="{$product.name}">{$product.name}</a>
+                </h5>
+            </div>
+
+            <div class="s-offers-wrapper" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                <div class="s-price-wrapper">
+                    <span class="s-price">{shop_currency_html($product.price)}</span>
+                    {if empty($hide_buttons)}
+                        <span class="s-compare">{if $product.compare_price > 0}{shop_currency_html($product.compare_price)}{/if}</span>
+                    {/if}
+
+                    {if $available}
+                        <meta itemprop="price" content="{shop_currency($product.price, null, null, 0)}">
+                        <meta itemprop="priceCurrency" content="{$wa->shop->currency()}">
+                        <link itemprop="availability" href="http://schema.org/InStock"/>
+                    {else}
+                        <meta itemprop="price" content="{shop_currency($product.price, null, null, 0)}">
+                        <meta itemprop="priceCurrency" content="{$wa->shop->currency()}">
+                        <link itemprop="availability" href="http://schema.org/OutOfStock"/>
+                    {/if}
+                </div>
+            </div>
+
+            {if empty($hide_buttons)}
+                <div class="s-actions-wrapper">
+                    <div class="s-buttons-wrapper">
+                        <div class="s-layout">
+                            <div class="s-column">
+                                {if $available}
+                                    <form class="add-to-cart" {if $product.sku_count > 1}data-url="{$product.frontend_url}{if strpos($product.frontend_url, '?')}&{else}?{/if}cart=1"{/if} method="post" action="{$wa->getUrl('/frontendCart/add')}">
+                                        <input class="s-button js-add-button" type="submit" value="{_wd('shop', 'Buy')}">
+                                        <input type="hidden" name="product_id" value="{$product.id}">
+                                    </form>
+                                {else}
+                                    <input type="button" value="{_wd('shop', 'Buy')}" disabled>
+                                {/if}
+                            </div>
+                            {if !empty($_show_compare)}
+                                <div class="s-column right">
+                                    <a class="s-compare-button {if $wa->shop->inComparison($product.id)}is-active{/if}" href="javascript:void(0);" data-product="{$product.id}" title="{if $wa->shop->inComparison($product.id)}{_wd('shop', 'In comparison list')}{else}{_wd('shop', 'To comparison')}{/if}">
+                                        <i class="svg-icon compare size-11 {if $wa->shop->inComparison($product.id)}{else}active{/if}"></i>
+                                        <span class="s-name">{if $wa->shop->inComparison($product.id)}[`In comparison list`]{else}[`To comparison`]{/if}</span>
+                                    </a>
+                                </div>
+                            {/if}
+                        </div>
+                    </div>
+                </div>
+            {/if}
+        </div>
+    </li>
+{/foreach}
+
+{/strip}

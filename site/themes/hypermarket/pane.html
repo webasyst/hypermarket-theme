@@ -1,0 +1,185 @@
+{strip}
+
+{if $wa->shop}
+    {$_phone = $wa->shop->settings('phone')}
+
+    {$_cart_url = $wa->getUrl('shop/frontend/cart')}
+    {if method_exists($wa->shop, 'checkout')}
+        {$_cart_url = $wa->shop->checkout()->cartUrl()}
+    {/if}
+{/if}
+
+<section class="s-pane-section" id="js-pane-section">
+    <div class="s-pane-wrapper js-pane-wrapper">
+        <div class="s-pane-block">
+            <div class="s-layout">
+                <div class="s-column middle">
+
+                    {if $wa_app === "shop" && !empty($theme_settings.currency_toggle) && !empty($currencies) && count($currencies) > 1}
+                        <div class="s-pane-item">
+                            <div class="s-styled-select">
+                                <select id="currency">
+                                    {$currency = $wa->shop->currency()}
+                                    {foreach $currencies as $c_code => $c}
+                                        <option value="{$c_code}" {if $c_code == $currency} selected{/if}>{$c.title}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                            <script>
+                                ( function($) {
+                                    $("#currency").on("change", function() {
+                                        var href = location.href;
+                                        href += ( href.indexOf("?") >= 0 ) ? "&" : "?";
+                                        location.href = href + 'currency=' + $(this).val();
+                                    });
+                                })(jQuery);
+                            </script>
+                        </div>
+                    {/if}
+
+                    {if $wa_app === "shop" && !empty($theme_settings.language_toggle)}
+                        <div class="s-pane-item">
+                            <div class="s-styled-select">
+                                <select id="language">
+                                    {foreach waLocale::getAll('name') as $language => $lang_name}
+                                        <option value="{$language}" {if $wa->locale() == $language} selected{/if}>{$lang_name|escape}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                            <script>
+                                ( function($) {
+                                    $("#language").on("change", function () {
+                                        var href = location.href;
+                                        href += ( href.indexOf("?") >= 0 ) ? "&" : "?";
+                                        location.href = href + 'locale=' + $(this).val();
+                                    });
+                                })(jQuery);
+                            </script>
+                        </div>
+                    {/if}
+
+                    {if $wa->shop && (!empty($theme_settings.show_product_actions_on_main_page) || !empty($theme_settings.enable_compare))}
+                        {$_is_active = $wa->globals("isComparePage")}
+
+                        {$_compare_item_classes = []}
+                        {if !empty($_is_active)}
+                            {$_compare_item_classes[] = "is-active"}
+                        {/if}
+
+                        <div class="s-pane-item s-compare-wrapper {$_compare_item_classes|join:" "}" id="js-compare-wrapper">
+                            <i class="svg-icon compare size-12 js-compare-icon"></i>
+                            [`Compare`] <span class="s-count js-count">0</span>
+
+                            <a class="s-link" href="{$wa->getUrl("shop/frontend")}compare/" title="[`Compare`]"></a>
+
+                            <script>
+                                ( function($, waTheme) {
+                                    var $compare = $("#js-compare-wrapper");
+
+                                    waTheme.apps["shop"].compare = new window.waTheme.init.shop.Compare({
+                                        $wrapper: $compare,
+                                        onChange: function(compare) {
+                                            var hover_class = "with-hover";
+                                            if (compare.count > 0) {
+                                                $compare.addClass(hover_class);
+                                            } else {
+                                                $compare.removeClass(hover_class);
+                                            }
+                                        }
+                                    });
+
+                                })(jQuery, window.waTheme);
+                            </script>
+                        </div>
+                    {/if}
+
+                    {if !empty($_phone)}
+                        <div class="s-pane-item s-phone-item">
+                            <div class="s-phone-wrapper">
+                                <i class="svg-icon phone-white size-16 lifted"></i>
+                                <span class="s-phone">{$_phone}</span>
+                            </div>
+                        </div>
+                    {/if}
+                </div>
+
+                <div class="s-column right middle">
+                    {if $wa->shop && (!method_exists($wa->shop, 'hasRoutes') || $wa->shop->hasRoutes())
+                      && !empty($theme_settings.show_cart)}
+                        {$_cart_total = $wa->shop->cart->total()}
+                        {$_cart_count = $wa->shop->cart->count()}
+                        {$_price = "[`Empty`]"}
+                        {if !empty($_cart_total)}
+                            {$_price = wa_currency_html($_cart_total, $wa->shop->currency())}
+                        {elseif !empty($_cart_count)}
+                            {$_price = wa_currency_html(0, $wa->shop->currency())}
+                        {/if}
+
+                        <div class="s-pane-item {if !empty($_cart_count)}with-hover{/if}">
+
+                            <div class="s-cart-wrapper {if empty($_cart_count)}is-empty{/if}" id="js-cart-wrapper">
+                                <span class="s-label"><i class="icon16 cart"></i> [`Cart`] </span>
+                                <span class="s-count js-cart-count">{if !empty($_cart_count)}{$_cart_count}{else}0{/if}</span>
+                                <span class="s-price js-cart-price">{$_price}</span>
+                                <a class="s-button" href="{$_cart_url}">[`Place order`]</a>
+
+                                {strip}
+                                {capture assign="_loading_template"}
+                                    <div class="s-loading-section">
+                                        <div class="s-loading-content">
+                                            <i class="icon16 loading"></i>
+                                        </div>
+                                    </div>
+                                {/capture}
+                                {/strip}
+
+                                <script>
+                                    ( function($, waTheme) {
+                                        var $cart = $("#js-cart-wrapper"),
+                                            $item = $cart.closest(".s-pane-item");
+
+                                        var is_loading = false;
+                                        $cart.closest(".s-pane-item").on("click", ".js-cart-link", function() {
+                                            if (!is_loading) {
+                                                is_loading = true;
+                                                $("body").append({$_loading_template|json_encode});
+                                            }
+                                        });
+
+                                        waTheme.apps["shop"].cart = new window.waTheme.init.shop.Cart({
+                                            $wrapper: $cart,
+                                            count: {if !empty($_cart_count)}{$_cart_count|intval}{else}0{/if}
+                                        });
+
+                                        waTheme.apps["shop"].cart.onChange( function(cart) {
+                                            var hover_class = "with-hover";
+                                            if (cart.count > 0) {
+                                                $item.addClass(hover_class);
+                                            } else {
+                                                $item.removeClass(hover_class);
+                                            }
+                                        });
+                                    })(jQuery, window.waTheme);
+                                </script>
+                            </div>
+
+                            <a class="s-link js-cart-link" href="{$_cart_url}" title="[`Cart`]"></a>
+
+                        </div>
+                    {/if}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        ( function($) {
+            new window.waTheme.init.site.Pane({
+                $wrapper: $("#js-pane-section")
+            });
+        })(jQuery);
+    </script>
+</section>
+
+{/strip}

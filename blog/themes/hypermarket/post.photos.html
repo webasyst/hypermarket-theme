@@ -1,0 +1,46 @@
+{strip}
+
+{if !empty($preview)}
+    <ul class="b-photo-list is-preview corrected" id="js-post-photo-album-{$post.id}">
+        {foreach $photos as $photo}
+            <li class="b-photo-item">
+                <figure class="b-photo">
+                    <a href="{$post.link}#photo{$photo.id}">
+                        <img class="b-image retinify" src="{$photo.thumb.url}" alt="{$photo.name|escape}">
+                    </a>
+                </figure>
+            </li>
+        {/foreach}
+    </ul>
+    <script>
+        ( function($) {
+            var $list = $("#js-post-photo-album-{$post.id}"),
+                options = {
+                    offset: 0,
+                    outerOffset: 0,
+                    container: $list,
+                    resizeDelay: 0
+                };
+
+            $(window).on("load", function() {
+                new Wookmark($list[0], options);
+            });
+        })(jQuery);
+    </script>
+{else}
+    <ul class="b-photo-list is-extended corrected">
+        {foreach $photos as $photo}
+            <li class="b-photo-item">
+                <figure class="b-photo" itemscope itemtype="http://schema.org/Photograph">
+                    <a name="photo{$photo.id}"></a>
+                    <img class="b-image retinify" src="{$photo.thumb_big.url}" alt="{$photo.name|escape}">
+                    {if $photo.description}
+                        <div class="b-photo-info" itemprop="description">{$photo.description}</div>
+                    {/if}
+                </figure>
+            </li>
+        {/foreach}
+    </ul>
+{/if}
+
+{/strip}

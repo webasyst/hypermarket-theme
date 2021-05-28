@@ -1,0 +1,76 @@
+{strip}
+
+{$_is_me = false}
+{if $wa->userId() == $author.contact_id}
+    {$_is_me = true}
+{/if}
+
+{$_title = "[`Topics`]"}
+
+{if !empty($author_following)}
+    {$_title = "[`Favorites`]"}
+{else}
+    {if $_is_me}
+        {if empty($author_replies)}
+            {$_title = "[`My topics`]"}
+        {else}
+            {$_title = "[`My replies`]"}
+        {/if}
+    {else}
+        {if empty($author_replies)}
+            {$_title = "[`Topics`]"}
+        {else}
+            {$_title = "[`Replies`]"}
+        {/if}
+    {/if}
+{/if}
+
+{$wa->globals("globalHeader", $_title)}
+
+{$_author_page = [
+    "author" => $author,
+    "is_replies_page" => false,
+    "is_follow_page" => false,
+    "is_topics_page" => false
+]}
+
+{if !empty($author_following)}
+    {$_author_page["is_follow_page"] = true}
+{elseif !empty($author_replies)}
+    {$_author_page["is_replies_page"] = true}
+{else}
+    {$_author_page["is_topics_page"] = true}
+{/if}
+
+{$wa->globals("authorPage", $_author_page)}
+
+{$_breadcrumbs = [
+    [
+        "name" => "[`All authors`]",
+        "url" => "`$wa_app_url`authors/"
+    ],
+    [
+        "name" => $author.name|default:"[`Unknown`]"|htmlspecialchars_decode,
+        "url" => "`$wa_app_url`author/`$author.id`/"
+    ]
+]}
+
+{$wa->globals("breadcrumbs", $_breadcrumbs)}
+
+<div class="h-author-page">
+    {* @event frontend_author.%plugin_id% *}
+    {foreach $frontend_author as $_}{$_}{/foreach}
+
+    {if !empty($author_replies)}
+        {if empty($comments)}
+            <p class="empty-list">{sprintf('[`%s did not post any comments yet.`]', $author.name|default:"[`Author`]"|escape)}</p>
+        {else}
+            {include file="./author.comments.html" comments=$comments inline}
+        {/if}
+    {else}
+        {include file="./topics.html" inline}
+    {/if}
+
+</div>
+
+{/strip}

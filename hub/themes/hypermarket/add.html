@@ -1,0 +1,120 @@
+{strip}
+
+{$_title = "[`New topic`]"}
+{if !empty($data.id)}
+    {$_title = $data.title}
+{/if}
+
+{$wa->globals("globalHeader", $_title|escape)}
+{$wa->globals("isNewTopicPage", true)}
+
+{$_is_auth = $wa->user()->isAuth()}
+
+{$_header_title = ""}
+{if empty($_is_auth)}
+    {$_header_title = sprintf('[`To add new topic please <a href="%s">sign up</a> or <a href="%s">log in</a>`]',$wa->signupUrl(),$wa->loginUrl())}
+{/if}
+
+<div class="h-add-topic-page">
+    {if !empty($_header_title)}
+        <header class="h-page-header">
+            <h2 class="h-header">{$_header_title}</h2>
+        </header>
+    {/if}
+    <div class="h-page-body">
+        {* PROVIDERS *}
+        {if empty($_is_auth)}
+            <div class="h-auth-wrapper">
+                {include file="`$wa_parent_theme_path`/login.adapters.html" inline}
+                <p>[`Log in with your customer password or via the services listed above`]</p>
+            </div>
+
+        {else}
+            {* FORM *}
+            <form method="post" id="topic-form">
+                {if empty($data.id)}
+                    {* @event frontend_topic_add.%plugin_id%.top_block *}
+                    {foreach $frontend_topic_add as $_}{$_.top_block}{/foreach}
+                {else}
+                    {* @event frontend_topic_edit.%plugin_id%.top_block *}
+                    {foreach $frontend_topic_edit as $_}{$_.top_block}{/foreach}
+                {/if}
+
+                {* TITLE *}
+                <div class="wa-field">
+                    <div class="wa-name">[`Topic title`]</div>
+                    <div class="wa-value">
+                        <input type="text" class="h-topic-title {if !empty($errors.title)}error{/if}" placeholder="[`Your topic title`]" name="data[title]" value="{ifset($data.title)|escape}" />
+                    </div>
+                </div>
+
+                {* CATEGORIES *}
+                {if !empty($categories)}
+                    <div class="wa-field">
+                        <div class="wa-name">[`Category`]</div>
+                        <div class="wa-value">
+                            <div class="h-topic-category">
+                                <select class="js-category" name="data[category_id]">
+                                    {foreach $categories as $c}
+                                        <option {if isset($c.type_id)}data-type="{$c.type_id}"{/if} value="{$c.id}" {if $c.id == ifset($data.category_id)}selected{/if}>{$c.name|default:'[`(no name)`]'|escape}</option>
+                                    {/foreach}
+                                </select>
+                                <input class="js-type" type="hidden" name="data[type_id]" value="{$type_id}">
+                            </div>
+                        </div>
+                    </div>
+                {/if}
+
+                {* DESCRIPTION *}
+                <div class="wa-field h-topic-description {if !empty($errors.content)}error-box{/if}">
+                    <div class="wa-name">[`Description`]</div>
+                    <div class="wa-value">
+                        <textarea data-upload-url="{$wa->getUrl('/frontend/uploadImage')}" class="h-topic-content" name="data[content]">{ifset($data.content)|escape}</textarea>
+                    </div>
+                </div>
+
+                {* TAGS *}
+                <div class="wa-field">
+                    <div class="wa-name">[`Tags`]</div>
+                    <div class="wa-value">
+                        <div class="h-topic-tags">
+                            <input type="text" name="data[tags]" value="{join(',',ifset($data.tags, []))|escape}" id="ti-topic-form" />
+                            {if !empty($errors.tags)}<em class="errormsg">{$errors.tags}</em>{/if}
+                        </div>
+                    </div>
+                </div>
+
+                {if empty($data.id)}
+                    <!-- plugin hook: 'frontend_topic_add.bottom_block' -->
+                    {* @event frontend_topic_add.%plugin_id%.bottom_block *}
+                    {foreach $frontend_topic_add as $_}{$_.bottom_block}{/foreach}
+                {else}
+                    <!-- plugin hook: 'frontend_topic_edit.bottom_block' -->
+                    {* @event frontend_topic_edit.%plugin_id%.bottom_block *}
+                    {foreach $frontend_topic_edit as $_}{$_.bottom_block}{/foreach}
+                {/if}
+
+                <div class="h-topic-preview" data-url="{$wa->getUrl('/frontend/preview')}" {if empty($preview)}style="display:none"{/if}>{if !empty($preview)}{$preview}{/if}</div>
+
+                <div class="h-buttons-wrapper">
+                    <input class="h-show-preview reset" type="submit" name="preview" value="[`Preview`]">
+                    <input type="submit" value="{if !empty($data.id)}[`Save`]{else}[`Submit topic`]{/if}">
+                </div>
+
+                {$wa->csrf()}
+            </form>
+
+            <script>
+                ( function($) {
+                    new window.waTheme.init.hub.AddTopicForm({
+                        $form: $('#topic-form'),
+                        categories: {$categories|default:[]|json_encode},
+                        autocomplete_url: "{$wa->getUrl('hub/frontend/tagAutocomplete')}"
+                    });
+                })(jQuery);
+            </script>
+        {/if}
+    </div>
+</div>
+
+{/strip}

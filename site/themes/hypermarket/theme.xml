@@ -1,0 +1,883 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE theme PUBLIC "wa-app-theme" "http://www.webasyst.com/wa-content/xml/wa-app-theme.dtd">
+<theme id="hypermarket" app="site" vendor="webasyst" author="webasyst" version="1.3.20">
+    <name locale="en_US">Hypermarket</name>
+    <name locale="ru_RU">Гипермаркет</name>
+    <instruction locale="en_US">https://support.webasyst.com/26761/design-theme-hypermarket/</instruction>
+    <instruction locale="ru_RU">https://support.webasyst.ru/26716/design-theme-hypermarket/</instruction>
+    <support locale="en_US">https://support.webasyst.com</support>
+    <support locale="ru_RU">https://support.webasyst.ru</support>
+    <files>
+        <!--site resources-->
+        <file path="css/custom.css">
+            <description locale="en_US">Core CSS file</description>
+            <description locale="ru_RU">Основной файл CSS-стилей</description>
+        </file>
+        <file path="js/custom.js">
+        </file>
+        <!--templates-->
+        <file path="breadcrumbs.html">
+            <description locale="en_US">Breadcrumbs</description>
+            <description locale="ru_RU">Хлебные крошки</description>
+        </file>
+        <file path="breadcrumbs.layout.html">
+        </file>
+        <file path="error.html">
+            <description locale="en_US">Error page</description>
+            <description locale="ru_RU">Страница ошибок</description>
+        </file>
+        <file path="footer.html">
+            <description locale="en_US">Footer</description>
+            <description locale="ru_RU">Футер</description>
+        </file>
+        <file path="footer.layout.html">
+        </file>
+        <file path="forgotpassword.html">
+            <description locale="en_US">Forgot password</description>
+            <description locale="ru_RU">Страница восстановления пароля</description>
+        </file>
+        <file path="head.html">
+            <description locale="en_US">Site head</description>
+            <description locale="ru_RU">Секция head</description>
+        </file>
+        <file path="header.html">
+            <description locale="en_US">Site header</description>
+            <description locale="ru_RU">Шапка сайта</description>
+        </file>
+        <file path="header.layout.html">
+            <description locale="en_US">Site header layout</description>
+            <description locale="ru_RU">Основной макет шапки сайта</description>
+        </file>
+        <file path="index.html">
+            <description locale="en_US">Core page layout</description>
+            <description locale="ru_RU">Основной макет страниц сайта</description>
+        </file>
+        <file path="login.adapters.html">
+        </file>
+        <file path="login.html">
+            <description locale="en_US">Login page</description>
+            <description locale="ru_RU">Страница авторизации</description>
+        </file>
+        <file path="main.html">
+            <description locale="en_US">Main page content</description>
+            <description locale="ru_RU">Основное содержимое страницы</description>
+        </file>
+        <file path="my.nav.html">
+        </file>
+        <file path="my.profile.html">
+            <description locale="en_US">User profile page</description>
+            <description locale="ru_RU">Страница профиля пользовтеля</description>
+        </file>
+        <file path="page.html">
+            <description locale="en_US">Info page content</description>
+            <description locale="ru_RU">Содержимое информационной страницы</description>
+        </file>
+        <file path="page.welcome.html">
+            <description locale="en_US">Welcome page content</description>
+            <description locale="ru_RU">Содержимое страницы приветствия</description>
+        </file>
+        <file path="pane.html">
+        </file>
+        <file path="sidebar.html">
+            <description locale="en_US">Sidebar</description>
+            <description locale="ru_RU">Боковая панель</description>
+        </file>
+        <file path="sidebar.layout.html">
+        </file>
+        <file path="signup.html">
+            <description locale="en_US">Signup page content</description>
+            <description locale="ru_RU">Страница регистрации</description>
+        </file>
+    </files>
+    <settings>
+        <setting var="site_divider_1" control_type="group_divider">
+            <value></value>
+            <name locale="en_US">Site background and lateral banners</name>
+            <name locale="ru_RU">Фон сайта и боковые баннеры</name>
+        </setting>
+            <setting var="background_color" control_type="color">
+                <value>#ffffff</value>
+                <name locale="en_US">Background color</name>
+                <name locale="ru_RU">Цвет фона</name>
+                <description locale="en_US">Default color: #ffffff (white)</description>
+                <description locale="ru_RU">Цвет по умолчанию: #ffffff (белый)</description>
+            </setting>
+
+
+            <setting var="site_divider_1_1" control_type="group_divider">
+                <value>site_divider_1/site_divider_1_1</value>
+                <name locale="en_US">Left-side banner</name>
+                <name locale="ru_RU">Банер слева</name>
+            </setting>
+                <setting var="background_banner_left_image" control_type="image">
+                    <value></value>
+                    <filename>img/background_banner_left_image.*</filename>
+                    <name locale="en_US">Image</name>
+                    <name locale="ru_RU">Изображение</name>
+                </setting>
+                <setting var="background_banner_left_link" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Link</name>
+                    <name locale="ru_RU">Ссылка</name>
+                </setting>
+
+
+            <setting var="site_divider_1_2" control_type="group_divider">
+                <value>site_divider_1/site_divider_1_2</value>
+                <name locale="en_US">Right-side banner</name>
+                <name locale="ru_RU">Банер справа</name>
+            </setting>
+                <setting var="background_banner_right_image" control_type="image">
+                    <value></value>
+                    <filename>img/background_banner_right_image.*</filename>
+                    <name locale="en_US">Image</name>
+                    <name locale="ru_RU">Изображение</name>
+                </setting>
+                <setting var="background_banner_right_link" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Link</name>
+                    <name locale="ru_RU">Ссылка</name>
+                </setting>
+
+
+        <setting var="site_divider_2" control_type="group_divider">
+            <value></value>
+            <name locale="en_US">Site header</name>
+            <name locale="ru_RU">Шапка сайта</name>
+        </setting>
+
+
+            <setting var="site_divider_2_1" control_type="group_divider">
+                <value>site_divider_2/site_divider_2_1</value>
+                <name locale="en_US">Logor</name>
+                <name locale="ru_RU">Логотип</name>
+            </setting>
+                <setting var="logo" control_type="image">
+                    <value>img/logo.png</value>
+                    <filename>img/logo.*</filename>
+                    <name locale="en_US">Logo</name>
+                    <name locale="ru_RU">Логотип</name>
+                </setting>
+                <setting var="logo_tip" control_type="text">
+                    <value locale="en_US">Website + online store + CRM</value>
+                    <value locale="ru_RU">Сайт + интернет-магазин + CRM</value>
+                    <name locale="en_US">Business scope (slogan)</name>
+                    <name locale="ru_RU">Сфера деятельности (слоган)</name>
+                </setting>
+
+
+            <setting var="site_divider_2_2" control_type="group_divider">
+                <value>site_divider_2/site_divider_2_2</value>
+                <name locale="en_US">Primary phone</name>
+                <name locale="ru_RU">Основной телефон</name>
+            </setting>
+                <setting var="site_paragraph_1" control_type="paragraph">
+                    <value></value>
+                    <name locale="en_US">Phone nuber — general Store setting is used.</name>
+                    <name locale="ru_RU">Номер телефона — используется общая настройка «Магазина».</name>
+                </setting>
+                <setting var="tip_the_phone_1" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Comment below the main phone</name>
+                    <name locale="ru_RU">Комментарий под основным телефоном</name>
+                    <description locale="en_US">Used also in the lower cap</description>
+                    <description locale="ru_RU">Используется также внизу страницы</description>
+                </setting>
+
+
+            <setting var="site_divider_2_3" control_type="group_divider">
+                <value>site_divider_2/site_divider_2_3</value>
+                <name locale="en_US">Additional phone number</name>
+                <name locale="ru_RU">Дополнительный телефон</name>
+            </setting>
+                <setting var="additional_phone" control_type="text">
+                    <value>123123</value>
+                    <name locale="en_US">Phone number</name>
+                    <name locale="ru_RU">Номер телефона</name>
+                </setting>
+                <setting var="tip_the_phone_2" control_type="text">
+                    <value>фыва</value>
+                    <name locale="en_US">Comment below the additional phone</name>
+                    <name locale="ru_RU">Комментарий под дополнительным телефоном</name>
+                    <description locale="en_US">Used also in the lower cap</description>
+                    <description locale="ru_RU">Используется также внизу страницы</description>
+                </setting>
+
+
+            <setting var="site_divider_2_4" control_type="group_divider">
+                <value>site_divider_2/site_divider_2_4</value>
+                <name locale="en_US">Address and operating time</name>
+                <name locale="ru_RU">Адрес и время работы</name>
+            </setting>
+
+                <setting var="store_address" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Store address</name>
+                    <name locale="ru_RU">Адрес магазина</name>
+                </setting>
+            <setting var="use_shop_schedule" control_type="checkbox">
+                <value>1</value>
+                <name locale="ru_RU">Показывать график работы магазина на текущую неделю из настроек Shop-Script</name>
+                <name locale="en_US">Show online store’s working schedule for current week from Shop-Script settings</name>
+                <description locale="ru_RU">При включении игнорируется настройка «Сокращенный график работы».</description>
+                <description locale="en_US">When enabled, “Brief working schedule” setting is ignored.</description>
+            </setting>
+            <setting var="manual_schedule" control_type="text">
+                <value></value>
+                <name locale="ru_RU">Сокращенный график работы</name>
+                <name locale="en_US">Brief working schedule</name>
+                <description locale="ru_RU">Например: Пн—Сб 08:00–18:00</description>
+                <description locale="en_US">Example: Mo—Sa 08:00–18:00</description>
+            </setting>
+
+
+            <setting var="site_divider_2_5" control_type="group_divider">
+                <value>site_divider_2/site_divider_2_5</value>
+                <name locale="en_US">Menu</name>
+                <name locale="ru_RU">Меню</name>
+            </setting>
+                <setting var="header_links" control_type="select">
+                    <value>wa-apps</value>
+                    <name locale="en_US">Main menu</name>
+                    <name locale="ru_RU">Основное меню</name>
+                    <description locale="en_US">Main navigation menu links may be defined either by Site’s {$wa->apps()} menu setting or by the list of selected app’s info pages.</description>
+                    <description locale="ru_RU">Ссылки верхнего меню навигации могут определяться либо настройкой меню {$wa->apps()} в приложении «Сайт», либо информационными страницами выбранного приложения.</description>
+                    <options>
+                        <option value="wa-apps">
+                            <name locale="en_US">Site app → Settings → {$wa->apps()}</name>
+                            <name locale="ru_RU">Приложение «Сайт» → Настройки → {$wa->apps()}</name>
+                        </option>
+                        <option value="site-pages">
+                            <name locale="en_US">Site app pages</name>
+                            <name locale="ru_RU">Страницы приложения «Сайт»</name>
+                        </option>
+                        <option value="shop-pages">
+                            <name locale="en_US">Shop app pages</name>
+                            <name locale="ru_RU">Страницы приложения «Магазин»</name>
+                        </option>
+                        <option value="none">
+                            <name locale="en_US">None</name>
+                            <name locale="ru_RU">Не показывать</name>
+                        </option>
+                    </options>
+                </setting>
+                <setting var="catalog_font_width" control_type="radio">
+                    <value>normal</value>
+                    <name locale="en_US">Catalog menu font size</name>
+                    <name locale="ru_RU">Размер шрифта меню каталога</name>
+                    <options>
+                        <option value="normal">
+                            <name locale="en_US">Normal</name>
+                            <name locale="ru_RU">Нормальный</name>
+                            <description locale="en_US"> </description>
+                            <description locale="ru_RU"> </description>
+                        </option>
+                        <option value="big">
+                            <name locale="en_US">Large</name>
+                            <name locale="ru_RU">Большой</name>
+                            <description locale="en_US"> </description>
+                            <description locale="ru_RU"> </description>
+                        </option>
+                    </options>
+                </setting>
+
+
+            <setting var="site_divider_2_6" control_type="group_divider">
+                <value>site_divider_2/site_divider_2_6</value>
+                <name locale="en_US">Promo</name>
+                <name locale="ru_RU">Акция</name>
+            </setting>
+                <setting var="promotion_name" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Promo campaign title</name>
+                    <name locale="ru_RU">Название акции</name>
+                </setting>
+                <setting var="promotion_uri" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Link to promo campaign</name>
+                    <name locale="ru_RU">Ссылка на акцию</name>
+                </setting>
+
+            <setting var="site_divider_2_7" control_type="group_divider">
+                <value>site_divider_2/site_divider_2_7</value>
+                <name locale="en_US">Cart</name>
+                <name locale="ru_RU">Корзина</name>
+            </setting>
+                <setting var="show_cart" control_type="checkbox">
+                    <value>1</value>
+                    <name locale="ru_RU">Показывать корзину покупок</name>
+                    <name locale="en_US">Show shopping cart</name>
+                    <description locale="ru_RU">Корзина будет показана, если на сайте настроена хотя бы одна витрина интернет-магазина Shop-Script.</description>
+                    <description locale="en_US">The shopping cart will be shown if at least one Shop-Script storefront is set up on the website.</description>
+                </setting>
+
+
+        <setting var="site_divider_3" control_type="group_divider">
+            <value></value>
+            <name locale="en_US">Left sidebar</name>
+            <name locale="ru_RU">Панель слева</name>
+        </setting>
+            <setting var="news_blog_id" control_type="text">
+                <value></value>
+                <name locale="en_US">News blog</name>
+                <name locale="ru_RU">Блог новостей</name>
+                <description locale="en_US">Enter the ID of a blog if you want to show news only from one blog. Or keep this field empty to show news from all blogs.</description>
+                <description locale="ru_RU">Введите ID блога, если нужно показывать новости только из одного блога. Или оставьте поле пустым, чтобы показывать новости из всех блогов.</description>
+            </setting>
+
+
+            <setting var="site_divider_3_1" control_type="group_divider">
+                <value>site_divider_3/site_divider_3_1</value>
+                <name locale="en_US">Banner</name>
+                <name locale="ru_RU">Баннер</name>
+            </setting>
+                <setting var="sidebar_banner_image" control_type="image">
+                    <value></value>
+                    <filename>img/sidebar_banner_image.*</filename>
+                    <name locale="en_US">Image</name>
+                    <name locale="ru_RU">Изображение</name>
+                    <description locale="en_US">Banner width is 240px.</description>
+                    <description locale="ru_RU">Ширина баннера — 240 пикселей.</description>
+                </setting>
+                <setting var="sidebar_banner_link" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Link</name>
+                    <name locale="ru_RU">Ссылка</name>
+                </setting>
+
+
+            <setting var="site_divider_3_2" control_type="group_divider">
+                <value>site_divider_3/site_divider_3_2</value>
+                <name locale="en_US">Social network widgets</name>
+                <name locale="ru_RU">Виджеты соц. сетей</name>
+            </setting>
+                <setting var="facebook_likebox_code" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Facebook Page Plugin code</name>
+                    <name locale="ru_RU">Виджет «Фейсбука»</name>
+                    <description locale="en_US">Paste your Facebook page badge code here. Get the code from Facebook website at https://developers.facebook.com/docs/plugins/page-plugin.</description>
+                    <description locale="ru_RU">Вставьте в это поле код виджета вашей страницы на «Фейсбуке». Получить код: https://developers.facebook.com/docs/plugins/page-plugin.</description>
+                </setting>
+                <setting var="twitter_timeline_code" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Twitter Timeline code</name>
+                    <name locale="ru_RU">Виджет «Твиттера»</name>
+                    <description locale="en_US">Paste your Twitter Timeline code here. Get the code at https://twitter.com/settings/widgets.</description>
+                    <description locale="ru_RU">Вставьте в это поле код ленты «Твиттера». Получить код: https://twitter.com/settings/widgets.</description>
+                </setting>
+                <setting var="vk_widget_code" control_type="text">
+                    <value></value>
+                    <name locale="en_US">VK Page Widget code</name>
+                    <name locale="ru_RU">Виджет «Вконтакте»</name>
+                    <description locale="en_US">Paste your VK community widget code here. Get the code at http://vk.com/dev/Community.</description>
+                    <description locale="ru_RU">Вставьте в это поле код виджета вашего сообщества во «Вконтакте». Получить код: http://vk.com/dev/Community.</description>
+                </setting>
+
+
+            <setting var="site_divider_3_3" control_type="group_divider">
+                <value>site_divider_3/site_divider_3_3</value>
+                <name locale="en_US">Shipping</name>
+                <name locale="ru_RU">Доставка</name>
+            </setting>
+                <setting var="info_block_1_icon" control_type="image">
+                    <value>img/icons/sidebar/icon.cart.svg</value>
+                    <filename>img/icons/sidebar/info_block_1_icon.*</filename>
+                    <name locale="en_US">Icon</name>
+                    <name locale="ru_RU">Иконка</name>
+                </setting>
+                <setting var="info_block_1_header" control_type="text">
+                    <value locale="en_US">Shipping</value>
+                    <value locale="ru_RU">Доставка</value>
+                    <name locale="en_US">Header</name>
+                    <name locale="ru_RU">Заголовок</name>
+                </setting>
+                <setting var="info_block_1_content" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Description</name>
+                    <name locale="ru_RU">Описание</name>
+                </setting>
+                <setting var="info_block_1_uri" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Link</name>
+                    <name locale="ru_RU">Ссылка</name>
+                </setting>
+                <setting var="info_block_1_view" control_type="select">
+                    <value></value>
+                    <name locale="en_US">Display mode</name>
+                    <name locale="ru_RU">Вариант отображения</name>
+                    <options>
+                        <option value="">
+                            <name locale="en_US">Do not show</name>
+                            <name locale="ru_RU">Не показывать</name>
+                        </option>
+                        <option value="sidebar">
+                            <name locale="en_US">Home page, on the left</name>
+                            <name locale="ru_RU">На главной странице — слева</name>
+                        </option>
+                        <option value="checkout">
+                            <name locale="en_US">During checkout, to the right of contact fields</name>
+                            <name locale="ru_RU">При оформлении заказа — справа от контактных полей</name>
+                        </option>
+                        <option value="both">
+                            <name locale="en_US">On the home page and during checkout</name>
+                            <name locale="ru_RU">На главной странице и при оформлении заказа</name>
+                        </option>
+                    </options>
+                </setting>
+
+
+            <setting var="site_divider_3_4" control_type="group_divider">
+                <value>site_divider_3/site_divider_3_4</value>
+                <name locale="en_US">Payment</name>
+                <name locale="ru_RU">Оплата</name>
+            </setting>
+                <setting var="info_block_2_icon" control_type="image">
+                    <value>img/icons/sidebar/icon.credit.svg</value>
+                    <filename>img/icons/sidebar/info_block_2_icon.*</filename>
+                    <name locale="en_US">Icon</name>
+                    <name locale="ru_RU">Иконка</name>
+                </setting>
+                <setting var="info_block_2_header" control_type="text">
+                    <value locale="en_US">Payment</value>
+                    <value locale="ru_RU">Оплата</value>
+                    <name locale="en_US">Header</name>
+                    <name locale="ru_RU">Заголовок</name>
+                </setting>
+                <setting var="info_block_2_content" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Description</name>
+                    <name locale="ru_RU">Описание</name>
+                </setting>
+                <setting var="info_block_2_uri" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Link</name>
+                    <name locale="ru_RU">Ссылка</name>
+                </setting>
+                <setting var="info_block_2_view" control_type="select">
+                    <value></value>
+                    <name locale="en_US">Display mode</name>
+                    <name locale="ru_RU">Вариант отображения</name>
+                    <options>
+                        <option value="">
+                            <name locale="en_US">Do not show</name>
+                            <name locale="ru_RU">Не показывать</name>
+                        </option>
+                        <option value="sidebar">
+                            <name locale="en_US">Home page, on the left</name>
+                            <name locale="ru_RU">На главной странице — слева</name>
+                        </option>
+                        <option value="checkout">
+                            <name locale="en_US">During checkout, to the right of contact fields</name>
+                            <name locale="ru_RU">При оформлении заказа — справа от контактных полей</name>
+                        </option>
+                        <option value="both">
+                            <name locale="en_US">On the home page and during checkout</name>
+                            <name locale="ru_RU">На главной странице и при оформлении заказа</name>
+                        </option>
+                    </options>
+                </setting>
+
+
+            <setting var="site_divider_3_5" control_type="group_divider">
+                <value>site_divider_5/site_divider_3_5</value>
+                <name locale="en_US">Pickup point</name>
+                <name locale="ru_RU">Пункт самовывоза</name>
+            </setting>
+                <setting var="info_block_3_icon" control_type="image">
+                    <value>img/icons/sidebar/icon.shop.svg</value>
+                    <filename>img/icons/sidebar/info_block_3_icon.*</filename>
+                    <name locale="en_US">Icon</name>
+                    <name locale="ru_RU">Иконка</name>
+                </setting>
+                <setting var="info_block_3_header" control_type="text">
+                    <value locale="en_US">Pickup point</value>
+                    <value locale="ru_RU">Пункт самовывоза</value>
+                    <name locale="en_US">Header</name>
+                    <name locale="ru_RU">Заголовок</name>
+                </setting>
+                <setting var="info_block_3_content" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Description</name>
+                    <name locale="ru_RU">Описание</name>
+                </setting>
+                <setting var="info_block_3_uri" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Link</name>
+                    <name locale="ru_RU">Ссылка</name>
+                </setting>
+                <setting var="info_block_3_view" control_type="select">
+                    <value></value>
+                    <name locale="en_US">Display mode</name>
+                    <name locale="ru_RU">Вариант отображения</name>
+                    <options>
+                        <option value="">
+                            <name locale="en_US">Do not show</name>
+                            <name locale="ru_RU">Не показывать</name>
+                        </option>
+                        <option value="sidebar">
+                            <name locale="en_US">Home page, on the left</name>
+                            <name locale="ru_RU">На главной странице — слева</name>
+                        </option>
+                        <option value="checkout">
+                            <name locale="en_US">During checkout, to the right of contact fields</name>
+                            <name locale="ru_RU">При оформлении заказа — справа от контактных полей</name>
+                        </option>
+                        <option value="both">
+                            <name locale="en_US">On the home page and during checkout</name>
+                            <name locale="ru_RU">На главной странице и при оформлении заказа</name>
+                        </option>
+                    </options>
+                </setting>
+
+
+            <setting var="site_divider_3_6" control_type="group_divider">
+                <value>site_divider_5/site_divider_3_6</value>
+                <name locale="en_US">Warranty</name>
+                <name locale="ru_RU">Гарантия</name>
+            </setting>
+                <setting var="info_block_4_icon" control_type="image">
+                    <value>img/icons/sidebar/icon.guarantees.svg</value>
+                    <filename>img/icons/sidebar/info_block_4_icon.*</filename>
+                    <name locale="en_US">Icon</name>
+                    <name locale="ru_RU">Иконка</name>
+                </setting>
+                <setting var="info_block_4_header" control_type="text">
+                    <value locale="en_US">Warranty</value>
+                    <value locale="ru_RU">Гарантия</value>
+                    <name locale="en_US">Header</name>
+                    <name locale="ru_RU">Заголовок</name>
+                </setting>
+                <setting var="info_block_4_content" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Description</name>
+                    <name locale="ru_RU">Описание</name>
+                </setting>
+                <setting var="info_block_4_uri" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Link</name>
+                    <name locale="ru_RU">Ссылка</name>
+                </setting>
+                <setting var="info_block_4_view" control_type="select">
+                    <value></value>
+                    <name locale="en_US">Display mode</name>
+                    <name locale="ru_RU">Вариант отображения</name>
+                    <options>
+                        <option value="">
+                            <name locale="en_US">Do not show</name>
+                            <name locale="ru_RU">Не показывать</name>
+                        </option>
+                        <option value="sidebar">
+                            <name locale="en_US">Home page, on the left</name>
+                            <name locale="ru_RU">На главной странице — слева</name>
+                        </option>
+                        <option value="checkout">
+                            <name locale="en_US">During checkout, to the right of contact fields</name>
+                            <name locale="ru_RU">При оформлении заказа — справа от контактных полей</name>
+                        </option>
+                        <option value="both">
+                            <name locale="en_US">On the home page and during checkout</name>
+                            <name locale="ru_RU">На главной странице и при оформлении заказа</name>
+                        </option>
+                    </options>
+                </setting>
+
+
+            <setting var="site_divider_3_7" control_type="group_divider">
+                <value>site_divider_5/site_divider_3_7</value>
+                <name locale="en_US">Service</name>
+                <name locale="ru_RU">Сервис</name>
+            </setting>
+                <setting var="info_block_5_icon" control_type="image">
+                    <value>img/icons/sidebar/icon.service.svg</value>
+                    <filename>img/icons/sidebar/info_block_5_icon.*</filename>
+                    <name locale="en_US">Icon</name>
+                    <name locale="ru_RU">Иконка</name>
+                </setting>
+                <setting var="info_block_5_header" control_type="text">
+                    <value locale="en_US">Service</value>
+                    <value locale="ru_RU">Сервис</value>
+                    <name locale="en_US">Header</name>
+                    <name locale="ru_RU">Заголовок</name>
+                </setting>
+                <setting var="info_block_5_content" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Description</name>
+                    <name locale="ru_RU">Описание</name>
+                </setting>
+                <setting var="info_block_5_uri" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Link</name>
+                    <name locale="ru_RU">Ссылка</name>
+                </setting>
+                <setting var="info_block_5_view" control_type="select">
+                    <value></value>
+                    <name locale="en_US">Display mode</name>
+                    <name locale="ru_RU">Вариант отображения</name>
+                    <options>
+                        <option value="">
+                            <name locale="en_US">Do not show</name>
+                            <name locale="ru_RU">Не показывать</name>
+                        </option>
+                        <option value="sidebar">
+                            <name locale="en_US">Home page, on the left</name>
+                            <name locale="ru_RU">На главной странице — слева</name>
+                        </option>
+                        <option value="checkout">
+                            <name locale="en_US">During checkout, to the right of contact fields</name>
+                            <name locale="ru_RU">При оформлении заказа — справа от контактных полей</name>
+                        </option>
+                        <option value="both">
+                            <name locale="en_US">On the home page and during checkout</name>
+                            <name locale="ru_RU">На главной странице и при оформлении заказа</name>
+                        </option>
+                    </options>
+                </setting>
+
+
+        <setting var="site_divider_4" control_type="group_divider">
+            <value></value>
+            <name locale="en_US">Footer</name>
+            <name locale="ru_RU">Футер</name>
+        </setting>
+            <setting var="footer_rating_widget" control_type="text">
+                <value></value>
+                <name locale="en_US">Yandex.Market widget</name>
+                <name locale="ru_RU">Виджет отзывов «Яндекс.Маркета»</name>
+                <description locale="en_US"><![CDATA[Paste the code of the feedback widget for your store. Get the code: <a href="https://partner.market.yandex.ru">https://partner.market.yandex.ru</a>.]]></description>
+                <description locale="ru_RU"><![CDATA[Вставьте в это поле код виджета отзывов о вашем магазине. Получить код: <a href="https://partner.market.yandex.ru">https://partner.market.yandex.ru</a>.]]></description>
+            </setting>
+            <setting var="age_limit" control_type="text">
+                <value></value>
+                <name locale="en_US">Age limit</name>
+                <name locale="ru_RU">Ограничение по возрасту</name>
+            </setting>
+            <setting var="site_copyright" control_type="text">
+                <value></value>
+                <name locale="en_US">Copyright information</name>
+                <name locale="ru_RU">Информация об интеллектуальных правах</name>
+            </setting>
+            <setting var="footer_phones_available" control_type="checkbox">
+                <value>1</value>
+                <name locale="en_US">Show main phone number in footer</name>
+                <name locale="ru_RU">Показывать основной телефонный номер внизу страниц</name>
+            </setting>
+
+
+            <setting var="site_divider_4_1" control_type="group_divider">
+                <value>site_divider_4/site_divider_4_1</value>
+                <name locale="en_US">Banner</name>
+                <name locale="ru_RU">Баннер</name>
+            </setting>
+                <setting var="bottom_banner_image" control_type="image">
+                    <value></value>
+                    <filename>img/bottom_banner_image.*</filename>
+                    <name locale="en_US">Image</name>
+                    <name locale="ru_RU">Изображение</name>
+                    <description locale="en_US">Banner width is 1240px</description>
+                    <description locale="ru_RU">Ширина баннера — 1240 пикселей</description>
+                </setting>
+                <setting var="bottom_banner_href" control_type="text">
+                    <value></value>
+                    <name locale="en_US">Link</name>
+                    <name locale="ru_RU">Ссылка</name>
+                </setting>
+
+
+            <setting var="site_divider_4_2" control_type="group_divider">
+                <value>site_divider_4/site_divider_4_2</value>
+                <name locale="en_US">Subscription form</name>
+                <name locale="ru_RU">Форма подписки</name>
+                <tooltip locale="en_US">Works with the application "Mailer"</tooltip>
+                <tooltip locale="ru_RU">Работает при наличии приложения "Рассылки"</tooltip>
+            </setting>
+                <setting var="footer_subscribe_form_use" control_type="checkbox">
+                    <value>1</value>
+                    <name locale="en_US">Render form</name>
+                    <name locale="ru_RU">Выводить форму</name>
+                    <description locale="en_US">A subscription form is displayed only if Mailer app is installed. Subscribers are added to the common subsciber list.</description>
+                    <description locale="ru_RU">Форма подписки отображается, только если установлено приложение «Рассылки». Подписчики добавляются в общий список подписчиков.</description>
+                </setting>
+                <setting var="footer_subscribe_form_title" control_type="text">
+                    <value locale="en_US">Subscribe to promotions and discounts</value>
+                    <value locale="ru_RU">Подписаться на акции и скидки</value>
+                    <name locale="en_US">Heading</name>
+                    <name locale="ru_RU">Заголовок</name>
+                </setting>
+                <setting var="footer_subscribe_personal_data" control_type="text">
+                    <value locale="en_US"><![CDATA[By clicking on the confirmation button, I accept the terms <a href="---SEP THERE A LINK TO THE DOCUMENT !---" target="_blank"> personal data processing policies </a>]]></value>
+                    <value locale="ru_RU"><![CDATA[Нажимая на кнопку подтверждения, я принимаю условия <a href="---ВСТАВЬТЕ СЮДА ССЫЛКУ НА ДОКУМЕНТ!---" target="_blank">политики обработки персональных данных</a>]]></value>
+                    <name locale="en_US">Personal data protection message</name>
+                    <name locale="ru_RU">Информация об обработке персональных данных</name>
+                </setting>
+
+
+            <setting var="site_divider_4_3" control_type="group_divider">
+                <value>site_divider_4/site_divider_4_3</value>
+                <name locale="en_US">Payment</name>
+                <name locale="ru_RU">Оплата</name>
+            </setting>
+                <setting var="footer_payment_available" control_type="checkbox">
+                    <value>1</value>
+                    <name locale="en_US">We accept</name>
+                    <name locale="ru_RU">Мы принимаем к оплате</name>
+                    <description locale="en_US">The logos of setup payment plugins are shown.</description>
+                    <description locale="ru_RU">Будут показаны логотипы настроенных платежных плагинов.</description>
+                </setting>
+                <setting var="footer_payment_title" control_type="text">
+                    <value locale="en_US">We accept for payment</value>
+                    <value locale="ru_RU">Мы принимаем к оплате</value>
+                    <name locale="en_US">Description of available payment options</name>
+                    <name locale="ru_RU">Описание доступных способов оплаты</name>
+                </setting>
+
+
+            <setting var="site_divider_4_4" control_type="group_divider">
+                <value>site_divider_4/site_divider_4_4</value>
+                <name locale="en_US">Links to social networks</name>
+                <name locale="ru_RU">Ссылки на соц. сети</name>
+            </setting>
+                <setting var="vk_page_link" control_type="text">
+                    <value>#</value>
+                    <name locale="en_US">VK page link</name>
+                    <name locale="ru_RU">Ссылка на страницу во «Вконтакте»</name>
+                    <description locale="en_US">Also used in “Subscribe to blog” section.</description>
+                    <description locale="ru_RU">Используется также в блоке «Подписаться на блог».</description>
+                </setting>
+                <setting var="fb_page_link" control_type="text">
+                    <value>#</value>
+                    <name locale="en_US">Facebook page link</name>
+                    <name locale="ru_RU">Ссылка на страницу в «Фейсбуке»</name>
+                    <description locale="en_US">Also used in “Subscribe to blog” section.</description>
+                    <description locale="ru_RU">Используется также в блоке «Подписаться на блог».</description>
+                </setting>
+                <setting var="od_page_link" control_type="text">
+                    <value>#</value>
+                    <name locale="en_US">Odnoklassniki page link</name>
+                    <name locale="ru_RU">Ссылка на страницу в «Одноклассниках»</name>
+                </setting>
+                <setting var="mail_page_link" control_type="text">
+                    <value>#</value>
+                    <name locale="en_US">My.mail.ru page link</name>
+                    <name locale="ru_RU">Ссылка на страницу в «Моем мире» Mail.ru</name>
+                </setting>
+                <setting var="tw_page_link" control_type="text">
+                    <value>#</value>
+                    <name locale="en_US">Twitter page link</name>
+                    <name locale="ru_RU">Ссылка на страницу в «Твиттере»</name>
+                    <description locale="en_US">Also used in “Subscribe to blog” section.</description>
+                    <description locale="ru_RU">Используется также в блоке «Подписаться на блог».</description>
+                </setting>
+                <setting var="instagram_page_link" control_type="text">
+                    <value>#</value>
+                    <name locale="en_US">Instagram page link</name>
+                    <name locale="ru_RU">Ссылка на страницу в «Инстаграме»</name>
+                </setting>
+                <setting var="youtube_page_link" control_type="text">
+                    <value>#</value>
+                    <name locale="en_US">YouTube page link</name>
+                    <name locale="ru_RU">Ссылка на страницу в «Ютюбе»</name>
+                </setting>
+                <setting var="foursquare_page_link" control_type="text">
+                    <value>#</value>
+                    <name locale="en_US">Foursquare page link</name>
+                    <name locale="ru_RU">Ссылка на страницу в «Форсквер»</name>
+                </setting>
+
+
+        <setting var="site_divider_5" control_type="group_divider">
+            <value></value>
+            <name locale="en_US">Long product lists and custom CSS</name>
+            <name locale="ru_RU">Длинные списки и дополнительные стили</name>
+        </setting>
+            <setting var="pagination" control_type="select">
+                <value>lazyloading</value>
+                <name locale="en_US">Displaying of long product lists</name>
+                <name locale="ru_RU">Отображение длинных списков товаров</name>
+                <description locale="ru_RU">Применяется к спискам товаров в категориях и результатах поиска.</description>
+                <description locale="en_US">For category-listing pages and search results.</description>
+                <options>
+                    <option value="lazyloading">
+                        <name locale="en_US">Automatically load content on page scrolling</name>
+                        <name locale="ru_RU">Автоматически загружать содержимое при прокручивании страницы</name>
+                    </option>
+                    <option value="paging">
+                        <name locale="en_US">Paginated lists (1 2 3 4)</name>
+                        <name locale="ru_RU">Постраничная навигация (1 2 3 4)</name>
+                    </option>
+                </options>
+            </setting>
+            <setting var="additional_styles" control_type="text">
+                <value></value>
+                <name locale="en_US">Additional CSS styles</name>
+                <name locale="ru_RU">Дополнительные CSS-стили</name>
+            </setting>
+    </settings>
+    <locales>
+        <locale>
+            <msgid>My account</msgid>
+            <msgstr locale="ru_RU">Личный кабинет</msgstr>
+        </locale>
+        <locale>
+            <msgid>Logout</msgid>
+            <msgstr locale="ru_RU">Выход</msgstr>
+        </locale>
+        <locale>
+            <msgid>Catalog</msgid>
+            <msgstr locale="ru_RU">Каталог</msgstr>
+        </locale>
+        <locale>
+            <msgid>Search</msgid>
+            <msgstr locale="ru_RU">Поиск</msgstr>
+        </locale>
+        <locale>
+            <msgid>Log in with your customer password or via the services listed above</msgid>
+            <msgstr locale="ru_RU">Войдите со своим паролем покупателя или воспользуйтесь перечисленными выше сервисами</msgstr>
+        </locale>
+        <locale>
+            <msgid>Connect this account to your accounts in social networks to automatically log in without entering a password</msgid>
+            <msgstr locale="ru_RU">Подключите этот аккаунт к вашим аккаунтам в соцсетях, чтобы входить на сайт автоматически — без ввода пароля</msgstr>
+        </locale>
+        <locale>
+            <msgid>Home</msgid>
+            <msgstr locale="ru_RU">Главная</msgstr>
+        </locale>
+        <locale>
+            <msgid>News</msgid>
+            <msgstr locale="ru_RU">Новости</msgstr>
+        </locale>
+        <locale>
+            <msgid>All news</msgid>
+            <msgstr locale="ru_RU">Все новости</msgstr>
+        </locale>
+        <locale>
+            <msgid>More info</msgid>
+            <msgstr locale="ru_RU">Подробнее</msgstr>
+        </locale>
+        <locale>
+            <msgid>Compare</msgid>
+            <msgstr locale="ru_RU">Сравнение</msgstr>
+        </locale>
+        <locale>
+            <msgid>Empty</msgid>
+            <msgstr locale="ru_RU">Пусто</msgstr>
+        </locale>
+        <locale>
+            <msgid>Place order</msgid>
+            <msgstr locale="ru_RU">Оформить заказ</msgstr>
+        </locale>
+        <locale>
+            <msgid>Search results for</msgid>
+            <msgstr locale="ru_RU">Результаты поиска по запросу</msgstr>
+        </locale>
+        <locale>
+            <msgid>We accept for payment</msgid>
+            <msgstr locale="ru_RU">Мы принимаем к оплате</msgstr>
+        </locale>
+    </locales>
+    <requirements>
+        <requirement property="app.shop" value=">=8" strict="true">
+        </requirement>
+        <requirement property="php" value=">=5.6" strict="true">
+        </requirement>
+    </requirements>
+</theme>

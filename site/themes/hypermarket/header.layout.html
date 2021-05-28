@@ -1,0 +1,330 @@
+{strip}
+
+{$_name = ""}
+{if $wa->shop}
+    {$_name = $wa->shop->settings('name')}
+    {$_phone = $wa->shop->settings('phone')}
+{/if}
+
+{$_is_personal_area = $wa->globals("isMyAccount")}
+
+<header class="s-header-wrapper" id="s-header-wrapper">
+    <section class="s-header-section">
+        <div class="s-header-top s-layout">
+            <div class="s-column left">
+
+                {$_logo_url = $wa_app_url}
+                {if $wa->shop}
+                    {$_logo_url = $wa->getUrl("shop/frontend")}
+                {/if}
+
+                {if !empty($theme_settings.logo)}
+                    <a class="s-site-logo" href="{$_logo_url}" title="{$_name}">
+                        <img src="{$wa_theme_url}{$theme_settings.logo}?v{$wa_theme_version}" alt="{$_name}" />
+                    </a>
+                {/if}
+
+                {if !empty($theme_settings.logo_tip)}
+                    <a class="s-site-name" href="{$_logo_url}" title="{$_name}">{$theme_settings.logo_tip}</a>
+                {/if}
+
+            </div>
+            <div class="s-column center">
+
+                {if !empty($_phone)}
+                    <div class="s-phone-wrapper">
+                        <i class="svg-icon phone size-16 top"></i>
+                        <span class="s-phone">{$_phone}</span>
+                        {if !empty($theme_settings.tip_the_phone_1)}
+                            <span class="s-tip">{$theme_settings.tip_the_phone_1}</span>
+                        {/if}
+                    </div>
+                {/if}
+
+                {if !empty($theme_settings.additional_phone)}
+                    <div class="s-phone-wrapper">
+                        <i class="svg-icon phone size-16 top"></i>
+                        <span class="s-phone">{$theme_settings.additional_phone}</span>
+                        {if !empty($theme_settings.tip_the_phone_2)}
+                            <span class="s-tip">{$theme_settings.tip_the_phone_2}</span>
+                        {/if}
+                    </div>
+                {/if}
+
+            </div>
+            <div class="s-column right">
+
+                <div class="s-shop-info">
+                    {if !empty($theme_settings.store_address)}
+                        <div class="s-shop-address">
+                            <i class="svg-icon map-marker size-16 top"></i>
+                            {$theme_settings.store_address}
+                        </div>
+                    {/if}
+
+                    {strip}
+                    {if $wa->shop}
+                        {if !empty($theme_settings.use_shop_schedule) && method_exists($wa->shop, 'schedule')}
+                            {$_schedule = $wa->shop->schedule()}
+
+                            <div class="s-schedule-wrapper" id="js-header-schedule-wrapper">
+                                <div class="s-visible">
+                                    <div class="s-label-wrapper js-show-schedule" title="{_wd("shop", "Business hours")}">
+                                        <i class="svg-icon clock size-16 top"></i> {_wd("shop", "Business hours")} <i class="s-icon"></i>
+                                    </div>
+                                </div>
+                                <div class="s-hidden bottom right">
+                                    <div class="s-days-wrapper">
+                                        {foreach $_schedule.current_week as $_day}
+                                            <div class="s-day-wrapper">
+                                                <div class="s-date">{$_day.name|escape}</div>
+                                                <div class="s-value">
+                                                    {if !empty($_day.work)}
+                                                        <div class="s-time">{$_day.start_work|escape} — {$_day.end_work|escape}</div>
+                                                    {else}
+                                                        <div class="s-text">{_wd("shop", "day off")}</div>
+                                                    {/if}
+                                                </div>
+                                            </div>
+                                        {/foreach}
+                                    </div>
+                                    <i class="s-close-icon js-close-schedule" title="[`Close`]"></i>
+                                </div>
+                                <script>
+                                    ( function($) {
+                                        new window.waTheme.init.site.ScheduleSection({
+                                            $wrapper: $("#js-header-schedule-wrapper")
+                                        });
+                                    })(jQuery);
+                                </script>
+                            </div>
+                        {elseif !empty($theme_settings.manual_schedule)}
+                            <div class="s-time-wrapper">
+                                <i class="svg-icon clock size-16 top"></i>
+                                <span class="s-text">{$theme_settings.manual_schedule|escape}</span>
+                            </div>
+                        {/if}
+                    {/if}
+                    {/strip}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="s-header-nav">
+            <div class="s-layout">
+                <div class="s-column left">
+
+                    <ul class="s-nav-list">
+                        {$_links = []}
+                        {if $theme_settings.header_links == 'site-pages'}
+                            {if $wa->site}{$_links = $wa->site->pages()}{/if}
+                        {elseif $theme_settings.header_links == 'shop-pages'}
+                            {if $wa->shop}{$_links = $wa->shop->pages()}{/if}
+                        {elseif $theme_settings.header_links == 'blog-pages'}
+                            {if $wa->blog}{$_links = $wa->blog->pages()}{/if}
+                        {elseif $theme_settings.header_links == 'photos-pages'}
+                            {if $wa->photos}{$_links = $wa->photos->pages()}{/if}
+                        {elseif $theme_settings.header_links == 'hub-pages'}
+                            {if $wa->hub}{$_links = $wa->hub->pages()}{/if}
+                        {elseif $theme_settings.header_links != 'none'}
+                            {$_links = $wa->apps()}
+                        {/if}
+                        {foreach $_links as $a}
+                            {if !($a.url == $wa_url && $a.name == $wa->accountName())}
+                                {$_is_selected = false}
+                                {if $a.url == $wa_app_url && !$wa->globals('isMyAccount') || strlen($a.url)>1 && $wa->currentUrl()|strstr:$a.url}
+                                    {$_is_selected = true}
+                                {/if}
+
+                                <li class="{if $_is_selected}is-selected{/if}">
+                                    <a href="{$a.url}" title="{$a.name}">{$a.name}</a>
+                                </li>
+                            {/if}
+                        {/foreach}
+                    </ul>
+
+                </div>
+
+                {if $wa->isAuthEnabled()}
+                    <div class="s-column right">
+
+                        <ul class="s-nav-list">
+                            {if $wa->user()->isAuth()}
+                                <li>
+                                    {$_url = $wa->getUrl('/frontend/myProfile')}
+                                    {if $wa->shop}
+                                        {$_url = $wa->getUrl('shop/frontend/myOrders')}
+                                    {/if}
+
+                                    <a class="s-link" href="{$_url}">
+                                        <i class="icon16 image" style="background-image: url('{$wa->user()->getPhoto2x(20)}');"></i>
+                                        <span>{$wa->user('firstname')|default:"[`My account`]"}</span>
+                                    </a>
+                                </li>
+                            {else}
+                                <li>
+                                    {$_url = $wa->getUrl('/frontend/myProfile')}
+                                    {if $wa->shop}
+                                        {$_url = $wa->getUrl('shop/frontend/myOrders')}
+                                    {/if}
+                                    <a class="s-link" href="{$_url}">
+                                        <i class="svg-icon entrance size-16"></i> <span>[`Login`]</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{$wa->signupUrl()}">[`Sign up`]</a>
+                                </li>
+                            {/if}
+                        </ul>
+
+                    </div>
+                {/if}
+            </div>
+        </div>
+    </section>
+
+    {if empty($_is_personal_area)}
+        <div class="s-header-bottom">
+            <div class="s-layout fixed">
+                {if $wa->shop}
+                    {$_categories = $wa->shop->categories(0, null, true)}
+                    {if !empty($_categories)}
+                        {$_is_shop_home = $wa->globals("isShopHome")}
+
+                        <div class="s-column left">
+
+                            {$_catalog_classes = []}
+                            {if !empty($_is_shop_home)}
+                                {$_catalog_classes[] = "is-locked"}
+                            {/if}
+                            {if $theme_settings.catalog_font_width === "big"}
+                                {$_catalog_classes[] = "is-big"}
+                            {/if}
+
+                            <div class="s-catalog-wrapper {$_catalog_classes|join:" "}" id="s-header-catalog">
+                                <button class="s-catalog-button {if !empty($_is_shop_home)}without-hover{/if}">[`Catalog`]</button>
+                                <ul class="s-catalog-list">
+                                    {foreach $_categories as $_category}
+                                        {$_limit = 20}
+                                        {if !empty($theme_settings.menu_limit) && $theme_settings.menu_limit > 0}
+                                            {$_limit = $theme_settings.menu_limit}
+                                        {/if}
+
+                                        {if $_category@iteration > $_limit}{break}{/if}
+
+                                        <li>
+                                            <a href="{$_category.url}">{$_category.name}</a>
+
+                                            {* sublevel 1 *}
+                                            {if !empty($_category.childs)}
+                                                <div class="s-sub-wrapper">
+                                                    <ul class="s-sub-list">
+                                                    {foreach $_category.childs as $_sub1_category}
+                                                        <li class="s-sub-item">
+                                                            <a class="s-sub-header" href="{$_sub1_category.url}">{$_sub1_category.name}</a>
+
+                                                            {* sublevel 2 *}
+                                                            {if !empty($_sub1_category.childs)}
+                                                                <ul>
+                                                                    {foreach $_sub1_category.childs as $_sub2_category}
+                                                                        {$_limit = 5}
+                                                                        {if !empty($theme_settings.sub_menu_limit) && $theme_settings.sub_menu_limit > 0}
+                                                                            {$_limit = $theme_settings.sub_menu_limit}
+                                                                        {/if}
+
+                                                                        {if $_sub2_category@index >= $_limit}
+                                                                            <li>
+                                                                                <a href="{$_sub1_category.url}">...</a>
+                                                                            </li>
+                                                                            {break}
+                                                                        {/if}
+                                                                        <li>
+                                                                            <a href="{$_sub2_category.url}">{$_sub2_category.name}</a>
+                                                                        </li>
+                                                                    {/foreach}
+                                                                </ul>
+                                                            {/if}
+
+                                                        </li>
+                                                    {/foreach}
+                                                    </ul>
+                                                </div>
+                                            {/if}
+                                        </li>
+                                    {/foreach}
+                                </ul>
+                                <script>
+                                    ( function($) {
+                                        new window.waTheme.init.shop.Catalog({
+                                            $wrapper: $("#s-header-catalog"),
+                                            is_locked: {if $_is_shop_home}true{else}false{/if}
+                                        });
+                                    })(jQuery);
+                                </script>
+                            </div>
+
+                        </div>
+                    {/if}
+                {/if}
+
+                <div class="s-column">
+                    {$_search_action = false}
+                    {$_placeholder = ""}
+
+                    {if $wa_app === "hub"}
+                        {$_search_action = $wa->getUrl("hub/frontend/search")}
+                        {$_placeholder = "[`Search`]"}
+                    {elseif $wa_app === "helpdesk"}
+                        {$_search_action = $wa->getUrl("helpdesk/frontend/search")}
+                        {$_placeholder = "[`Search`]"}
+                    {elseif $wa_app === "blog"}
+                        {$_search_action = $wa->getUrl("blog/frontend/search")}
+                        {$_placeholder = "[`Search`]"}
+                    {elseif $wa_app === "shop"}
+                        {$_search_action = $wa->getUrl("shop/frontend/search")}
+                        {$_placeholder = "[s`Find products`]"}
+                    {/if}
+
+                    {if $wa->shop}
+                        {$_search_action = $wa->getUrl("shop/frontend/search")}
+                        {$_placeholder = "[s`Find products`]"}
+                    {/if}
+
+                    {if !empty($_search_action)}
+                        {$_query = ""}
+                        {if $wa_app === "shop"}
+                            {$_query = $smarty.get.query|default:''|escape}
+                        {/if}
+
+                        <div class="s-layout">
+                            <div class="s-column">
+
+                                <div class="s-search-wrapper" role="search">
+                                    <form method="get" action="{$_search_action}">
+                                        <input class="s-text-input" type="text" name="query" value="{if !empty($_query)}{$_query}{/if}" placeholder="{$_placeholder|escape}">
+                                        <input class="s-submit-input" type="submit" value="[`Find`]">
+                                    </form>
+                                </div>
+
+                            </div>
+                            <div class="s-column middle right">
+
+                                {if !empty($theme_settings.promotion_uri) && !empty($theme_settings.promotion_name)}
+                                    <a class="s-ad-link" href="{$theme_settings.promotion_uri}" title="{$theme_settings.promotion_name|escape}">
+                                        <i class="svg-icon attention size-12"></i>&nbsp;{$theme_settings.promotion_name|escape}
+                                    </a>
+                                {/if}
+
+                            </div>
+                        </div>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    {/if}
+
+    {include file="`$wa_active_theme_path`/header.html" inline}
+</header>
+
+{/strip}

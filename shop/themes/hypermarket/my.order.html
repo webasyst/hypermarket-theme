@@ -1,0 +1,230 @@
+{strip}
+
+{$_title = $order.id_str}
+
+{$wa->globals("globalHeader", $_title)}
+{$wa->globals("isMyAccount", true)}
+{$wa->globals("isMyOrderPage", true)}
+
+{function name="_renderContact" contact=[] title="" address=""}
+    <div class="s-contact-wrapper">
+        <div class="s-contact-info">
+            <div class="s-layout fixed">
+                <div class="s-column s-column-image">
+                    <img class="s-image" src="{$contact->getPhoto("160")}" alt="{$contact.name|escape}">
+                </div>
+                <div class="s-column middle">
+
+                    <div class="s-block">
+                        <div>
+                            <span class="s-label">{$title}:</span>
+                        </div>
+                        <div class="s-text">{$contact.name|escape}</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        {if $address}
+            <div class="s-address-wrapper s-block">
+                <div>
+                    <span class="s-label">[`Address`]:</span>
+                </div>
+                <div class="s-text">{$address}</div>
+            </div>
+        {/if}
+    </div>
+{/function}
+
+<div class="s-order-page">
+
+    {if empty($pin_required)}
+
+        <section class="s-order-section {$order.state_id}">
+            <div class="s-section-header">
+                <div class="s-layout">
+                    <div class="s-column">
+                        <span class="s-name">[`Order`] {$order.id_str}</span>
+                        <span class="s-date">[`from`] {$order.create_datetime|wa_datetime:'humandate'}</span>
+                        <span class="s-time">{$order.create_datetime|wa_datetime:'time'}</span>
+                    </div>
+                    <div class="s-column right">
+
+                        <span class="s-order-status nowrap" style="{$order.state->getStyle(1)}">{$order.state->getName()}</span>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="s-section-body">
+                <div class="s-layout fixed">
+                    <div class="s-column">
+                        {if !empty($order.shipping_name)}
+                            <div class="s-block">
+                                <div>
+                                    <span class="s-label">[`Shipping method`]:</span>
+                                </div>
+                                <div class="s-text">{$order.shipping_name|escape}</div>
+                            </div>
+                        {/if}
+
+                        {if !empty($order.params.tracking_number)}
+                            <div class="s-block">
+                                <div>
+                                    <span class="s-label">[`Shipment tracking number`]:</span>
+                                </div>
+                                <div class="s-text">{$order.params.tracking_number}</div>
+                            </div>
+                        {/if}
+
+                        {if !empty($tracking) && $order.state->getId() != 'completed'}
+                            <div class="s-plugin-wrapper">{$tracking}</div>
+                        {/if}
+
+                        {if !empty($order.comment)}
+                            <div class="s-block">
+                                <div>
+                                    <span class="s-label">[`Comment`]:</span>
+                                </div>
+                                <div class="s-text s-comment-wrapper">{$order.comment|escape}</div>
+                            </div>
+                        {/if}
+
+                        {if !empty($order.payment_name)}
+                            <div class="s-block">
+                                <div>
+                                    <span class="s-label">[`Payment method`]:</span>
+                                </div>
+                                <div class="s-text">{$order.payment_name|escape}</div>
+                            </div>
+                        {/if}
+
+                        {if !empty($order.total)}
+                            <div class="s-price-wrapper">
+                                <span class="s-label">[`Amount`]:</span>
+                                <span class="s-price">{wa_currency_html($order.total, $order.currency)}</span>
+                            </div>
+                        {/if}
+
+                        {if !empty($payment)}
+                            <div class="s-plugin-wrapper">{$payment}</div>
+                        {/if}
+                    </div>
+                    <div class="s-column">
+
+                        {_renderContact contact=$contact address=$shipping_address title="[`Ship to`]"}
+
+                        {if !empty($billing_address)}
+                            {_renderContact contact=$contact address=$billing_address title="[`Bill to`]"}
+                        {/if}
+
+                    </div>
+                </div>
+
+                <div class="s-items-wrapper">
+                    <table class="s-items-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>[`Price`] x [`Quantity`]</th>
+                                <th>[`Total`]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {foreach $order.items as $item}
+                                <tr class="s-item-wrapper {if $item.type == 'service'}is-service{else}is-product{/if}">
+                                    <td>
+                                        <span class="s-name">{$item.name}</span>
+                                        {if $item.type == 'product' && !empty($item.download_link)}
+                                            <a class="s-value" href="{$item.download_link}">[`Download`]</a>
+                                        {/if}
+                                    </td>
+                                    <td>
+                                        <span class="s-value">{wa_currency_html($item.price, $order.currency)}</span>
+                                        <span class="s-bold"> x {$item.quantity}</span>
+                                    </td>
+                                    <td>
+                                        <span class="s-value">{wa_currency_html($item.price * $item.quantity, $order.currency)}</span>
+                                    </td>
+                                </tr>
+                            {/foreach}
+                        </tbody>
+                        <tfoot>
+                            <tr class="">
+                                <th colspan="2">[`Subtotal`]</th>
+                                <td>
+                                    <span class="s-bold">{wa_currency_html($subtotal, $order.currency)}</span>
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <th colspan="2">[`Discount`]</th>
+                                <td>
+                                    <span class="s-bold">&minus; {wa_currency_html($order.discount, $order.currency)}</span>
+                                </td>
+                            </tr>
+                            <tr class="">
+                                <th colspan="2">
+                                    <div class="">
+                                        [`Shipping`]
+                                        {if !empty($order.params.shipping_name)}&nbsp;—&nbsp;<span class="s-value dark">{$order.params.shipping_name}</span>{/if}
+                                    </div>
+                                </th>
+                                <td>
+                                    <span class="s-bold">{wa_currency_html($order.shipping, $order.currency)}</span>
+                                </td>
+                            </tr>
+                            {if $order.tax > 0}
+                                <tr>
+                                    <th colspan="2">[`Tax`]</th>
+                                    <td>
+                                        <span class="s-bold">{wa_currency_html($order.tax, $order.currency)}</span>
+                                    </td>
+                                </tr>
+                            {/if}
+                            <tr class="total-sum">
+                                <td colspan="2">
+                                    <span class="s-bold dark">[`Total`]</span>
+                                </td>
+                                <td>
+                                    <span class="s-price">{wa_currency_html($order.total, $order.currency)}</span>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    {else}
+
+        <section class="s-order-section">
+            <header class="s-section-header">
+                [`Order`] {$encoded_order_id}
+            </header>
+            <div class="s-section-body">
+
+                <form action="" method="post">
+                    {if !empty($wrong_pin)}
+                        <p style="color:red">[`PIN is not valid`]</p>
+                    {/if}
+
+                    <p>[`Please enter a 4-digit PIN that you received with your order receipt by email.`]</p>
+                    <p>
+                        <input type="text" name="pin">
+                    </p>
+                    <p>
+                        <input type="submit" value="[`View order`]">
+                    </p>
+                </form>
+
+            </div>
+        </section>
+
+    {/if}
+
+    {* @event frontend_my_order.%plugin_id% *}
+    {foreach $frontend_my_order as $_}{$_}{/foreach}
+</div>
+
+{/strip}

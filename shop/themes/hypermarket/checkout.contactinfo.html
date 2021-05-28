@@ -1,0 +1,232 @@
+{strip}
+
+<div class="s-contact-form" id="s-contact-form">
+    <div class="s-layout fixed">
+        <div class="s-column">
+            <div class="wa-form">
+                {$checkout_contact_form->html()}
+
+                {* When both billing and shipping addresses are enabled, billing address matches shipping address
+                 * unless user specifically wants to edit billing address separately. *}
+                {if $billing_matches_shipping}
+                    <div class="wa-field billing-address-fake" style="display:none;">
+                        <div class="wa-name">{$checkout_contact_form->fields('address.billing')->getName(null, true)}</div>
+                        <div class="wa-value">
+                            [`Matches shipping address`] <a href="javascript:void(0)" id="edit-billing-address-link">[`Edit billing address`]</a>
+                        </div>
+                    </div>
+
+                    <script>
+                        ( function($) {
+                            "use strict";
+                            if (!$) { return; }
+                            var $edit_billing_address_link = $('#edit-billing-address-link'),
+                                $billing_address_fake = $edit_billing_address_link.closest('.wa-field'),
+                                $billing_address_wrapper = $edit_billing_address_link.closest('.wa-form').find('.wa-field-address-billing');
+                            var $shipping_address_wrapper = $edit_billing_address_link.closest('.wa-form').find('.wa-field-address-shipping');
+                            if (!$edit_billing_address_link.length || !$billing_address_fake.length || !$billing_address_wrapper.length || !$shipping_address_wrapper.length) {
+                                return;
+                            }
+
+                            $billing_address_fake.insertAfter($billing_address_wrapper)
+                                .append('<input type="hidden" name="billing_matches_shipping" value="1">')
+                                .show();
+                            $billing_address_wrapper.hide();
+
+                            $edit_billing_address_link.on('click', function() {
+                                $billing_address_wrapper.show();
+                                $billing_address_fake.remove();
+
+                                {* // Fill all fields in billing address *}
+                                $shipping_address_wrapper.find(':input[name^="customer[address.shipping]"]').each(function() {
+                                    var $fld = $(this);
+                                    if ($fld.is(':radio')) {
+                                        if ($fld.is(':checked')) {
+                                            $billing_address_wrapper.find('[name="'+$fld.attr('name').replace('address.shipping', 'address.billing')+'"]').filter(function() {
+                                                return this.value == $fld.val();
+                                            }).prop('checked', true);
+                                        }
+                                    } else {
+                                        $billing_address_wrapper.find('[name="'+$fld.attr('name').replace('address.shipping', 'address.billing')+'"]').val($fld.val()).change();
+                                    }
+                                });
+                            });
+
+                            {* // Update billing country when user selects shipping country *}
+                            {* // so that region field is able to reload itself *}
+                            $shipping_address_wrapper.find(':input[name="customer[address.shipping][country]"]').change(function() {
+                                $billing_address_wrapper.find(':input[name="customer[address.billing][country]"]').val($(this).val()).change();
+                            });
+
+                        })(jQuery);
+                    </script>
+                {/if}
+
+                {if !empty($checkout_steps.contactinfo.service_agreement) && !empty($checkout_steps.contactinfo.service_agreement_hint)}
+                    <div class="wa-field service-agreement-wrapper">
+                        <div class="wa-value">
+                            <label>
+                                {if $checkout_steps.contactinfo.service_agreement == 'checkbox'}
+                                    <input type="hidden" name="service_agreement" value="">
+                                    <input type="checkbox" name="service_agreement" value="1"{if $wa->post('service_agreement') || $wa->post('service_agreement') === null || $wa->storage('shop_checkout_contactinfo_agreement')} checked{/if}>
+                                {/if}
+                                {$checkout_steps.contactinfo.service_agreement_hint}
+                            </label>
+                            {if !empty($errors.service_agreement)}
+                                <em class="error">{$errors.service_agreement|escape}</em>
+                            {/if}
+                        </div>
+                    </div>
+                {/if}
+
+                {if $wa->isAuthEnabled() && !$wa->user()->isAuth()}
+                    <div class="wa-field s-field-create-user">
+                        <div class="wa-value">
+                            <label><input type="checkbox" {if $wa->post('create_user')}checked{/if} id="create-user" name="create_user" value="1"> [`Create permanent user account`]</label>
+                            {if shopAffiliate::isEnabled()}
+                                {$add_affiliate_bonus = round(shopAffiliate::calculateBonus(['items' => $wa->shop->cart->items(), 'total' => $wa->shop->cart->total()]), 2)}
+                                <p class="hint">
+                                    [`Registered customers apply for affiliate bonuses and discounts on future orders.`] {if !empty($add_affiliate_bonus)}{sprintf("[`This order will add +%s points to your affiliate bonus.`]", $add_affiliate_bonus)}{/if}
+                                </p>
+                            {/if}
+                        </div>
+                    </div>
+                    <div class="s-create-user-block" id="js-create-user-block" style="display:none">
+                        <div class="wa-field">
+                            <div class="wa-name">[`Email`]</div>
+                            <div class="wa-value">
+                                {if !empty($errors.email)}
+                                    <p>
+                                {/if}
+                                    <input {if !empty($errors.email)}class="error"{/if} name="login" type="text" value="{$wa->post('login', $customer->get('email', 'default'))|escape}">
+                                {if !empty($errors.email)}
+                                    </p>
+                                    <em class="errormsg">{$errors.email}</em>
+                                {/if}
+                            </div>
+                        </div>
+                        <div class="wa-field">
+                            <div class="wa-name">[`Password`]</div>
+                            <div class="wa-value">
+                                <input {if !empty($errors.password)}class="error"{/if} name="password" type="password" value="{$wa->post('password')|escape}">
+                                {if !empty($errors.password)}<br><em class="errormsg">{$errors.password}</em>{/if}
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        ( function($) {
+                            var $wrapper = $("#js-create-user-block"),
+                                $login = $wrapper.find('input[name="login"]'),
+                                $email = $("input[name=\"customer[email]\"]");
+
+                            if ($email.length) {
+                                $email.on('keyup', function () {
+                                    if ($wrapper.is(':visible')) {
+                                        $login.val($(this).val());
+                                    }
+                                });
+                                $login.on('keyup', function() {
+                                    $email.val( $(this).val() );
+                                })
+                            }
+
+                            $("#create-user").on("change", function () {
+                                if ($(this).is(':checked')) {
+                                    $wrapper.show()
+                                        .find('input').removeAttr('disabled');
+
+                                    var l = $(this).closest('form').find('input[name="customer[email]"]');
+                                    if (l.length && l.val()) {
+                                        $login.val(l.val());
+                                    }
+                                } else {
+                                    $wrapper.hide()
+                                        .find('input').attr('disabled', 'disabled').val('');
+                                }
+                            }).change();
+                        })(jQuery);
+                    </script>
+                {/if}
+                {if !empty($errors.all)}
+                    <p class="error">{$errors.all}</p>
+                {/if}
+            </div>
+
+            {*{if $wa->isAuthEnabled() && !$wa->user()->isAuth()}*}
+                {*{include file="`$wa_parent_theme_path`/login.adapters.html" inline}*}
+            {*{/if}*}
+
+            {* @event frontend_checkout.%plugin_id% *}
+            {foreach $frontend_checkout as $_}{$_}{/foreach}
+
+            {if !empty($error)}
+                <div class="s-checkout-result error">{$error}</div>
+            {/if}
+
+        </div>
+        <div class="s-column s-column-info">
+            {$_info_blocks = []}
+
+            {$_info_blocks[] = [
+                "header" => $theme_settings.info_block_1_header,
+                "content" => $theme_settings.info_block_1_content,
+                "icon" => $theme_settings.info_block_1_icon,
+                "uri" => $theme_settings.info_block_1_uri,
+                "view" => $theme_settings.info_block_1_view
+            ]}
+
+            {$_info_blocks[] = [
+                "header" => $theme_settings.info_block_2_header,
+                "content" => $theme_settings.info_block_2_content,
+                "icon" => $theme_settings.info_block_2_icon,
+                "uri" => $theme_settings.info_block_2_uri,
+                "view" => $theme_settings.info_block_2_view
+            ]}
+
+            {$_info_blocks[] = [
+                "header" => $theme_settings.info_block_3_header,
+                "content" => $theme_settings.info_block_3_content,
+                "icon" => $theme_settings.info_block_3_icon,
+                "uri" => $theme_settings.info_block_3_uri,
+                "view" => $theme_settings.info_block_3_view
+            ]}
+
+            {$_info_blocks[] = [
+                "header" => $theme_settings.info_block_4_header,
+                "content" => $theme_settings.info_block_4_content,
+                "icon" => $theme_settings.info_block_4_icon,
+                "uri" => $theme_settings.info_block_4_uri,
+                "view" => $theme_settings.info_block_4_view
+            ]}
+
+            {$_info_blocks[] = [
+                "header" => $theme_settings.info_block_5_header,
+                "content" => $theme_settings.info_block_5_content,
+                "icon" => $theme_settings.info_block_5_icon,
+                "uri" => $theme_settings.info_block_5_uri,
+                "view" => $theme_settings.info_block_5_view
+            ]}
+
+            {foreach $_info_blocks as $_info_block}
+                {if (!empty($_info_block.view) && $_info_block.view !== "sidebar") && (!empty($_info_block.header) || !empty($_info_block.content))}
+                    <div class="s-info-block">
+                        {if !empty($_info_block.header)}
+                            <header class="s-info-header">
+                                {if !empty($_info_block.icon)}
+                                    <img class="s-icon" src="{$wa_parent_theme_url}{$_info_block.icon}?v{$wa_theme_version}">
+                                {/if}
+                                {$_info_block.header}
+                            </header>
+                        {/if}
+                        {if !empty($_info_block.content)}
+                            <div class="s-info-content">{$_info_block.content}</div>
+                        {/if}
+                    </div>
+                {/if}
+            {/foreach}
+
+        </div>
+    </div>
+</div>
+
+{/strip}

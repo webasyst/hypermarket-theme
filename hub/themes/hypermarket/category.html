@@ -1,0 +1,33 @@
+{strip}
+
+{$wa->globals("globalHeader", $category.name|escape)}
+
+<div class="h-category-page">
+    {* @event frontend_category.%plugin_id% *}
+    {foreach $frontend_category as $_}{$_}{/foreach}
+
+    {if $category.enable_sorting && !empty($sorting) && count($sorting) > 1}
+        <div class="s-sorting-list">
+            {$_active_sort = reset($sorting)}
+            {if !empty($sort) && !empty($sorting[$sort])}
+                {$_active_sort = $sorting[$sort]}
+            {/if}
+
+            <span class="s-label">[`Sorting`]:</span>
+            <div class="s-styled-dropdown">
+                <span class="s-visible">{$_active_sort|escape}</span>
+                <ul class="s-hidden right">
+                    {foreach $sorting as $_k => $_name}
+                        <li class="{if $sort == $_k}is-active{/if}">
+                            <a href="?sort={$_k}">{$_name|escape}</a>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+    {/if}
+
+    {include file="./topics.html" inline}
+</div>
+
+{/strip}

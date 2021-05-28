@@ -1,0 +1,63 @@
+{strip}
+
+{$wa->globals('isMyAccount', true)}
+{$wa->globals('isSubscriptionPage', true)}
+{$wa->globals('globalHeader', "[`My subscriptions`]")}
+
+<div class="m-subscriptions-page">
+    {if $just_confirmed}
+        <p class="m-action-hint">[`Thanks for subscription!`]</p>
+
+    {elseif $just_subscribed_again}
+        <p class="m-action-hint">[`Thanks for subscription!`]</p>
+
+    {elseif $just_updated}
+        <p class="m-action-hint">[`Your subscription list successfully updated.`]</p>
+
+    {elseif $just_unsubscribed || $unsubscriber}
+        <p class="m-action-hint">[`You are unsubscribed from all mailing campaigns.`]</p>
+
+    {/if}
+
+    <section class="m-subscriptions-section">
+        <header class="h-section-header">
+            <h2 class="h-header">
+                {if empty($subscriptions)}
+                    [`There is no list of topics for subscriptions`]
+                {else}
+                    [`Select emailing campaigns you would like to participate in:`]
+                {/if}
+            </h2>
+        </header>
+        <div class="h-section-body">
+            <form action="{$wa->getUrl('mailer/frontend/mySubscriptions')}" method="post">
+
+                {if empty($unsubscriber) && !empty($subscriptions)}
+                    <ul class="m-subscription-list corrected">
+                        {foreach $subscriptions as $_subscription}
+                            <li class="m-subscription">
+                                <label>
+                                    <input class="m-checkbox" type="checkbox" name="list[]" value="{$_subscription.subscription_info.list_id}" {if $_subscription.subscribed}checked{/if}>
+                                    {$_subscription.subscription_info.list_name}
+                                </label>
+                            </li>
+                        {/foreach}
+                    </ul>
+                {/if}
+
+                <div class="m-actions-wrapper">
+                    {if $unsubscriber}
+                        <input class="button" value="[`Subscribe again`]" type="submit" name="subscribe_again" />
+                    {elseif $subscriptions}
+                        <input class="reset" name="unsubscribe_from_all" type="submit" value="[`Unsubscribe from all mailings`]">
+                        <input name="update_subscriptions" type="submit" value="[`Save`]">
+                    {/if}
+                </div>
+
+                {$wa->csrf()}
+            </form>
+        </div>
+    </section>
+</div>
+
+{/strip}

@@ -1,0 +1,14 @@
+{strip}
+
+{$wa->globals("globalHeader", "[`Search results for`]: \"`$title|escape`\"")}
+
+<div class="h-search-page">
+
+    {* @event frontend_search.%plugin_id% *}
+    {foreach $frontend_search as $_}{$_}{/foreach}
+
+    {include file="./topics.html" inline}
+
+</div>
+
+{/strip}

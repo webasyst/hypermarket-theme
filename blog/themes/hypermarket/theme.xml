@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE theme PUBLIC "wa-app-theme" "http://www.webasyst.com/wa-content/xml/wa-app-theme.dtd">
+<theme id="hypermarket" app="blog" vendor="webasyst" author="webasyst" parent_theme_id="site:hypermarket" version="1.3.6">
+    <name locale="en_US">Hypermarket</name>
+    <name locale="ru_RU">Гипермаркет</name>
+    <files>
+        <!-- parent resources -->
+        <file path="css/custom.css" parent="1">
+        </file>
+        <file path="js/custom.js" parent="1">
+        </file>
+        <!-- blog resources -->
+        <file path="css/custom.blog.css">
+        </file>
+        <file path="js/custom.blog.js">
+        </file>
+        <!-- parent templates -->
+        <file path="index.html" parent="1">
+        </file>
+        <file path="error.html" parent="1">
+        </file>
+        <file path="signup.html" parent="1">
+        </file>
+        <file path="login.html" parent="1">
+        </file>
+        <file path="forgotpassword.html" parent="1">
+        </file>
+        <file path="page.html" parent="1">
+            <description locale="en_US">Static info page</description>
+            <description locale="ru_RU">Информационная страница</description>
+        </file>
+        <file path="my.profile.html" parent="1">
+        </file>
+        <!-- blog resources -->
+        <file path="breadcrumbs.html">
+        </file>
+        <file path="comment.form.html">
+        </file>
+        <file path="comment.html">
+            <description locale="en_US">One comment template</description>
+            <description locale="ru_RU">Шаблон одного комментария в списке</description>
+        </file>
+        <file path="comments.html">
+            <description locale="en_US">Post comment list</description>
+            <description locale="ru_RU">Комментарии к записи блога</description>
+        </file>
+        <file path="footer.html">
+            <description locale="en_US">Blog footer content</description>
+            <description locale="ru_RU">Футер страниц «Блога»</description>
+        </file>
+        <file path="head.html">
+            <description locale="en_US">Blog’s &lt;head&gt; block</description>
+            <description locale="ru_RU">Блок &lt;head&gt; приложения «Блог»</description>
+        </file>
+        <file path="header.html">
+            <description locale="en_US">Blog’s header content</description>
+            <description locale="ru_RU">Шапка страниц «Блога»</description>
+        </file>
+        <file path="main.html">
+            <description locale="en_US">Blog’s main content layout and navigation</description>
+            <description locale="ru_RU">Основной макет содержимого и навигации в приложении «Блог»</description>
+        </file>
+        <file path="my.nav.html">
+        </file>
+        <file path="post.album.html">
+            <description locale="en_US">Photo album attached to a blog post</description>
+            <description locale="ru_RU">Фотоальбом, прикрепленный к записи блога</description>
+        </file>
+        <file path="post.html">
+            <description locale="en_US">Blog post-viewing page</description>
+            <description locale="ru_RU">Страница просмотра записи блога</description>
+        </file>
+        <file path="post.photos.html">
+        </file>
+        <file path="post.preview.html">
+        </file>
+        <file path="sidebar.html">
+        </file>
+        <file path="stream.html">
+            <description locale="en_US">Post list wrapper</description>
+            <description locale="ru_RU">Обертка для списка записей</description>
+        </file>
+    </files>
+    <settings>
+        <setting var="blog_divider_1" control_type="group_divider">
+            <value></value>
+            <name locale="en_US">Blog settings</name>
+            <name locale="ru_RU">Настройки «Блога»</name>
+        </setting>
+        <setting var="blog_breadcrumb_title" control_type="text">
+            <value locale="en_US">News</value>
+            <value locale="ru_RU">Новости</value>
+            <name locale="en_US">Breadcrumbs section name</name>
+            <name locale="ru_RU">Название раздела для «хлебных крошек»</name>
+        </setting>
+        <setting var="subscribe_page_link" control_type="text">
+            <value></value>
+            <name locale="en_US">Link to email subscription page</name>
+            <name locale="ru_RU">Ссылка на форму email-подписки</name>
+            <description locale="en_US">Used in "Subscribe to blog" block</description>
+            <description locale="ru_RU">Используется для блока «Подписаться на блог»</description>
+        </setting>
+        <setting var="photos_view_type" control_type="radio">
+            <value>list</value>
+            <name locale="ru_RU">Отображение прикрепленных фотографий</name>
+            <name locale="en_US">Displaying of attached photos</name>
+            <options>
+                <option value="album">
+                    <name locale="ru_RU">Ссылка на альбом</name>
+                    <name locale="en_US">Link to album</name>
+                    <description locale="ru_RU">Статья будет содержать ссылку на альбом.</description>
+                    <description locale="en_US">An article will contain a link to an album.</description>
+                </option>
+                <option value="list">
+                    <name locale="ru_RU">Список фотографий</name>
+                    <name locale="en_US">Photo list</name>
+                    <description locale="ru_RU">Статья будет содержать список фотографий из альбома.</description>
+                    <description locale="en_US">An article will contain photos from an album.</description>
+                </option>
+            </options>
+        </setting>
+    </settings>
+    <locales>
+        <locale>
+            <msgid>Attached photo album</msgid>
+            <msgstr locale="ru_RU">Прикрепленный фотоальбом</msgstr>
+        </locale>
+        <locale>
+            <msgid>Subscribe to blog</msgid>
+            <msgstr locale="ru_RU">Подписаться на блог</msgstr>
+        </locale>
+        <locale>
+            <msgid>By email</msgid>
+            <msgstr locale="ru_RU">По почте</msgstr>
+        </locale>
+        <locale>
+            <msgid>Search news</msgid>
+            <msgstr locale="ru_RU">Найти новость</msgstr>
+        </locale>
+    </locales>
+</theme>

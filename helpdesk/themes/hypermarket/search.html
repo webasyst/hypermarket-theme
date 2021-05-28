@@ -1,0 +1,30 @@
+{strip}
+
+{$wa->globals("globalHeader", $query|escape)}
+
+<div class="h-search-page">
+
+    {if !empty($faq_list)}
+        <ul class="h-faq-list">
+            {foreach $faq_list as $q}
+                <li class="h-faq-wrapper">
+                    <h3 class="h-faq-name">
+                        <a href="{$wa->getUrl('helpdesk/frontend/faq')}{$q.category_url}/{$q.url}/">{$q.question|escape}</a>
+                    </h3>
+                    <div class="h-faq-answer">
+                        {if !empty($q.fragments)}
+                            {$q.fragments|implode:" "}
+                        {else}
+                            {$q.answer|strip_tags|truncate:200:"..."}
+                        {/if}
+                    </div>
+                </li>
+            {/foreach}
+        </ul>
+    {else}
+        <p>[`no records`]</p>
+    {/if}
+
+</div>
+
+{/strip}

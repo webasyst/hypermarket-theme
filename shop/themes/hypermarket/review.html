@@ -1,0 +1,116 @@
+{strip}
+
+<div class="s-review review" data-id="{$review.id}" data-parent-id="{$review.parent_id}" itemscope itemprop="review" itemtype="http://schema.org/Review">
+    {if $review.title}
+        <h4 class="s-title" itemprop="name">{$review.title}</h4>
+    {/if}
+
+    {if $review.text}
+        <div class="s-description" itemprop="description">{$review.text}</div>
+    {/if}
+
+    {strip}
+    {if !empty($review.images)}
+        <div class="s-images-list">
+            {foreach $review.images as $_image}
+                <a class="s-image-wrapper js-show-image" href="{$_image.url_0|escape}" title="{$_image.description|escape}" target="_blank">
+                    <img class="s-image" src="{$_image.url_2|escape}" alt="{$_image.description|escape}">
+                </a>
+            {/foreach}
+
+            <script>
+                ( function($) {
+                    var $document = $(document),
+                        $review = $(".s-review[data-id=\"" + {$review.id|escape} + "\"]");
+
+                    $review.on("click", ".js-show-image", function(event) {
+                        event.preventDefault();
+
+                        var $image = $(this),
+                            images = [];
+
+                        $review.find(".js-show-image").each(function () {
+                            var $_image = $(this);
+                            images.push({
+                                href: $_image.attr("href"),
+                                title: escape($_image.attr("title"))
+                            });
+                        });
+
+                        var k = $image.prevAll('.js-show-image').length;
+                        if (k) { images = images.slice(k).concat(images.slice(0, k)); }
+
+                        $.swipebox(images, {
+                            useSVG : false,
+                            hideBarsDelay: false,
+                            afterOpen: function() {
+                                $document.on("scroll", closeSwipe);
+                                function closeSwipe() {
+                                    var $closeButton = $("#swipebox-close");
+                                    if ($closeButton.length) {
+                                        $closeButton.trigger("click");
+                                    }
+                                    $document.off("scroll", closeSwipe);
+                                }
+                            }
+                        });
+
+                        function escape(string) {
+                            return $("<div />").text(string).html();
+                        }
+                    });
+                })(jQuery);
+            </script>
+        </div>
+    {/if}
+    {/strip}
+
+    <div class="s-layout">
+        <div class="s-column">
+            {* REPLY *}
+            {if $reply_allowed}
+                <div class="s-actions-wrapper">
+                    <a class="js-comment-review" href="{$reply_link|default:"javascript:void(0);"}">[`reply`]</a>
+                </div>
+            {/if}
+        </div>
+
+        <div class="s-column right">
+
+            {* RATES *}
+            {if !$review.parent_id && !empty($review.rate)}
+                <div class="s-rates-wrapper" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+                    {$rate = round($review.rate)}
+                    {for $i = 1 to 5}
+                        {$icon_class = "star"}
+                        {if ($rate < $i)}
+                            {$icon_class = "star-empty"}
+                        {/if}
+                        <i class="s-rate-item svg-icon size-11 {$icon_class}" data-rate-count="{$i}"></i>
+                    {/for}
+
+                    <meta itemprop="worstRating" content = "1">
+                    <meta itemprop="ratingValue" content="{$rate}">
+                    <meta itemprop="bestRating" content = "5">
+                </div>
+            {/if}
+
+            {* NAME *}
+            <div class="s-author-name" itemprop="author">
+                {if empty($review.site)}{$review.author.name}{else}<a href="{$review.site}">{$review.author.name}</a>{/if}
+                {*{if ifempty($review.author.is_user) > 0}*}
+                    {*<span class="s-author-staff">{$wa->shop->settings('name')}</span>*}
+                {*{/if}*}
+            </div>
+
+            {* DATE *}
+            <div class="s-date-wrapper" title="{$review.datetime|wa_datetime}">{$review.datetime|wa_datetime:"humandatetime"}</div>
+
+        </div>
+    </div>
+
+    <meta itemprop="itemReviewed" content="{$product.name|escape}">
+    <meta itemprop="datePublished" content="{$review.datetime|date_format:'Y-m-d'}">
+</div>
+
+{/strip}

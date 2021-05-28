@@ -1,0 +1,179 @@
+{strip}
+
+<section class="s-category-filters filters" id="s-category-filters">
+    {foreach $filters as $_filter}
+        {if !empty($_filter.type) && $_filter.type === "range.date"}
+            {$_lang = substr($wa->locale(), 0, 2)}
+            <link href="{$wa_url}wa-content/css/jquery-ui/base/jquery.ui.all.css?v={$wa->version(true)}" rel="stylesheet" />
+            <script src="{$wa_url}wa-content/js/jquery-ui/jquery.ui.core.min.js?v={$wa->version(true)}"></script>
+            <script src="{$wa_url}wa-content/js/jquery-ui/jquery.ui.datepicker.min.js?v={$wa->version(true)}"></script>
+            {if $_lang !== "en"}
+                <script src="{$wa_url}wa-content/js/jquery-ui/i18n/jquery.ui.datepicker-{$wa->locale()}.js"></script>
+            {/if}
+            {break}
+        {/if}
+    {/foreach}
+
+    <form method="get" action="{$wa->currentUrl(0,1)}">
+        <header class="s-filters-header">
+            <h4 class="s-header">[`Filters`]:</h4>
+        </header>
+
+        {foreach $filters as $fid => $filter}
+            {$_is_selected = false}
+            {if $fid == 'price'}
+                {if $wa->get('price_min')}
+                    {$_is_selected = true}
+                {/if}
+                {if $wa->get('price_max')}
+                    {$_is_selected = true}
+                {/if}
+            {else}
+                {if $filter.type == 'boolean'}
+                    {if $wa->get($filter.code)}
+                        {$_is_selected = true}
+                    {/if}
+                    {if $wa->get($filter.code) === '0'}
+                        {$_is_selected = true}
+                    {/if}
+                    {*{if $wa->get($filter.code, '') === ''}*}
+                        {*{$_is_selected = true}*}
+                    {*{/if}*}
+                {elseif isset($filter.min)}
+                    {if !empty($_v.min)}
+                        {$_is_selected = true}
+                    {/if}
+                    {if !empty($_v.max)}
+                        {$_is_selected = true}
+                    {/if}
+                {else}
+                    {foreach $filter.values as $v_id => $v}
+                        {if in_array( $v_id, (array)$wa->get($filter.code, array()) )}
+                            {$_is_selected = true}
+                        {/if}
+                    {/foreach}
+                {/if}
+            {/if}
+
+            <div class="s-filter-group {if !empty($_is_selected)}is-opened{/if}">
+                {if $fid == 'price'}
+                    {$c = $wa->shop->currency(true)}
+                    <h5 class="s-filter-header">[`Price`]</h5>
+                    <div class="s-filter-wrapper">
+                        <div class="s-filter-item s-range-item" data-min="{floor($filter.min)}" data-max="{ceil($filter.max)}">
+                            [`from`]
+                            <input type="text" class="min" name="price_min" {if $wa->get('price_min')}value="{(int)$wa->get('price_min')}"{/if} placeholder="{floor($filter.min)}">
+                            [`to`]
+                            <input type="text" class="max" name="price_max" {if $wa->get('price_max')}value="{(int)$wa->get('price_max')}"{/if} placeholder="{ceil($filter.max)}">
+                            {$c.sign}
+                        </div>
+                    </div>
+                {else}
+                    <h5 class="s-filter-header">{$filter.name|escape}</h5>
+                    <div class="s-filter-wrapper">
+                        {if $filter.type == "boolean"}
+                            <div class="s-filter-item s-radio-item">
+                                <label><input type="radio" name="{$filter.code}" value="1" {if $wa->get($filter.code)}checked{/if}>[`Yes`]</label>
+                            </div>
+                            <div class="s-filter-item s-radio-item">
+                                <label><input type="radio" name="{$filter.code}" value="0" {if $wa->get($filter.code) === '0'}checked{/if}>[`No`]</label>
+                            </div>
+                            <div class="s-filter-item s-radio-item">
+                                <label><input type="radio" name="{$filter.code}" value="" {if $wa->get($filter.code, '') === ''}checked{/if}>[`Any`]</label>
+                            </div>
+                        {elseif $filter.type == "range.date"}
+                            <div class="s-filter-item s-range-date-item" id="js-filter-{$filter.id|escape}" data-min="{$filter.min}" data-max="{$filter.max}">
+                                <div class="s-datepicker-wrapper">
+                                    <span class="s-label">[`from`]</span>
+                                    <div class="s-fields">
+                                        <input class="js-datepicker" type="text" value="{if !empty($_v.min)}{$_v.min|wa_date}{/if}" placeholder="{$filter.min|wa_date}">
+                                        <input name="{$filter.code}[min]" type="hidden" value="{if !empty($_v.min)}{$_v.min}{/if}">
+                                    </div>
+                                </div>
+                                <div class="s-datepicker-wrapper">
+                                    <span class="s-label">[`to`]</span>
+                                    <div class="s-fields">
+                                        <input class="js-datepicker" type="text" value="{if !empty($_v.max)}{$_v.max|wa_date}{/if}" placeholder="{$filter.max|wa_date}">
+                                        <input name="{$filter.code}[max]" type="hidden" value="{if !empty($_v.max)}{$_v.max}{/if}">
+                                    </div>
+                                </div>
+
+                                <script>
+                                    ( function($) {
+                                        var $filter = $("#js-filter-{$filter.id|escape}");
+                                        $filter.find(".js-datepicker").each( function() { initDatepicker( $(this) ); });
+
+                                        function initDatepicker($datepicker) {
+                                            var $altField = $datepicker.parent().find("input[type='hidden']");
+                                            $datepicker.datepicker({
+                                                altField: $altField,
+                                                altFormat: "yy-mm-dd",
+                                                minDate: formatDate($filter.data("min")),
+                                                maxDate: formatDate($filter.data("max")),
+                                                changeMonth: true,
+                                                changeYear: true
+                                            });
+
+                                            $datepicker.on("change", function() {
+                                                var value = $datepicker.val();
+                                                if (!value) {
+                                                    $altField.val("");
+                                                }
+                                            });
+
+                                            function formatDate(date_string) {
+                                                var date_array = date_string.split("-");
+                                                var year = date_array[0],
+                                                    mount = date_array[1] - 1,
+                                                    day = date_array[2];
+                                                return new Date(year, mount, day);
+                                            }
+                                        }
+                                    })(jQuery);
+                                </script>
+                            </div>
+                        {elseif isset($filter.min)}
+                            <div class="s-filter-item s-range-item" data-min="{$filter.min}" data-max="{$filter.max}">
+                                [`from`]
+                                <input type="text" class="min" name="{$filter.code}[min]" placeholder="{$filter.min}" {if !empty($_v.min)}value="{$_v.min}"{/if}>
+                                [`to`]
+                                <input type="text" class="max" name="{$filter.code}[max]" placeholder="{$filter.max}" {if !empty($_v.max)}value="{$_v.max}"{/if}>
+                                {if !empty($filter.unit)}
+                                    {$filter.unit.title}
+                                    {if $filter.unit.value != $filter.base_unit.value}<input type="hidden" name="{$filter.code}[unit]" value="{$filter.unit.value}">{/if}
+                                {/if}
+                            </div>
+                        {else}
+                            {foreach $filter.values as $v_id => $v}
+                                <div class="s-filter-item is-checkbox-item">
+                                    <label>
+                                        <input type="checkbox" name="{$filter.code}[]" {if in_array($v_id, (array)$wa->get($filter.code, array()))}checked{/if} value="{$v_id}">{$v}
+                                    </label>
+                                </div>
+                            {/foreach}
+                        {/if}
+                    </div>
+                {/if}
+            </div>
+        {/foreach}
+
+        <footer class="s-buttons-wrapper">
+            <input class="s-button reset" type="reset" value="[`Reset`]">
+            <input class="s-button" type="submit" value="[`Filter products`]">
+            {if $wa->get('sort')}<input type="hidden" name="sort" value="{$wa->get('sort')|escape}">{/if}
+            {if $wa->get('order')}<input type="hidden" name="order" value="{$wa->get('order')|escape}">{/if}
+        </footer>
+
+    </form>
+
+    <script>
+        (function($) {
+            new window.waTheme.init.shop.ProductsFilter({
+                $wrapper: $("#s-category-filters")
+            });
+        })(jQuery);
+    </script>
+
+</section>
+
+{/strip}

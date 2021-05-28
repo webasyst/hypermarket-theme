@@ -1,0 +1,38 @@
+{strip}
+
+<div class="h-topic-wrapper" id="js-forum-topic-wrapper" itemscope itemtype="http://schema.org/Question">
+    <meta itemprop="datePublished" content="{$topic.create_datetime|date_format:'Y-m-d\TH:i'}">
+    <meta itemprop="name" content="{$topic.title|escape}">
+
+    <article class="h-topic-block" id="h-topic-{$topic.id}">
+        <div class="h-topic-content" itemprop="articleBody">{$topic.content}</div>
+
+        {* @event frontend_topic.%plugin_id%.body *}
+        {foreach $frontend_topic as $_}{$_.body}{/foreach}
+    </article>
+
+    {$_topic_actions_html}
+
+    {include file="./comments.html" topic=$topic comments=$comments inline}
+
+    {if $comments_allowed}
+        {include file="./comment.add.html" inline}
+
+    {else}
+        {if !empty($topic.badge) && $topic.badge.id == 'archived'}
+            <p><em>[`This topic is in the archive. Posting new comments is disabled.`]</em></p>
+        {else}
+            <p><em>[`Posting new comments is disabled for this topic.`]</em></p>
+        {/if}
+    {/if}
+
+    <script>
+        ( function($) {
+            new window.waTheme.init.hub.ForumTopicPage({
+                $wrapper: $("#js-forum-topic-wrapper")
+            });
+        })(jQuery);
+    </script>
+</div>
+
+{/strip}

@@ -1,0 +1,278 @@
+{strip}
+
+<script src="{$wa_theme_url}js/reviews.js"></script>
+
+{$wa->title(sprintf('[`%s reviews`]', $product.name))}
+
+{$_product_data = [
+    "product" => $product,
+    "reviews_count" => count($reviews),
+    "is_review_page" => true
+]}
+
+{$wa->globals("showBottomBanner", true)}
+{$wa->globals("productPageData", $_product_data)}
+{$wa->globals("globalHeader", _w('%d review for ','%d reviews for ', $reviews_count)|cat:$product.name|escape)}
+
+<div class="s-reviews-page" id="s-reviews-page">
+
+    <section class="s-form-section">
+        <header class="s-section-header">[`Write a review`]</header>
+        <div class="s-section-body">
+            <div class="s-form-wrapper">
+                <form method="post">
+                    {$current_user_id = $wa->userId()}
+                    {if empty($current_user_id) && $require_authorization}
+                        <div class="s-review-field">{sprintf(
+                            '[`To add a review please <a href="%s">sign up</a> or <a href="%s">login</a>`]',
+                            $wa->signupUrl(),
+                            $wa->loginUrl())
+                            }</div>
+                    {else}
+                        {if !empty($current_user_id)}
+                            <div class="s-review-field user-name-block">
+                                <strong><img src="{$wa->user()->getPhoto(20)}" class="userpic" alt="">{$wa->user('name')}</strong>
+                                <a class="s-logout-link" href="?logout">([`log out`])</a>
+                            </div>
+                        {else}
+
+                            {* SOCIAL ACCOUNTS *}
+                            {include file="`$wa_parent_theme_path`/login.adapters.html" inline}
+
+                            <div class="s-provider-fields s-layout fixed" data-provider="{shopProductReviewsModel::AUTH_GUEST}" {if $current_auth_source != shopProductReviewsModel::AUTH_GUEST}style="display:none"{/if}>
+                                <div class="s-column">
+                                    <div class="s-review-field">
+                                        <div class="s-label">[`Your name`]</div>
+                                        <input class="is-wide" type="text" name="name" id="review-name" value="">
+                                    </div>
+                                </div>
+                                <div class="s-column">
+                                    <div class="s-review-field">
+                                        <div class="s-label">[`Email`]</div>
+                                        <input class="is-wide" type="text" name="email" id="review-email">
+                                    </div>
+                                </div>
+                                <div class="s-column">
+                                    <div class="s-review-field">
+                                        <div class="s-label">[`Website`]</div>
+                                        <input class="is-wide" type="text" name="site" id="review-site">
+                                    </div>
+                                </div>
+                            </div>
+
+                            {if !empty($auth_adapters[$current_auth_source])}
+                                {$adapter = $auth_adapters[$current_auth_source]}
+                                <div class="s-provider-fields" data-provider="{$adapter->getId()}">
+                                    <div class="s-review-field">
+                                        <div class="header-block">[`Your name`]</div>
+                                        <strong><img src="{$adapter->getIcon()}" class="userpic" />{$current_auth.name|escape}</strong>
+                                        <a href="?logout">[`log out`]</a>
+                                    </div>
+                                </div>
+                            {/if}
+                        {/if}
+
+                        <div class="s-review-field">
+                            <div class="s-label">[`Title`]</div>
+                            <input class="is-wide" type="text" name="title">
+                        </div>
+
+                        <div class="s-review-field s-rates-field">
+                            <div class="s-label">[`Rate product`]</div>
+                            <div class="s-rates-wrapper">
+                                {for $i = 1 to 5}
+                                    <i class="s-rate-item svg-icon star-empty" data-rate-count="{$i}"></i>
+                                {/for}
+                                <input name="rate" type="hidden" value="0">
+                            </div>
+                        </div>
+
+                        <div class="s-review-field">
+                            <div class="s-label">[`Review`]</div>
+                            <textarea id="review-text" name="text" rows="10" cols="45"></textarea>
+                        </div>
+
+                        {$_images_enabled = $wa->setting("allow_image_upload", false, "shop")}
+                        {if !empty($_images_enabled)}
+                            <div class="s-review-field">
+                                <div class="s-label">[`Images`]</div>
+                                <div class="s-review-images-section" id="js-review-images-section">
+                                    <div class="s-image-form-section">
+                                        {strip}
+                                        <div class="s-description">
+                                            <span class="s-icon photo">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="19" viewBox="0 0 22 19">
+                                                    <path fill="#ddd" d="M18.373 3.586c.773 0 1.432.265 1.979.794.545.53.819 1.167.818 1.915v9.48c0 .747-.273 1.386-.819 1.914a2.74 2.74 0 0 1-1.978.793H2.987a2.74 2.74 0 0 1-1.977-.793c-.547-.528-.82-1.167-.82-1.914v-9.48c0-.748.273-1.386.82-1.915a2.742 2.742 0 0 1 1.977-.794H4.12c.792 0 1.502-.483 1.786-1.214l.086-.224c.14-.346.392-.644.76-.894.368-.251.745-.376 1.132-.376h5.594c.387 0 .763.125 1.131.376.368.25.621.548.76.894l.087.224a1.911 1.911 0 0 0 1.785 1.214h1.132zM10.68 15.774c1.348 0 2.5-.464 3.458-1.391.959-.928 1.438-2.044 1.437-3.349 0-1.304-.478-2.42-1.437-3.348-.957-.927-2.11-1.39-3.458-1.39-1.348 0-2.5.462-3.458 1.39-.958.928-1.437 2.044-1.437 3.348 0 1.305.478 2.422 1.437 3.349.958.927 2.11 1.391 3.458 1.391zM8.456 8.881a3.083 3.083 0 0 1 2.224-.894c.867 0 1.609.298 2.224.894.615.596.923 1.314.923 2.153s-.307 1.557-.923 2.152a3.08 3.08 0 0 1-2.224.894 3.083 3.083 0 0 1-2.224-.894c-.615-.595-.923-1.313-.923-2.152 0-.839.308-1.557.923-2.153z">
+                                                </svg>
+                                            </span>
+                                            <a href="javascript:void(0);">[`Upload photos`]</a> [`or drag &amp; drop here (max. 10 photos)`]
+                                        </div>
+                                        {/strip}
+                                        <input class="s-file-field js-file-field" type="file" multiple>
+                                    </div>
+
+                                    <div class="s-attached-files-section js-attached-files-section"></div>
+
+                                    <div class="s-errors-section js-errors-section"></div>
+
+                                    {strip}
+                                        {capture assign="_file_template"}
+                                            <div class="s-file-wrapper">
+                                                <div class="s-image-wrapper"></div>
+                                                <div class="s-description-wrapper">
+                                                    <div class="s-visible">
+                                                        <a class="js-show-textarea" href="javascript:void(0);">[`Add a description`]</a>
+                                                    </div>
+                                                    <div class="s-hidden">
+                                                        <textarea class="s-textarea js-textarea" placeholder="[`Enter a description here`]"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="s-actions">
+                                                    <div class="s-action js-delete-file" title="{_w("Delete")|escape}">
+                                                <span class="s-icon delete">
+                                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 10 10" xml:space="preserve">
+                                                        <style type="text/css">.st0 { fill:none;stroke:rgba(0,0,0,0.5);stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10; } </style>
+                                                        <line class="st0" x1="0.5" y1="0.5" x2="9.5" y2="9.5"/>
+                                                        <line class="st0" x1="9.5" y1="0.5" x2="0.5" y2="9.5"/>
+                                                    </svg>
+                                                </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {/capture}
+                                    {/strip}
+
+                                    {strip}
+                                        {capture assign="_error_template"}
+                                            <div class="s-error">%text%</div>
+                                        {/capture}
+                                    {/strip}
+
+                                    <script>
+                                        ( function($) {
+                                            {$_max_post_size = waRequest::getPostMaxSize()}
+                                            {$_max_file_size = waRequest::getUploadMaxFilesize()}
+                                            {$_max_post_size_mb = floor($_max_post_size * 10/(1024))/10}
+                                            {$_max_file_size_mb = floor($_max_file_size * 10/(1024))/10}
+
+                                            new window.waTheme.init.shop.ReviewImagesSection({
+                                                $wrapper: $("#js-review-images-section"),
+                                                max_post_size: {$_max_post_size|json_encode},
+                                                max_file_size: {$_max_file_size|json_encode},
+                                                max_files: 10,
+                                                templates: {
+                                                    "file": {$_file_template|json_encode},
+                                                    "error": {$_error_template|json_encode}
+                                                },
+                                                patterns: {
+                                                    "file": "images[%index%]",
+                                                    "desc": "images_data[%index%][description]"
+                                                },
+                                                locales: {
+                                                    "files_limit": {_w("You can upload a maximum of 10 photos.")|json_encode},
+                                                    "file_type": {_w("Unsupported image type. Use PNG, GIF and JPEG image files only.")|json_encode},
+                                                    "post_size": {_w("Total size of selected files cannot be greater than")|json_encode} + " " + {$_max_post_size_mb|json_encode} + {_w("KB")|json_encode} + ".",
+                                                    "file_size": {_w("Each file’s size cannot be greater than")|json_encode} + " " + {$_max_file_size_mb|json_encode} + {_w("KB")|json_encode} + "."
+                                                }
+                                            });
+
+                                        })(jQuery);
+                                    </script>
+                                </div>
+                            </div>
+                        {/if}
+
+                        {$_moderate_enabled = $wa->setting('moderation_reviews', 0, 'shop')}
+                        {if !empty($_moderate_enabled)}
+                            <div class="s-review-field">
+                                <div class="s-review-notice-section">
+                                    [`Your review will be published after moderation.`]
+                                </div>
+                            </div>
+                        {/if}
+
+                        {if $request_captcha && empty($current_user_id)}
+                            <div class="s-review-field review-submit">
+                                {$wa->captcha()}
+                            </div>
+                        {/if}
+
+                        {if empty($current_user_id) && !empty($review_service_agreement) && !empty($review_service_agreement_hint)}
+                            <div class="s-review-field service-agreement-wrapper">
+                                <label>
+                                    {if $review_service_agreement == 'checkbox'}
+                                        <input type="hidden" name="service_agreement" value="">
+                                        <input type="checkbox" name="service_agreement" value="1"{if $wa->post('service_agreement') || $wa->storage('shop_review_agreement')} checked{/if}>
+                                    {/if}
+                                    {$review_service_agreement_hint}
+                                </label>
+                            </div>
+                        {/if}
+
+                        <div class="s-review-field reply-notification">
+                            <span class="reply-number"></span>
+                            <a href="javascript:void(0);" class="unset-reply-parent">[`cancel`]</a>
+                        </div>
+
+                        <div class="s-errors-wrapper"></div>
+
+                        {if empty($current_user_id) && !empty($review_service_agreement) && !empty($review_service_agreement_hint)}
+                            <div class="s-review-field">
+                                <label class="service-agreement-wrapper">
+                                    {if $review_service_agreement == 'checkbox'}
+                                        <input type="hidden" name="service_agreement" value="">
+                                        <input type="checkbox" name="service_agreement" value="1"{if $wa->post('service_agreement') || $wa->storage('shop_review_agreement')} checked{/if}>
+                                    {/if}
+                                    {$review_service_agreement_hint}
+                                </label>
+                            </div>
+                        {/if}
+
+                        <div class="s-review-field comment-submit">
+                            <input type="submit" class="save js-submit-button" value="[`Add review`]" data-active="[`Adding`]" data-inactive="[`Add review`]">
+                            <button type="button" class="s-cancel-button js-unset-reply-parent">[`cancel`]</button>
+                        </div>
+
+                        <input type="hidden" name="parent_id" value="0">
+                        <input type="hidden" name="product_id" value="{if isset($product.id)}{$product.id}{else}0{/if}">
+                        <input type="hidden" name="auth_provider" value="{$current_auth_source|default:shopProductReviewsModel::AUTH_GUEST}">
+                        <input type="hidden" name="count" value="{$reviews_count}">
+                    {/if}
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <div class="s-reviews-section">
+        <a name="reviewheader"></a>
+
+        {if !empty($reviews)}
+            <ul class="s-reviews-list">
+                {foreach $reviews as $_review}
+                    <li class="s-review-wrapper">
+                        {include file="./review.html" review=$_review reply_allowed=$reply_allowed inline}
+                        {if !empty($_review.comments)}
+                            <ul class="s-reviews-list">
+                                {foreach $_review.comments as $_comment}
+                                    <li class="s-review-wrapper">
+                                        {include file="./review.html" review=$_comment reply_allowed=$reply_allowed inline}
+                                    </li>
+                                {/foreach}
+                            </ul>
+                        {/if}
+                    </li>
+                {/foreach}
+            </ul>
+        {/if}
+    </div>
+
+    <script>
+        ( function($) {
+            new window.waTheme.init.shop.Reviews({
+                $wrapper: $("#s-reviews-page")
+            });
+        })(jQuery);
+    </script>
+</div>
+
+{/strip}

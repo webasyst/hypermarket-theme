@@ -1,0 +1,52 @@
+.m-subscriptions-page .m-action-hint {
+  padding: 16px;
+  border-radius: 5px;
+  background: #e6f9e6;
+}
+.m-subscriptions-page .m-subscriptions-section {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.m-subscriptions-page .m-subscriptions-section > .h-section-header {
+  background: #fff;
+  padding: 20px 50px;
+}
+.m-subscriptions-page .m-subscriptions-section > .h-section-header .h-header {
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 500;
+  color: #5f5f5f;
+}
+.m-subscriptions-page .m-subscriptions-section > .h-section-body {
+  padding: 30px 50px;
+  background: #f7f7f7;
+}
+.m-subscriptions-page .m-subscription-list .m-subscription {
+  margin: 6px 0 0;
+}
+.m-subscriptions-page .m-subscription-list .m-subscription:first-child {
+  margin-top: 0;
+}
+.m-subscriptions-page .m-subscription-list .m-subscription label {
+  display: inline-block;
+  line-height: 20px;
+}
+.m-subscriptions-page .m-subscription-list .m-subscription .m-checkbox {
+  position: relative;
+  top: 2px;
+  margin: 0 4px 0 0;
+}
+.m-subscriptions-page .m-actions-wrapper {
+  margin: 32px 0 0;
+}
+.m-subscriptions-page .m-actions-wrapper:first-child {
+  margin-top: 0;
+}
+.m-subscriptions-page .m-actions-wrapper > * {
+  margin-right: 8px;
+}
+.m-subscriptions-page .m-actions-wrapper > *:last-child {
+  margin-right: 0;
+}

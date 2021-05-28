@@ -1,0 +1,116 @@
+{strip}
+
+{$_wa_url = $wa->url(true)}
+{$_wa_url = substr($_wa_url, 0, -1)}
+
+<article class="b-post-wrapper is-preview" id="b-post-{$post.id}" {if $wa->param('blog_url')}itemprop="blogPosts"{/if} itemscope itemtype="http://schema.org/BlogPosting">
+    <div class="b-post">
+        <header class="b-post-header">
+            <h2 class="b-post-title">
+                <a href="{$post.link}" itemprop="url">{$post.title}</a>
+                {* @event prepare_posts_frontend.%plugin_id%.post_title *}
+                {if !empty($post.plugins.post_title)}
+                    {foreach $post.plugins.post_title as $plugin => $output}{$output}{/foreach}
+                {/if}
+            </h2>
+
+            <div class="b-credentials">
+                <div class="s-layout">
+                    <div class="s-column middle">
+                        {if $post.contact_id}
+                            <a class="b-user-wrapper" href="{$post.user.posts_link}">
+                                {if !empty($post.user.photo_url_20)}
+                                    <img class="b-image" src="{$post.user.photo_url_20}" alt="">
+                                {/if}
+                                <span class="b-name" itemprop="author">{$post.user.name}</span>
+                            </a>
+                        {else}
+                            <span class="b-user-wrapper">
+                                {if !empty($post.user.photo_url_20)}
+                                    <img class="b-image" src="{$post.user.photo_url_20}" alt="">
+                                {/if}
+                                <span class="b-name" itemprop="author">{$post.user.name}</span>
+                            </span>
+                        {/if}
+
+                        <span class="b-date">{$post.datetime|wa_datetime:"humandate"}</span>
+                        <span class="b-time">{$post.datetime|wa_datetime:"time"}</span>
+                    </div>
+                    <div class="s-column middle right">
+                        {if $show_comments && $post.comments_allowed && !empty($post.comment_count)}
+                            <a class="b-comments-link" href="{$post.link}#comments">
+                                {_w('%d comment','%d comments',$post.comment_count)}
+                            </a>
+                        {/if}
+                    </div>
+                </div>
+                <meta itemprop="datePublished" content="{$post.datetime|date_format:'Y-m-d\TH:i'}">
+                <meta itemprop="headline" content="{$post.title}">
+
+                {$_wa_url = $wa->url(true)}
+                {$_wa_url = substr($_wa_url, 0, -1)}
+                {$_logo = "`$_wa_url``$wa_parent_theme_url``$theme_settings.logo|default:''`"}
+                <meta itemprop="image" content="{$_logo}">
+                <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                    <meta itemprop="name" content="{$post.user.name}">
+                    <meta itemprop="logo" content="{$_logo}">
+                </div>
+            </div>
+        </header>
+
+        {* @event prepare_posts_frontend.%plugin_id%.before *}
+        {if !empty($post.plugins.before)}
+            <div class="text_before">
+                {foreach $post.plugins.before as $plugin => $output}
+                    <div class="b-plugin-wrapper">{$output}</div>
+                {/foreach}
+            </div>
+        {/if}
+
+        <div class="b-content" itemprop="articleBody">
+            {if !empty($is_search_post)}
+                {$post.text|strip_tags|truncate:400}
+            {else}
+                {$post.text}
+
+                {if $post.cutted}
+                    <p>
+                        <a href="{$post.link}">{$post.cut_link_label|default:'[`Continue reading →`]'}</a>
+                    </p>
+                {/if}
+            {/if}
+        </div>
+
+        {if empty($is_search_post) && $post.album_id && $post.album.id && $post.album.photos}
+            {$_show_album = !empty($theme_settings.photos_view_type) && $theme_settings.photos_view_type == "album"}
+            {if $_show_album}
+                {include "post.album.html" album=$post.album inline}
+            {else}
+                {include "post.photos.html" photos=$post.album.photos preview=true inline}
+            {/if}
+        {/if}
+
+        {* @event prepare_posts_frontend.%plugin_id%.after *}
+        {if !empty($post.plugins.after)}
+            <div class="text_after">
+                {foreach $post.plugins.after as $plugin => $output}
+                    <div class="b-plugin-wrapper">{$output}</div>
+                {/foreach}
+            </div>
+        {/if}
+    </div>
+
+    <script>
+        ( function($) {
+            new window.waTheme.init.blog.Post({
+                $wrapper: $("#b-post-{$post.id}"),
+                search_query: {if !empty($is_search_post)}{$blog_query|escape|json_encode}{else}false{/if},
+                use_retina: {if blogPhotosBridge::is2xEnabled()}true{else}false{/if},
+                is_review: true
+            });
+        })(jQuery);
+    </script>
+
+</article>
+
+{/strip}

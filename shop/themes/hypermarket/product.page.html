@@ -1,0 +1,15 @@
+{strip}
+
+{$wa->globals("showBottomBanner", true)}
+
+{$_product_data = [
+    "page" => $page,
+    "product" => $product,
+    "reviews_count" => $reviews_total_count
+]}
+
+{$wa->globals("productPageData", $_product_data)}
+
+{include file="`$wa_parent_theme_path`/page.html" inline}
+
+{/strip}

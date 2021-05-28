@@ -1,0 +1,33 @@
+{strip}
+
+{$wa->globals('isMyAccount', true)}
+{$wa->globals("globalHeader", "[`Requests`]")}
+{if !empty($forms)}
+    {$wa->globals("requestForms", $forms)}
+{/if}
+{$wa->globals("isRequestsPage", true)}
+
+<div class="h-requests-page">
+    {if !empty($requests)}
+        <ul class="h-requests-list">
+            {foreach $requests as $_request}
+                <li class="h-request-wrapper ">
+                    <header class="h-request-header">
+                        <span class="h-state {$_request.state_id|escape}">{$_request.state}</span>
+                        <span class="h-id">
+                            <a class="h-link" href="{$_request.link}">[`#`]{$_request.id}</a>
+                        </span>
+                        <span class="h-date"> [`from`] {$_request.created|wa_datetime:'humandate'}</span>
+                        <span class="h-time"> {$_request.created|wa_datetime:'time'}</span>
+                    </header>
+                    <div class="h-request-body">{$_request.summary}</div>
+                </li>
+            {/foreach}
+        </ul>
+    {else}
+
+        <p>[`&lt;no support requests&gt;`]</p>
+    {/if}
+</div>
+
+{/strip}

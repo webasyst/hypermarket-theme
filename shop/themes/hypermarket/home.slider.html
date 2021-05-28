@@ -1,0 +1,157 @@
+{strip}
+
+<section class="s-slider-section {if !empty($products) && (empty($type) || $type !== "wide")}with-border{/if}">
+    {if !empty($promocards)}
+        <ul class="s-slide-list" id="js-home-slide-list" style="{if $theme_settings.slider_height}height: {$theme_settings.slider_height}px{/if}">
+            {foreach $_promocards as $slide}
+                {$_text_style = ""}
+                {if !empty($use_promo_style)}
+                    {if !empty($slide.color)}
+                        {$_text_style = "color: `$slide.color`;"}
+                    {/if}
+                {/if}
+
+                <li class="s-slide-wrapper is-promocard-slide {if !empty($type) && $type === "wide"}is-wide{else}is-short{/if}">
+                    <div class="s-slide-block">
+                        {if $slide.image}
+                            <div class="s-image" style="background-image: url({$slide.image});"></div>
+                        {/if}
+
+                        {if !empty($use_promo_style)}
+                            {$_bg_style = ""}
+                            {if !empty($slide.background_color)}
+                                {$_bg_style = "background: `$slide.background_color`; opacity: 0.7;"}
+                            {/if}
+
+                            <div class="s-slide-background" {if !empty($_bg_style)}style="{$_bg_style}"{/if}></div>
+                        {/if}
+
+                        <div class="s-text-wrapper" {if !empty($_text_style)}style="{$_text_style}"{/if}>
+                            <div class="s-text-block">
+
+                                <h3 class="s-header">{$slide.title|escape}</h3>
+
+                                <p class="s-description">{$slide.body|escape}</p>
+
+                                {if !empty($slide.countdown_datetime)}
+                                    <div class="s-counter">
+                                        <span class="s-countdown-wrapper js-promo-countdown" data-start="{date('Y-m-d H:i:s')}" data-end="{$slide.countdown_datetime}"></span>
+                                    </div>
+                                {/if}
+                            </div>
+                        </div>
+
+                        <a class="s-link" href="{$slide.link}"></a>
+                    </div>
+                </li>
+
+            {/foreach}
+        </ul>
+        <script>
+            ( function($, waTheme) {
+                var $countdowns = $(".js-promo-countdown");
+                if ($countdowns.length) {
+                    $countdowns.each( function() {
+                        var $wrapper = $(this),
+                            options = {
+                                $wrapper: $wrapper,
+                                locale: waTheme.locale,
+                                start: $wrapper.data('start').replace(/-/g, '/'),
+                                end: $wrapper.data('end').replace(/-/g, '/')
+                            };
+
+                        if (!$wrapper.data("countdown")) {
+                            new waTheme.init.shop.CountDown(options);
+                        }
+                    });
+                }
+            })(jQuery, window.waTheme);
+        </script>
+
+    {elseif !empty($products)}
+
+        {$_slider_photos = $wa->shop->images( array_keys($products), "0x320@2x")}
+        {foreach $_slider_photos as $product_id => $_photos}
+            {$_slider_photos[$product_id] = end($_photos)}
+        {/foreach}
+
+        <ul class="s-slide-list" id="js-home-slide-list" style="{if $theme_settings.slider_height}height: {$theme_settings.slider_height}px{/if}">
+            {foreach $products as $product}
+                {if !empty($type) && $type === "wide"}
+                    {$_product_image_src = $_slider_photos[$product.id]['url_'|cat:"0x320@2x"]}
+                {else}
+                    {$_product_image_src = $wa->shop->productImgUrl($product, "0x320@2x")}
+                {/if}
+
+                {$_name = $product.name}
+                {if $product.summary}
+                    {$_name = "`$product.name` — {strip_tags($product.summary)|escape}"}
+                {/if}
+
+                <li class="s-slide-wrapper is-product-slide {if !empty($type) && $type === "wide"}is-wide{else}is-short{/if}" itemscope itemtype="http://schema.org/Product">
+                    <div class="s-slide-block">
+
+                        <a class="s-image" href="{$product.frontend_url}" title="{$_name}" style="background-image: url('{$_product_image_src}');"></a>
+
+                        <div class="s-text-wrapper">
+                            <div class="s-text-block">
+                                <h2 class="s-header" itemprop="name">
+                                    <a class="name" href="{$product.frontend_url}" title="{$_name}">{$product.name}</a>
+                                </h2>
+
+                                <p class="s-description" itemprop="description">
+                                    {if $product.summary}{strip_tags($product.summary)|truncate:255}{/if}
+                                </p>
+
+                                <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                                    <div class="s-price-wrapper">
+                                        <span class="s-price">{shop_currency_html($product.price)}</span>
+                                        {if !empty($product.compare_price)}
+                                            <span class="s-compare-price">{shop_currency_html($product.compare_price)}</span>
+                                        {/if}
+                                    </div>
+
+                                    <meta itemprop="price" content="{shop_currency($product.price, null, null, 0)}">
+                                    <meta itemprop="priceCurrency" content="{$wa->shop->currency()}">
+                                    {if !empty($product.summary)}
+                                        <meta itemprop="description" content="{strip_tags($product.summary)}">
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+
+                        <a class="s-link" href="{$product.frontend_url}" title="{$_name}"></a>
+                    </div>
+
+                    {$badge_html = $wa->shop->badgeHtml($product.badge)}
+                    {if !empty($badge_html)}
+                        <div class="s-badge-wrapper is-rounded">{$badge_html}</div>
+                    {/if}
+                </li>
+            {/foreach}
+        </ul>
+    {/if}
+
+    <script>
+        ( function($) {
+            var href = "{$wa_active_theme_url}plugins/bxslider/jquery.bxslider.js?v{$wa_theme_version}";
+
+            (!$.fn.bxSlider) ? $.getScript(href, initSlider) : initSlider();
+
+            function initSlider() {
+                var $slider = $("#js-home-slide-list"),
+                    slide_count = $slider.find("li").length;
+
+                $slider.bxSlider({
+                    auto : slide_count > 1,
+                    touchEnabled: true,
+                    pause : 5000,
+                    autoHover : true,
+                    pager: slide_count > 1
+                });
+            }
+        })(jQuery);
+    </script>
+</section>
+
+{/strip}

@@ -1,0 +1,61 @@
+{strip}
+
+{$_is_auth = $wa->user()->isAuth()}
+
+{$_topic_type = ""}
+{if !empty($types[$topic.type_id].type)}
+    {$_topic_type = $types[$topic.type_id].type}
+{/if}
+
+<section class="h-comment-form-section" id="h-comment-form">
+    <header class="h-section-header">
+        <h2 class="h-header">
+            {if $_is_auth}
+                [`Add comment`]
+            {else}
+                {sprintf('[`To add a comment please <a href="%s">sign up</a> or <a href="%s">log in</a>`]',$wa->signupUrl(), $wa->loginUrl())}
+            {/if}
+        </h2>
+    </header>
+    <div class="h-section-body">
+        <form method="post">
+            {if !$_is_auth}
+                {include file="`$wa_parent_theme_path`/login.adapters.html" inline}
+                <p>[`Log in with your customer password or via the services listed above`]</p>
+
+            {else}
+                <div class="h-form-block">
+                    <div class="h-form-header">
+                        <span class="h-userpic"><img src="{$user.photo_url_20}" class="userpic" alt="{$wa->user()->get('name')|escape}" title="{$wa->user()->get('name')|escape}"></span>
+                        <span class="h-user-name">{$wa->user()->get('name')|escape}</span>
+                        <a class="h-logout" href="?logout">[`log out`]</a>
+                    </div>
+                    <div class="h-comment-body">
+                        <div class="comment-redactor"><textarea data-upload-url="{$wa->getUrl('/frontend/uploadImage')}" name="text" rows="10" cols="45"></textarea></div>
+                    </div>
+                    <div class="h-actions">
+                        <button class="h-cancel-button reset">[`Cancel`]</button>
+                        <button type="submit">[`Add comment`]</button>
+                    </div>
+                </div>
+
+                {$wa->csrf()}
+                <input type="hidden" name="parent_id" value="0">
+                <input type="hidden" name="topic_id" value="{$topic.id}">
+                <input type="hidden" name="count" value="{$comments_count|default:""}">
+                <input type="hidden" name="type" value="{if $_topic_type == 'question'}answer{else}comment{/if}">
+
+                <script>
+                    ( function($) {
+                        new window.waTheme.init.hub.CommentForm({
+                            $formWrapper: $("#h-comment-form"),
+                            topic_type: {$_topic_type|json_encode}
+                        });
+                    })(jQuery);
+                </script>
+            {/if}
+        </form>
+    </div>
+</section>
+
+{/strip}

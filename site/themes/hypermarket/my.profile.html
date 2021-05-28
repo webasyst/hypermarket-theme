@@ -1,0 +1,91 @@
+{strip}
+
+{$_title = "[s`My profile`]"}
+
+{$wa->globals("globalHeader", $_title)}
+{$wa->globals("isMyAccount", true)}
+
+{$_has_errors = false}
+{if !empty($form->errors)}{$_has_errors = true}{/if}
+{$_auth_adapters = $wa->authAdapters(true)}
+
+<div class="s-profile-page" id="js-profile-page">
+    {* FORM *}
+    <section class="s-profile-section">
+        {if !empty($_auth_adapters)}
+            <div class="s-profile-header">
+                <p class="s-text">[`Connect this account to your accounts in social networks to automatically log in without entering a password`]</p>
+                {* SOCIAL ACCOUNTS *}
+                {include file="./login.adapters.html" inline}
+            </div>
+        {/if}
+
+        <div class="s-profile-body">
+            {*
+            {if !empty($saved) || ( isset($smarty.get.emailconfirmed) && $smarty.get.emailconfirmed == 1 ) }
+                <p class="s-hint-wrapper is-success">[s`Contact information successfully updated!`]</p>
+            {/if}
+            *}
+
+            <div class="wa-form-wrapper js-form-wrapper">
+                <div class="s-view-block js-view-block" {if $_has_errors}style="display: none;"{/if}>
+                    {foreach $user_info as $id => $info}
+                        {if empty($info.value)}{continue}{/if}
+
+                        {if $id === "photo"}
+                            <div class="line s-photo-line">
+                                {$info.value}
+                            </div>
+
+                        {else}
+                            <div class="line">
+                                <div class="s-layout fixed">
+                                    <div class="s-column first">
+
+                                        <div class="s-label-wrapper with-ornament">
+                                            <div class="s-label">{$info.name}</div>
+                                        </div>
+
+                                    </div>
+                                    <div class="s-column">{$info.value}</div>
+                                </div>
+                            </div>
+                        {/if}
+                    {/foreach}
+
+                    <div class="s-actions-wrapper">
+                        <a class="js-change-password-force" style="display: none;" href="javascript:void(0);">[s`Change password`]</a>
+                        <div class="line">
+                            <input class="js-show-edit-form" type="button" value="[s`Edit`]">
+                        </div>
+                    </div>
+                </div>
+
+                <form class="wa-form js-edit-block" action="{$wa->getUrl('/frontend/myProfile')}" method="post" enctype="multipart/form-data" {if !$_has_errors}style="display: none;"{/if}>
+                    {$form->html()}
+
+                    <div class="wa-field">
+                        <div class="wa-value wa-submit">
+                            <input class="js-save-form" type="submit" value="[s`Save`]">
+                            <input class="transparent s-reset-button js-reset-form" type="button" value="[s`Cancel`]">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        ( function($) {
+            new window.waTheme.init.site.ProfilePage({
+                $wrapper: $("#js-profile-page"),
+                locales: {
+                    "changePasswordText": "[s`Change password`]",
+                    "deletePhotoText": "[s`Delete photo`]"
+                }
+            });
+        })(jQuery);
+    </script>
+</div>
+
+{/strip}

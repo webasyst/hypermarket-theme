@@ -1,0 +1,18 @@
+{strip}
+
+{capture assign="_global_header_html"}
+    {if !empty($title)}
+        <h1>{$title}</h1>
+
+        {* @event frontend_collection.%plugin_id%.search_name *}
+        {foreach $frontend_collection as $item}{if !empty($item.search_name)}{$item.search_name}{/if}{/foreach}
+    {/if}
+{/capture}
+
+{$wa->globals("globalHeaderHTML", $_global_header_html)}
+
+<div class="p-search-page">
+    {include file="./photos.thumbs.html"}
+</div>
+
+{/strip}

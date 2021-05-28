@@ -1,0 +1,23 @@
+{strip}
+
+{$wa->globals("isAuthPage", true)}
+{$wa->globals("globalHeader", "[s`Log in`]")}
+
+<div class="s-auth-page">
+    <div class="s-auth-section">
+        <header class="s-auth-header">
+            {* SOCIAL ACCOUNTS *}
+            {include file="./login.adapters.html" inline}
+
+            <p class="s-auth-text">[`Log in with your customer password or via the services listed above`]</p>
+        </header>
+
+        <div class="s-auth-body">
+            <div class="wa-form-wrapper">
+                {$wa->loginForm($error)}
+            </div>
+        </div>
+    </div>
+</div>
+
+{/strip}

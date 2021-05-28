@@ -1,0 +1,11 @@
+{strip}
+
+<div class="s-error-page">
+    <h1 class="s-error-header">[`Error`]{if $error_code}: {$error_code}{/if}</h1>
+
+    <h3 class="s-error-text">
+        {if $error_message}{$error_message}{else}[`Error`]{/if}
+    </h3>
+</div>
+
+{/strip}
