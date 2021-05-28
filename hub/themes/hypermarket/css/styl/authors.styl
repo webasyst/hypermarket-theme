@@ -1,0 +1,63 @@
+$getPeriod($num = 3)
+    $_other_size = (16px * 3) + 240px
+    $_min_product_w = 200px
+    return $_other_size + $_min_product_w * $num
+
+.h-author-page
+    .h-inner-breadcrumbs
+        margin 0
+
+    .h-author-header
+        margin 16px 0 0
+        line-height 1em
+
+        .h-staff
+        .h-kudos
+            margin-left 0 0 0 4px
+            font-size 16px
+
+    .h-author-sorting
+        margin 1em 0
+
+        .h-hint
+            color inherit
+            font-weight 500
+            font-size 13px
+
+            &:before
+                content "("
+                margin 0 0 0 4px
+
+            &:after
+                content ")"
+
+    .h-author-comments
+        .h-comment-wrapper
+            margin $pad() 0 0
+            &:first-child
+                margin-top 0
+
+.h-authors-page
+    .h-authors-wrapper
+        .h-authors
+            margin 0 $pad(-1) $pad(-1) 0
+            padding 0
+
+            .h-author-wrapper
+                width: 33%
+                display inline-block
+                vertical-align top
+                box-sizing border-box
+                padding-right $pad()
+                margin-bottom $pad()
+
+            .h-author
+                $block()
+                $author()
+
+@media (min-width: $getPeriod(4))
+    .h-authors-page
+        .h-authors-wrapper
+            .h-authors
+                .h-author-wrapper
+                    width (100/4)%

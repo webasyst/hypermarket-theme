@@ -1,0 +1,99 @@
+.s-home-wrapper
+    .s-promos-wrapper
+        margin-top $pad()
+
+        .s-promos-list
+            margin 0 0 $pad(-1)
+            padding 0
+
+            .s-item-wrapper
+                $_space_w = 6
+                $_item_w = (100 - $_space_w)/4
+
+                position relative
+                display inline-block
+                vertical-align top
+                width: ($_item_w)%
+                padding-top: (($_item_w * 0.42)%)
+                margin 0 0 $pad() ($_space_w/3)%
+
+                &:nth-child(4n+1)
+                    margin-left 0
+
+                &.with-mask
+                    .s-item-block
+                        .s-image
+                            opacity .3
+
+                .s-item-block
+                    position absolute
+                    top 0
+                    left 0
+                    width 100%
+                    height 100%
+                    overflow: hidden;
+                    box-sizing border-box
+
+                    .s-background
+                        position absolute
+                        top 0
+                        left 0
+                        display block
+                        width 100%
+                        height 100%
+                        cursor pointer
+                        background transparent 50% no-repeat;
+                        background-size: cover;
+                        border-radius $radius
+
+                    .s-image
+                        position absolute
+                        top 0
+                        left 0
+                        display block
+                        width 100%
+                        height 100%
+                        cursor pointer
+                        background transparent 50% no-repeat;
+                        background-size: cover;
+                        border-radius $radius
+
+                    .s-text-wrapper
+                        position relative
+                        text-align: center;
+                        color: #000;
+                        display table
+                        width 100%
+                        height 100%
+
+                        .s-text-block
+                            display table-cell
+                            vertical-align middle
+                            width 100%
+                            height 100%
+                            padding: 1em;
+                            box-sizing border-box
+
+                        h5
+                            font-size 15px
+                            line-height 16px
+                            font-weight 500
+                            text-transform uppercase
+                            color inherit
+
+                        p
+                            font-size 14px
+                            line-height 16px
+                            color inherit
+
+                    .s-link
+                        position absolute
+                        top 0
+                        left 0
+                        display block
+                        width 100%
+                        height 100%
+                        cursor pointer
+
+    .s-products-wrapper
+        margin-top 21px

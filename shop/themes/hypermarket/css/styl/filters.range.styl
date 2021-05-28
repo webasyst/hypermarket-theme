@@ -1,0 +1,56 @@
+$point_size = 16px;
+$bar_size = 13px
+
+body.no-user-select
+    user-select none
+
+.s-range-slider
+    margin 1em 0 0
+    width 100%;
+    height $point_size
+    padding 0 ($point_size/2)
+    box-sizing border-box
+    overflow hidden
+
+    .r-bar-wrapper
+        position relative
+        height 100%
+
+        &:before
+        .r-bar
+            position absolute
+            top 50%
+            left 0
+            width 100%
+            height $bar_size
+            margin -($bar_size/2) 0 0
+
+        &:before
+            content: ""
+            display block
+            background #fff
+            border 1px solid #e1e1e1
+            box-sizing border-box
+
+        .r-bar
+            background #f8d855
+
+        .r-point
+            display inline-block
+            position absolute
+            top 0
+            left 0
+            width $point_size
+            height $point_size
+            border-radius 50%
+            border 1px solid rgba(0,0,0,.01)
+            box-sizing border-box
+            background #a2a2a2
+            margin 0 0 0 ($point_size/-2)
+            cursor pointer
+
+            &.left
+                left 0
+
+            &.right
+                left 100%

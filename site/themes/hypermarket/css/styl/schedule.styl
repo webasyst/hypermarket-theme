@@ -1,0 +1,95 @@
+.s-schedule-wrapper
+    position relative
+    display inline-block
+
+    &.is-open
+        .s-label-wrapper
+            .s-icon
+                transform rotate(180deg) translate(0,-1px)
+
+        .s-hidden
+            display block
+
+    .s-hidden
+        display none
+        position: absolute;
+        width 250px
+        padding 12px 15px
+
+        border 1px solid rgba(0,0,0,.1)
+        border-radius 3px
+        box-shadow: 0 3px 16px -3px rgba(0, 0, 0, 0.25);
+
+        background #fff
+        text-align left
+        z-index 1
+
+        &.top
+            bottom 100%
+
+        &.bottom
+            top 100%
+
+        &.center
+            left 50%
+            transform translate(-50%,0);
+
+        &.left
+            left 0
+
+        &.right
+            right 0
+
+    .s-label-wrapper
+        display inline-block
+        cursor pointer
+        color #999
+        white-space nowrap
+
+        .s-icon
+            display inline-block
+            width: 9px;
+            height: 9px;
+            background transparent url("../img/svg/arrow.down.svg") 50% no-repeat
+            background-size contain
+
+            &.black
+                background-image url("../img/svg/arrow.down.black.svg")
+
+    .s-days-wrapper
+        margin 5px 0 0
+
+        .s-day-wrapper
+            margin-top: 5px
+            &:first-child
+                margin-top 0
+
+            .s-date
+                display inline-block
+                vertical-align top
+                margin-right 20px
+                color #888
+                width 100px
+                font-size 14px
+                line-height (17/14)em
+
+            .s-value
+                display inline-block
+                vertical-align top
+                font-size 16px
+                line-height (19/16)em
+                .s-time
+                    color #000
+                .s-text
+                    color #aaa
+
+    .s-close-icon
+        display block
+        position absolute
+        top 0
+        right 0
+        width: 30px;
+        height: 30px;
+        background transparent url("../img/svg/schedule.delete.svg") 50% no-repeat
+        background-size 10px 10px
+        cursor pointer

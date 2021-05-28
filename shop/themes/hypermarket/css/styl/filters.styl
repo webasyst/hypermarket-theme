@@ -1,0 +1,114 @@
+$_pad = 19px
+
+.s-category-filters
+    border 1px solid #ccc
+    border-radius 5px
+    overflow hidden
+    font-size 12px
+
+    .s-filters-header
+        padding $_pad $_pad
+
+        .s-header
+            font-size 13px
+
+    .s-filter-group
+        background #fcfafa
+        padding $pad() $_pad
+
+        &.is-opened
+            .s-filter-header
+                &:before
+                    transform rotate(90deg);
+
+            .s-filter-wrapper
+                display block
+
+        & + .s-filter-group
+            border-top 1px solid #d8d8d8
+
+        &:first-child
+            margin-top: 0
+
+        .s-filter-header
+            position relative
+            margin 0
+            font-size 13px
+            cursor pointer
+
+            &:before
+                content ""
+                display block
+                position absolute
+                top 2px
+                right 100%
+                margin 0 3px 0 0
+                width 11px
+                height 11px
+                transition all 200ms linear
+                background transparent url("../img/svg/icon.arrow.svg") 50% no-repeat
+
+        .s-filter-wrapper
+            display none
+            margin: $pad() 0 0
+            font-size 13px
+            line-height 16px
+
+            input[type="checkbox"]
+            input[type="radio"]
+                margin 0 4px 0 0
+
+            .s-filter-item
+                display block
+                margin: 8px 0
+
+                label
+                    display inline-block
+                    vertical-align top
+
+                .icon16
+                    margin 0 6px 0 0
+
+                input[type="checkbox"]
+                    margin 0 6px 0 0
+                    position relative
+                    top 1px
+
+                input[type="radio"]
+                    margin 0 6px 0 0
+                    position relative
+                    top 2px
+
+                &.s-range-item
+                    display block
+                    width: 100%
+                    margin: 0
+                    text-align center
+                    white-space nowrap
+
+                    input[type="text"]
+                        width: 30%
+                        min-width 50px
+                        margin 0 4px
+                        vertical-align middle
+                        text-align left
+
+                &.s-range-date-item
+                    .s-datepicker-wrapper
+                        display flex
+                        justify-content space-between
+                        align-items center
+                        &:not(:first-child)
+                            margin-top 1rem
+
+                        input
+                            width 80%
+
+    .s-buttons-wrapper
+        padding $_pad 0;
+        text-align center
+
+        .s-button
+            margin-left $pad()
+            &:first-child
+                margin-left 0

@@ -1,0 +1,164 @@
+.s-pane-section
+    .s-pane-wrapper
+        background #3a3a3a
+        color #fff
+
+        &.is-bottom-fixed
+            position fixed
+            bottom 0
+            left 0
+            width 100%
+            height auto
+            z-index 10
+
+        &.is-top-fixed
+            position fixed
+            top 0
+            left 0
+            width 100%
+            height auto
+            z-index 10
+            border-bottom-color rgba(0,0,0,.1)
+
+    .s-pane-block
+        max-width $max_w
+        margin: auto
+        overflow hidden
+        padding 0
+        box-sizing border-box
+
+        select
+            padding 0
+            width 150px
+            height 23px
+            font-size 12px
+            line-height 23px
+            background transparent
+            color #fff
+            border-color #656565
+
+            option
+                background #3a3a3a
+                color #fff
+
+                &[selected]
+                &:hover
+                    background-color #aaa
+
+        .s-styled-select
+            position relative
+            display inline-block
+            line-height 0
+
+            select
+                padding 0 4px
+                position relative
+                appearance:none;
+
+            &:before
+                content ""
+                display block
+                position absolute
+                top 50%
+                right 9px
+                height 0
+                width 0
+                margin -6px 0 0
+                border 4px solid transparent
+                border-bottom-color #fff
+
+        .s-pane-item
+            position relative
+            display inline-block
+            vertical-align top
+            margin 0
+            padding $pad(.5) $pad()
+            height 32px
+            line-height 32px
+            white-space nowrap
+
+            &.with-hover
+                transition background 200ms linear
+
+                &.is-active
+                &:hover
+                    background #000
+
+                &:hover:not(.is-active)
+                    .s-link
+                        display block
+
+                .s-link
+                    display none
+                    position absolute
+                    top 0
+                    left 0
+                    width 100%
+                    height 100%
+                    cursor pointer
+
+            .svg-icon
+                margin-right 6px
+
+            .s-count
+                display inline-block
+                vertical-align baseline
+                padding 4px 6px 3px
+                background #444
+
+                border 1px solid rgba(255,255,255,.05)
+                border-radius 3px
+                line-height 1em
+
+            &:not(.is-empty)
+                .s-count
+                    font-weight: 500
+                    background #f9d550
+                    color #000
+
+        .s-cart-wrapper
+            &.is-empty
+                color #ccc
+
+                .s-button
+                    background #aaa
+                    cursor default
+
+            & > *
+                margin 0 0 0 ($pad()/2)
+                &:first-child
+                    margin-left 0
+
+            & > span
+            & > a
+                display inline-block
+                vertical-align top
+
+            .s-price
+                position relative
+                top 1px
+                font-size 16px
+                line-height 32px
+
+            &:not(.is-empty)
+                .s-count
+                    font-weight: 500
+                    background #f9d550
+                    color #000
+
+        .s-compare-wrapper
+            color inherit
+            text-decoration none
+            transition background-color linear 200ms
+
+            &.is-empty
+                cursor default
+                &:hover
+                    background transparent
+
+@media (max-width $max_w)
+    .s-pane-section
+        .s-pane-block
+            .s-pane-item
+                &.s-phone-item
+                    display none

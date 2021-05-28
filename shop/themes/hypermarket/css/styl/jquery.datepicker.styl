@@ -1,0 +1,72 @@
+html
+    body
+        .ui-datepicker
+            width: 17em !important;
+            height auto !important
+            padding 0;
+            display: none;
+            z-index 1
+
+            &.ui-widget
+                font-family: inherit
+                font-size: 1em;
+
+            table
+                width: 100%;
+                font-size: $em(14);
+                line-height: (17/14)em;
+                border-collapse: collapse;
+                margin: 0;
+
+            th
+                padding: .7em .3em;
+                text-align: center;
+                font-weight: 500;
+                border: 0;
+
+            .ui-datepicker-prev span
+                background transparent url("../../../img/frontend/order/svg/sprite.background.svg#arrow-left") 50% no-repeat
+                background-size 6.34px 11px
+
+            .ui-datepicker-next span
+                background transparent url("../../../img/frontend/order/svg/sprite.background.svg#arrow-right") 50% no-repeat
+                background-size 6.34px 11px
+
+            input,
+            select,
+            textarea,
+            button
+                font-family: inherit
+                font-size: 1em;
+
+            .ui-widget-header
+                border solid #efefef;
+                border-width 0 0 1px
+                border-radius 0
+                background: transparent;
+                font-size: $em(16);
+                line-height: (16 / 19) em;
+                font-weight: bold;
+
+            .ui-state-default,
+            .ui-widget-content .ui-state-default,
+            .ui-widget-header .ui-state-default,
+            .ui-button,
+            .ui-button.ui-state-disabled:hover,
+            .ui-button.ui-state-disabled:active
+                border: 1px solid transparent;
+                background: transparent;
+                font-weight: normal;
+                color: #333;
+                text-align center
+
+            .ui-state-active,
+            .ui-widget-content .ui-state-active,
+            .ui-widget-header .ui-state-active,
+            a.ui-button:active,
+            .ui-button:active,
+            .ui-button.ui-state-active:hover
+                border: 1px solid transparent;
+                background: transparent;
+                font-weight: bold;
+                color: #000;

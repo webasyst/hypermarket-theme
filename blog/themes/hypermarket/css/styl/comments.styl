@@ -1,0 +1,156 @@
+$_header()
+    font-size 16px
+    line-height 20px
+    font-weight 600
+
+.b-comments-section
+    margin $indent() 0 0
+    font-size 14px
+    $block()
+
+    .is-hidden
+        display none !important;
+
+    & > .b-section-header
+        background #fff
+        padding 30px
+
+        .b-name
+            $_header()
+
+    & > .b-section-body
+        padding 30px
+        background $getColor("background-gray")
+
+    .b-list-section
+        .b-comment-wrapper
+            margin $pad() 0 0
+            &:first-child
+                margin-top 0
+
+            & > .b-comment-wrapper
+                padding-left: $indent()
+
+            .b-comment
+                transition background 200ms linear
+
+                &.is-new
+                    background rgba(0,255,0,.05)
+
+                &.in-reply-to
+                    background rgba(255,255,0,.05)
+
+                .s-column-image
+                    width $indent()
+                    padding-right 12px
+                    box-sizing border-box
+
+                    .b-author-image
+                        display inline-block
+                        vertical-align top
+                        img
+                            width 100%
+                            vertical-align top
+                            border-radius 50%
+
+                .b-credentials
+                    .b-user-wrapper
+                        display inline-block
+                        font-weight bold
+                        margin-right 4px
+
+                    .b-staff
+                        $badge(13px,#d2ffd2,#666)
+                        margin-right 4px
+
+                    .b-date
+                        color $getColor("gray")
+
+                .b-text
+                    margin 5px 0 0
+
+                .b-actions
+                    margin 5px 0 0
+
+                .b-form-section
+                    margin 5px 0 0
+
+                    .b-form-buttons
+                        .b-cancel-button
+                            display inline-block
+                            margin 0 4px 0 0
+
+    .b-form-section
+        margin $indent() 0 0
+
+        & > .b-section-header
+            $_header()
+
+        & > .b-section-body
+            margin $pad() 0 0
+
+        .b-form-auth
+            .b-user-wrapper
+                margin $pad() 0 0
+
+                .b-image
+                    margin 0 4px 0 0
+                    width 20px
+                    height 20px
+                    border-radius 50%
+                    vertical-align middle
+
+                .b-name
+                    margin-right 8px
+                    font-size 15px
+                    line-height 1em
+
+            .b-auth-providers
+                margin $pad() 0 0
+                padding 0
+
+                li
+                    display: inline-block
+                    vertical-align top
+                    margin 0 8px 0 0
+                    &:last-child
+                        margin-right 0
+
+                    &.b-guest-provider
+                    &.b-signup-link
+                        &.is-selected
+                            a
+                                background #2e6da4
+                                color #fff
+
+                        a
+                            $badge(14px, #f0f0f0, #000)
+                            padding 0 8px
+                            line-height 32px
+
+            .b-guest-auth
+                margin $pad() 0 0
+
+                &.is-hidden
+                    display none
+
+                input
+                    display inline-block
+                    vertical-align baseline
+                    margin 0 0 0 4px
+                    width 25%
+                    box-sizing border-box
+
+                    &:first-child
+                        margin-left 0
+
+        .b-comment-body
+            margin $pad() 0 0
+
+        .b-form-buttons
+            margin: $pad() 0 0;
+            &:first-child
+                margin-top: 0;
+
+            .b-cancel-button
+                display none

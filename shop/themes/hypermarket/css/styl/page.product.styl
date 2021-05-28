@@ -1,0 +1,314 @@
+.s-product-page
+    margin-top -6px
+
+    .s-product-header
+        margin 0 0 28px
+
+        .s-header
+            margin 0
+            font-size 30px
+            line-height 30px
+            font-weight 500
+
+        .s-column-right
+            width: 33%;
+            padding-left: 16px;
+            text-align right
+
+        .s-sku-wrapper
+            white-space nowrap
+            font-size 13px
+            line-height 1em
+            padding-top 5px
+
+            .s-label
+                color #7b7b7b
+                margin 0 4px 0 0
+
+            .s-sku
+                font-weight 500
+
+        .s-rating-wrapper
+            white-space nowrap
+            font-size: 13px;
+            line-height: 1em;
+            margin 2px 0 0
+
+            .s-link
+                display: inline-block;
+                margin: 0 0 0 4px;
+                padding: 0 4px;
+
+                border: 1px solid #b1b1b0;
+                border-radius: 5px;
+                color: #b1b1b0;
+
+        .s-summary
+            margin 12px 0 0
+            font-size 13px
+            line-height 15px
+            color $getColor("gray")
+
+    .s-product-aside
+        width 33%
+        padding-left $pad()
+
+    .s-product-photos
+        $_thumb_w = 80px
+
+        .s-photos-aside
+            width ($_thumb_w + $pad()) * 2
+
+        .s-photo-main
+            $_image_height = 430px
+            position relative
+            overflow hidden
+
+            .is-hidden
+                display none !important
+
+            .s-video-wrapper
+                position relative
+                width 100%
+                height $_image_height
+
+                iframe
+                    position absolute
+                    top 0
+                    left 0
+                    width 100%
+                    height 100%
+                    border-radius 2px
+                    overflow hidden
+
+            a
+                display block
+                height $_image_height
+                line-height $_image_height
+                text-align center
+
+                img
+                    display inline-block
+                    vertical-align middle
+                    max-width 100%
+                    max-height $_image_height
+                    line-height inherit
+
+        .s-photos-list
+            margin 0
+            padding 0
+
+            .s-photo-thumb
+                display inline-block
+                vertical-align top
+                margin 0 0 $pad() $pad()
+                width $_thumb_w
+
+                a
+                    display inline-block
+                    vertical-align top
+                    border 2px solid transparent
+                    text-align center
+                    border-radius $radius
+                    overflow hidden
+
+                    &:hover
+                        border-color #ddd
+
+                    img
+                        max-width 100%
+                        max-height $_thumb_w
+                        vertical-align top
+
+                    &.is-selected
+                        border-color #f8d958
+
+    .s-features-wrapper
+    .s-product-desc
+    .s-product-pages
+        margin $indent() 0 0
+        .s-header
+            margin 0 0 $pad()
+
+    .s-product-pages
+        margin-bottom -7px
+
+        a
+            display inline-block
+            padding 0 $pad()
+            border 1px solid $getColor("border-gray")
+            border-radius $radius
+            font-size 13px
+            line-height 35px
+            font-weight bold
+            margin 0 7px 7px 0
+            transition all 200ms linear
+            &:last-child
+                margin-right 0
+
+            &:hover
+                border-color #f8d854
+
+    .s-features-wrapper
+        .s-features-table
+            border 0
+            padding 0
+            font-size 14px;
+            line-height 20px
+
+            th
+            td
+                padding 6px 0 6px 8px
+                border 0
+                &:first-child
+                    padding-left 0
+
+                &.name
+                    width 40%
+
+            .icon16
+                margin-right 4px
+
+            .s-divider-column
+                &:first-child
+                    td
+                        padding-top 0
+
+                td
+                    padding: $indent() 0 $indent(.5)
+
+                .s-divider
+                    line-height 30px
+                    padding 0 8px
+                    background: $getColor("background-gray")
+                    font-weight 600
+
+            .s-label-wrapper
+                &.with-ornament
+                    position relative
+
+                    &:before
+                        content ""
+                        display block
+                        position absolute
+                        bottom 2px
+                        left 0
+                        width 100%
+                        border-bottom 1px dotted $getColor("gray")
+
+                    .s-label
+                        position relative
+                        background #fff
+
+                .s-label
+                    display inline-block
+                    color $getColor("gray")
+                    padding 0 4px 0 0
+
+    .s-product-cart-area
+        border 1px solid #ccc
+        border-radius $radius
+
+        .s-cart-header
+            display: table
+            width 100%
+            height 100px
+            box-sizing border-box
+
+            .s-price-wrapper
+                display: table-cell
+                vertical-align middle
+                padding 0 34px
+
+        .s-cart-content
+            padding 28px 34px
+            background $getColor("background-gray")
+
+        .s-cart-footer
+            padding 28px 34px
+
+    .s-reviews-section
+        margin $pad() 0 0
+        font-size 13px
+
+        & > .s-section-header
+            margin 0 0 $pad()
+            font-weight 600
+
+        & > .s-section-body
+            margin 0
+
+        & > .s-section-footer
+            margin $indent() 0 0
+
+        .s-reviews-list
+            margin 0
+            padding 0
+
+            .s-review-wrapper
+                margin $indent() 0 0
+                padding 0
+                list-style none
+                &:first-child
+                    margin-top 0
+
+            .s-review
+                font-size 13px
+                line-height 15px
+
+                .s-title
+                    font-size inherit
+                    margin 0 0 $pad()
+                    font-style italic
+
+                .s-description
+                    margin 0 0 $pad()
+                    font-style italic
+
+                .s-rates-wrapper
+                    white-space nowrap
+
+                    .s-rate-item
+                        margin 0 0 0 4px
+                        cursor pointer
+                        &:first-child
+                            margin-left 0
+
+                .s-author-name
+                    font-size 12px
+                    color #808080
+
+                    .s-author-staff
+                        padding 0
+
+                .s-date-wrapper
+                    margin 0
+                    font-size 12px
+                    color #808080
+
+        .s-buttons-wrapper
+            margin $pad() 0 0
+            text-align center
+
+    .s-product-tags
+        $block()
+        margin $indent() 0 0
+        padding $pad()
+        background $getColor("background-gray")
+        font-size 13px
+        line-height 15px
+
+        .s-label
+            display inline-block
+            font-weight 500
+            margin 0 4px 0 0
+
+        .s-tag-wrapper
+            display inline-block
+            margin 0 4px 0 0
+            &:not(:last-child)
+                &:after
+                    content ","
+
+        a
+            $link()

@@ -1,0 +1,73 @@
+.s-sidebar-wrapper
+
+    .h-author-section
+        .h-author
+            $author(true)
+
+    .h-tags-section
+        .h-tags-list
+            li
+                display inline-block
+                vertical-align top
+                margin 0 4px 0 0
+
+                &:after
+                    content ","
+
+                &:last-child
+                    &:after
+                        display none
+
+    .h-userbox-section
+        .h-user-info
+            background: #fff;
+            padding: 18px 20px 17px;
+            text-align center
+
+            .h-userpic-wrapper
+                img
+                    display inline-block
+                    vertical-align top
+                    width: 128px;
+                    border-radius: 50%;
+
+            .h-username
+            .h-kudos-wrapper
+            .h-add-topic
+                margin $pad() 0 0
+
+            .h-username
+                font-size: 15px;
+
+            .h-kudos-wrapper
+                .h-kudos
+                    font-size 15px
+
+        .h-count
+            font-size: 10px
+            color $getColor("gray")
+
+    .h-add-topic
+        text-align center
+
+    .h-staff-list
+        .h-staff-user
+            margin 8px 0 0
+            line-height 16px
+            &:first-child
+                margin-top 0
+
+            & > *
+                margin 0 4px 0 0
+                &:last-child
+                    margin-right 0
+
+            .h-user
+                display inline
+
+                img
+                    vertical-align top
+                    width 16px
+                    height 16px
+                    border-radius 50%
+                    margin 0 4px 0 0

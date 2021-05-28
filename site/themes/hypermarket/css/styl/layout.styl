@@ -1,0 +1,135 @@
+html.is-simplified
+    body
+        background #fff
+
+    .s-global-header
+        margin $indent() 50px
+
+    .s-main-wrapper
+        background transparent !important
+
+        .s-branding-wrapper
+            display none
+
+        .s-main-block
+            background transparent
+            box-shadow none
+            max-width 920px
+
+            .s-header-wrapper
+                .s-header-section
+                    border-color transparent
+
+                .s-header-top
+                    padding $pad() 0 0
+                    .s-column:last-child
+                        display none
+
+                .s-header-nav
+                .s-header-bottom
+                    display none
+
+            .s-bottom-banner
+                display none
+
+.s-main-wrapper
+    position relative
+    min-width $min_w
+
+    .s-branding-wrapper
+        position absolute
+        top 0
+        left 0
+        width 100%
+        height 100%
+        background-size 100% auto
+        overflow hidden
+
+        .s-branding-block
+            position relative
+            max-width $max_w
+            margin: auto
+            width 100%
+            height 100%
+
+            .s-branding
+                position absolute
+                top 0
+                height 100%
+
+                &.left
+                    right 100%
+
+                &.right
+                    left 100%
+
+                a
+                img
+                    display inline-block
+                    vertical-align top
+                    max-width none
+
+    .s-main-block
+        position relative
+        max-width $max_w
+        padding 0
+        margin: 0 auto
+        box-sizing border-box
+        background #fff
+
+        & > .s-layout
+            margin $pad() 0 0
+            padding 0 $pad()
+            box-sizing border-box
+            table-layout fixed
+
+        .s-sidebar-wrapper
+            width $aside_w
+
+            & + .s-content-wrapper
+                padding-left $pad()
+
+        .s-content-wrapper
+            padding 0
+
+            .s-content-block
+                position relative
+
+                .s-shop-info
+                    margin $pad() 0
+                    color #6c6c6c
+                    font-size: 12px;
+                    line-height 18px
+
+                    .s-shop-address
+                    .s-time-wrapper
+                        & > *
+                            margin 0 0 0 4px
+                            &:first-child
+                                margin-left 0
+
+    .s-bottom-banner
+        display block
+        margin: $indent() auto 0
+        padding 0 $pad()
+        text-align center
+
+        img
+            border-radius $radius
+            vertical-align top
+            max-width 100%
+
+.s-loading-section
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, .5);
+    z-index: 100;
+
+    .s-loading-content
+        display: inline-block;

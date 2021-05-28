@@ -1,0 +1,144 @@
+.s-compare-page
+    .s-empty-page
+        margin 1em 0 0
+
+    .s-remove-button
+        line-height 1em
+        $link()
+
+    .s-compare-filter
+        .line
+            margin 8px 0 0
+            &:first-child
+                margin-top 0
+
+        label
+            display inline-block
+            line-height 16px
+            cursor pointer
+            input
+                position relative
+                top 1px;
+                margin 0 4px 0 0
+
+    .s-reset-wrapper
+        margin $indent() 0 0
+
+        input
+            background transparent
+            border-color #eac436
+            color $getColor("red")
+
+    .s-table-wrapper
+        margin 0
+        padding 0
+        font-size 13px
+
+        .s-product-wrapper
+            position relative
+            $block()
+            padding $pad()
+            min-width 130px
+
+            .s-image-wrapper
+                text-align center
+                a
+                img
+                    display inline-block
+                    vertical-align top
+                    max-width 100%
+
+            .s-name-wrapper
+                margin $pad() 0 0
+                height $pad(2)
+                line-height $pad()
+                overflow hidden
+
+            .s-rate-wrapper
+                margin $pad(.5) 0 0
+                font-size 12px
+                line-height 14px
+                white-space nowrap
+
+                .s-rating-hint
+                    position relative
+                    top -1px
+                    display inline-block
+                    margin 0 0 0 7px
+                    padding 0 4px
+                    border 1px solid #c2c2c2
+                    border-radius 4px
+                    color #7b7b7b
+
+            .s-price-wrapper
+                margin $pad(.5) 0 0
+                white-space nowrap
+
+                .s-price
+                .s-compare
+                    $ellipsis()
+                    line-height 16px
+
+                .s-price
+                    font-size 16px
+                    font-weight 500
+                    color $getColor("red")
+
+            .s-actions-wrapper
+                margin $pad() 0 0
+                line-height 32px
+
+                .loading
+                    margin-left 4px
+                    top 0
+                    vertical-align middle
+
+                .svg-icon
+                    vertical-align middle
+
+        .s-compare-table
+            border 0
+            table-layout fixed
+
+            .icon16
+                margin 0 4px 0 0
+
+            tr
+                th
+                td
+                    padding 7px 0 7px $pad()
+                    border 0
+                    width 200px
+                    font-size 13px
+                    line-height 16px
+                    font-weight normal
+                    &:first-child
+                        padding-left 0
+
+                    &.s-product-column
+                        padding-bottom $pad()
+
+            thead
+                tr
+                    th.s-actions-column
+                        width 235px
+                        padding-left 0
+
+            tbody
+                tr
+                    &:not(.divider)
+                        &:nth-child(odd)
+                            & > *
+                                background #f9f9f9
+
+                    &.divider
+                        &:not(:first-child)
+                            .s-column-name
+                                padding-top $pad(1.5)
+
+                        .s-column-name
+                            color #000
+                            font-weight 600
+
+                    .s-column-name
+                        color $getColor("gray")

@@ -1,0 +1,73 @@
+.wa-captcha
+    margin $indent() 0
+
+    p
+        margin ($pad()/2) 0 0
+
+        &:first-child
+            margin-top 0
+
+        & + p
+            margin .5em 0 0
+
+        img
+            height 36px
+            display: inline-block;
+            vertical-align: middle;
+            border-radius 2px
+
+    strong
+        display none
+
+    .wa-captcha-img
+        vertical-align top
+
+    .wa-captcha-refresh
+        font-size: 0.8em
+        text-decoration: underline
+        color: #aaa
+
+    .wa-captcha-input
+        display: inline-block !important;
+        vertical-align: top !important;
+        width: 100px !important;
+        height 36px
+
+input.error
+textarea.error
+    border: 2px solid red
+
+.errormsg
+.wa-error-msg
+    display inline-block
+    margin-left 8px
+    color $getColor("red")
+    &:first-child
+        margin-left 0
+
+.wa-error
+    border-color $getColor("red") !important
+
+.s-adapters-list
+    margin 0
+
+    li
+        display inline-block
+        vertical-align top
+        margin 0 7px 0 0
+
+        &:last-child
+            margin-right 0
+
+        a
+            display inline-block
+            vertical-align top
+
+            .icon32
+                vertical-align top
+
+        img
+            margin 0 4px 0 0
+            vertical-align baseline
+            position relative
+            top 3px

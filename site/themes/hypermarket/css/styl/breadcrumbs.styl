@@ -1,0 +1,50 @@
+.s-breadcrumbs-wrapper
+    margin 21px 0 0
+    padding 0 $pad()
+    font-size 12px
+    line-height 16px
+
+    & + .s-global-header
+        margin-top 10px
+
+    .s-item
+        margin 0
+        display inline-block
+        color $getColor("link")
+
+        &:first-child
+            &:before
+                display none
+
+            & + .s-item
+                &:before
+                    display none
+
+            .s-link
+                padding-left 0
+
+        &:before
+            content: "→"
+            padding 0 0 0 4px
+
+        .s-link
+            display inline-block
+            vertical-align top
+            text-decoration none
+            padding 0 0 0 4px
+            color inherit
+
+            &:hover
+                color #ff0000
+
+.s-global-header
+    padding 0 $pad()
+    margin $pad() 0 0
+    font-size 30px
+    line-height 36px
+
+    h1
+    .h-header
+        font-size 30px
+        line-height 36px
+        font-weight 500

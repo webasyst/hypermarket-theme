@@ -1,0 +1,375 @@
+.s-header-wrapper
+    .s-header-section
+        background: #fff;
+        border solid #ccc;
+        border-width 0 1px 1px
+        border-radius: 0 0 5px 5px;
+        margin 0 $pad() $pad();
+
+    .s-header-top
+        padding $pad()
+        font-size 12px
+        line-height (14/12)em
+
+        & > .s-column
+            vertical-align middle
+
+            &.left
+                width $aside_w
+                padding-right $pad()
+
+            &.right
+                width 260px
+                padding-left $pad()
+
+        .s-site-logo
+            display inline-block
+            vertical-align top
+            font-size 0
+            line-height 0
+            margin 0 0 5px
+
+            img
+                max-width 100%
+                vertical-align top
+
+        .s-site-name
+            display block
+            margin 0
+            color #000
+            text-decoration none
+
+        .s-phone-wrapper
+            position relative
+            display inline-block
+            vertical-align middle
+            white-space nowrap
+            margin 4px 8% 4px 0
+            padding-left 22px
+            text-align left
+
+            .phone
+                position absolute
+                top 0
+                left 0
+                margin 0
+
+            .s-phone
+                font-size 16px
+                line-height 1em
+                font-weight 500
+
+            .s-tip
+                display block
+                margin 2px 0 0
+                color $getColor("gray")
+
+        .s-shop-info
+            display inline-block
+            vertical-align top
+            text-align left
+            color $getColor("gray")
+            line-height 18px
+
+            .s-schedule-wrapper
+                .clock
+                    margin-right 7px
+
+            .s-shop-address
+                .map-marker
+                    margin-right 7px
+
+            .s-time-wrapper
+                margin 3px 0 0
+                color $getColor("gray")
+
+                & > *
+                    margin 0 0 0 7px
+                    &:first-child
+                        margin-left 0
+
+    .s-header-nav
+        margin 0
+        padding 6px $pad() 4px
+        background $getColor("background-gray")
+        border-radius: 0 0 6px 6px;
+
+        a
+            text-decoration none
+            color $getColor("text")
+
+        & > .s-layout
+            & > .s-column
+                vertical-align middle
+
+        .s-nav-list
+            display block
+            margin 0
+            padding 0
+
+            li
+                display inline-block
+                vertical-align top
+                margin 0 26px 0 0
+                padding 0
+                white-space nowrap
+                font-size 14px
+                line-height 20px
+
+                .svg-icon
+                .icon16
+                    vertical-align top
+                    position relative
+                    top 1px
+
+                &:last-child
+                    margin-right 0
+
+                &.is-selected
+                    a
+                        //cursor default
+                        color $getColor("menu-hover")
+
+                a
+                    display inline-block
+                    vertical-align top
+                    padding 0
+
+                    &:hover
+                        color $getColor("menu-hover")
+
+    .s-header-bottom
+        margin $pad() 0 0
+        padding 0 $pad()
+
+        & > .s-layout
+            & > .s-column
+                &.left
+                    width $aside_w
+                    padding 0 $pad() 0 0
+
+        .s-catalog-wrapper
+            position relative
+            z-index 1
+
+            &.is-opened
+            &.is-locked
+                z-index 2
+
+                .s-catalog-button
+                    border-radius $radius $radius 0 0
+
+                .s-catalog-list
+                    display block
+
+            &.is-locked
+                .s-catalog-button
+                    cursor default
+
+            &.is-big
+                .s-catalog-list
+                    & > li
+                        & > a
+                            font-size 15px
+                            line-height 18px
+
+                        .s-sub-wrapper
+                            .s-sub-list
+                                .s-sub-item
+                                    .s-sub-header
+                                        font-size 15px
+                                        line-height 18px
+
+                                    ul
+                                        li
+                                            a
+                                                font-size 15px
+                                                line-height 18px
+
+            .s-catalog-button
+                $_icon_size = 16px
+                $_icon_lift = 7px
+                $_catalog_h = 32px
+
+                position relative
+                display block
+                width 100%
+                cursor pointer
+
+                &:before
+                    content: ""
+                    position absolute
+                    right $_icon_lift
+                    top 50%
+                    height $_icon_size
+                    width $_icon_size
+                    margin -($_icon_size/ 2) 0 0
+                    background transparent url("../img/svg/hamburger.white.svg") 0 0 no-repeat
+                    background-size $_icon_size $_icon_size
+
+            .s-catalog-list
+                display none
+                position absolute
+                top 100%
+                left 0
+                width 100%
+                margin 0
+                padding 4px 0
+                z-index 1
+                background #fff
+                border-radius 0 0 2px 2px
+                border solid rgba(0, 0, 0, .1)
+                border-width 0 1px 1px 1px
+                box-sizing border-box
+                box-shadow 0 0 6px rgba(0, 0, 0, .2)
+                word-break: break-word;
+
+                ul
+                li
+                    margin 0
+                    padding 0
+                    list-style none
+
+                a
+                    display block
+
+                & > li
+                    position relative
+                    display block
+                    margin 0
+                    padding 0
+
+                    &.is-opened
+                    &.is-hover
+                        & > a
+                            color $getColor("red")
+                            text-decoration underline
+
+                            &:after
+                                border-color $getColor("red")
+
+                        .s-sub-wrapper
+                            display block
+
+                    & > a
+                        position relative
+                        display block
+                        margin 0
+                        padding 5px 24px 5px 12px
+                        font-size 12px
+                        line-height 14px
+                        text-decoration none
+                        transition all 222ms linear
+                        color $getColor("text")
+
+                        &:hover
+                            color $getColor("red")
+                            text-decoration underline
+
+                            &:after
+                                border-color $getColor("red")
+
+                        &:after
+                            content ""
+                            display block
+                            position absolute
+                            top 50%
+                            right 12px
+                            width 4px
+                            height 4px
+                            border solid #c3c3c3
+                            border-width 1px 1px 0 0
+                            margin -3px 0 0 0
+                            transform rotate(45deg)
+
+                    .s-sub-wrapper
+                        display none
+                        position absolute
+                        top -1px
+                        left 100%
+                        width 700px
+                        min-height 150px
+                        padding ($pad() - 2) $pad() $pad()
+                        background #fff
+                        border 2px solid rgba(0,0,0,0.1)
+
+                        border-radius 0 2px 2px
+                        box-sizing border-box
+                        box-shadow 3px 3px 30px -8px rgba(0,0,0,0.2)
+
+                        .s-sub-list
+                            .s-sub-item
+                                display inline-block
+                                vertical-align top
+                                width 25%
+                                min-width 200px
+                                padding 0 $pad() $pad() 0
+                                box-sizing border-box
+
+                                a
+                                .s-sub-header
+                                    text-decoration none
+                                    &:hover
+                                        color $getColor("red")
+
+                                .s-sub-header
+                                    font-weight 500
+                                    color #336cb6
+                                    font-size 13px
+                                    line-height 1em
+
+                                ul
+                                    margin 4px 0 0
+
+                                    li
+                                        a
+                                            padding 2px 0
+                                            font-size 12px
+                                            line-height 16px
+                                            color #000
+
+        .s-search-wrapper
+            $search_h = 32px
+
+            position relative
+            width 100%
+            max-width: 410px;
+            height $search_h
+
+            .s-text-input
+                display block
+                $_input_pad = (($search_h - 14)/2)px
+
+                padding $_input_pad 100px $_input_pad 10px
+                width 100%
+                height $search_h
+                background #fff
+                border 1px solid $getColor("border-gray")
+                border-radius 4px
+                font-size 14px
+                line-height 16px
+
+                &::-webkit-input-placeholder
+                    color: #aaa
+                    font-size 12px
+                    font-style italic
+
+                &::-moz-placeholder
+                    color: #aaa
+                    font-size 12px
+                    font-style italic
+
+                &:-ms-input-placeholder
+                    color: #aaa
+                    font-size 12px
+                    font-style italic
+
+            .s-submit-input
+                position absolute
+                top 0
+                right 0
+                height 100%
+
+        .s-ad-link
+            $link()
+            $ellipsis()

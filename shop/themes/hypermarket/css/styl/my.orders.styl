@@ -1,0 +1,207 @@
+.s-orders-page
+.s-order-page
+    .s-order-section
+        $block()
+        margin $indent() 0 0
+        &:first-child
+            margin-top: 0
+
+        .s-section-header
+            background #fff
+            padding 20px 20px 20px 50px
+            font-size 24px
+            line-height 30px
+
+            .s-date
+                margin-left 4px
+                color $getColor("gray")
+
+            .s-time
+                margin-left 8px
+                color $getColor("gray-light")
+
+        .s-section-body
+            padding $indent() 20px $indent() 50px
+            background $getColor("background-gray")
+
+        .s-order-status
+            display inline-block
+            vertical-align top
+            font-size 13px
+            line-height 30px
+            border-radius $radius
+            padding 0 12px
+            color #fff
+            text-transform uppercase
+
+        .s-block
+            margin-top $indent()
+            &:first-child
+                margin-top 0
+
+            .s-text
+                margin 0
+                color $getColor("gray")
+
+            .s-label
+                font-size 15px
+                line-height 20px
+                font-weight 600
+
+        .s-price-wrapper
+            margin 20px 0 0
+            padding 0 0 0 20px
+
+            .s-label
+                display inline-block
+                vertical-align top
+                font-size 14px
+                line-height 20px
+                font-weight 600
+
+            .s-price
+                display inline-block
+                vertical-align top
+                font-size 18px
+                line-height 20px
+                font-weight 600
+                color $getColor("price")
+                margin-left 12px
+
+.s-orders-page
+    .s-orders-list
+        .s-order-section
+            transition all linear 200ms
+            &:hover
+                border-color rgba(0,0,0,.1)
+                box-shadow -2px 2px 10px rgba(0,0,0,.15)
+
+            .s-items-list
+                margin 0
+                padding 0
+
+                li
+                    position relative
+                    margin 0
+                    padding 0 0 0 12px
+                    list-style none
+                    font-size 13px
+                    line-height 30px
+
+                    &:before
+                        content: ""
+                        position absolute
+                        top 50%
+                        left 0
+                        display block
+                        width 4px
+                        height 4px
+                        margin -3px 0 0
+                        background $getColor("link")
+                        border-radius 50%
+
+                    .s-name
+                        color $getColor("gray")
+
+            .s-link-wrapper
+                margin 20px 0 0
+                font-size 13px
+                a
+                    text-decoration none
+                    font-weight 600
+
+.s-order-page
+    margin: 0;
+
+    .s-order-section
+        padding 1px
+
+    .s-contact-wrapper
+        margin $indent() 0 0
+        &:first-child
+            margin-top 0
+
+        .s-column-image
+            width 80px
+            padding-right 14px
+
+            .s-image
+                vertical-align top
+                width 100%
+                border-radius 50%
+
+        .s-contact-info
+            position relative
+            left $pad(-1)
+
+        .s-address-wrapper
+            margin 14px 0 0
+
+            .s-label
+                color $getColor("gray")
+
+    .s-plugin-wrapper
+        margin 20px 0 0
+
+    .s-items-wrapper
+        margin 20px 0 0
+        color #393939
+
+        .s-items-table
+            border 0
+
+            th
+            td
+                padding: 6px 8px
+                border 0
+                text-align right
+                &:first-child
+                    width: 50%
+
+            th
+                font-size 12px
+                line-height 15px
+                font-weight 600
+                color $getColor("gray")
+
+            td
+                font-size 13px
+                line-height 15px
+
+            tbody
+                td
+                    &:first-child
+                        text-align left
+
+                tr:nth-child(odd)
+                    & > *
+                        background #fff
+
+            tfoot
+                tr
+                    &:first-child
+                    &.total-sum
+                        & > *
+                            padding-top 20px
+
+                    &.total-sum
+                        .s-bold
+                            font-size 16px
+
+                        .s-price
+                            font-size 18px
+                            line-height 20px
+                            font-weight 600
+
+            .s-bold
+                font-size 14px
+                font-weight 600
+
+                &.dark
+                    color #000
+
+            .s-value
+                font-size 14px
+
+                &.dark
+                    color #000

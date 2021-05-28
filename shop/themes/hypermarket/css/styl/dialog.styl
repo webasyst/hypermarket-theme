@@ -1,0 +1,89 @@
+.dialog-is-show
+    position relative
+    height: auto
+    overflow hidden
+
+    .s-dialog-wrapper
+        display block
+
+.s-dialog-wrapper
+    display none
+    position fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    box-sizing border-box
+    z-index 30
+
+    background rgba(255,255,255,0.64)
+    overflow auto
+
+    .s-dialog-block
+        position relative
+        min-width 700px
+        max-width: 760px
+        width: 50%
+        margin: 0 auto 50px
+        padding 0
+        background #fff
+        border-radius 2px
+        overflow hidden
+        box-shadow 0 0 16px 4px rgba(0,0,0,0.1)
+
+        transition all 200ms linear;
+        opacity 1
+        left 0
+
+        &.pushed-to-cart
+            transform scale(0, 0)
+
+        .s-close-icon
+            display inline-block
+            position absolute
+            top 1px
+            right 4px
+            padding 0 4px
+            font-size 30px
+            line-height 1em
+            cursor pointer
+            color #c6c6c6
+
+.s-product-dialog
+    .s-dialog-header
+        padding 34px 36px
+
+        & > .s-layout > .s-column.right
+            padding-left 34px
+
+        .s-header
+            font-size 18px
+            line-height 22px
+            margin 0 0 12px
+            font-weight 600
+
+        .s-text
+            margin-top 0
+            font-size 14px
+
+        .s-image
+            width 120px
+            text-align center
+
+            img
+                vertical-align top
+
+    .s-dialog-content
+        padding 35px
+        background $getColor("background-gray")
+
+        & > *
+            margin $indent() 0 0
+
+            &:first-child
+                margin-top 0
+
+    .s-dialog-footer
+        padding 25px 35px
+        & > .s-layout
+            height 65px

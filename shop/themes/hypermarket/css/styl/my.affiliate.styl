@@ -1,0 +1,147 @@
+$_section_header()
+    font-size 16px
+    line-height 20px
+    color #5f5f5f
+
+.s-affiliate-page
+    padding 0
+
+    .s-affiliate-section
+        $block()
+
+        & > .s-section-header
+            background #fff
+            padding 20px 50px
+
+            h2
+                $_section_header()
+                margin 0
+
+        & > .s-section-body
+            padding 30px 50px
+            background $getColor("background-gray")
+
+        .s-price-wrapper
+            margin 0
+
+            .bonus
+                margin-left: 8px
+                color #3a3a3a
+                font-size 18px
+                line-height 20px
+                font-weight 600
+
+        .s-bonus-table
+            margin 20px 0 0
+            border 0
+
+            th
+            td
+                padding 10px 20px 10px 0
+                border 0
+                vertical-align top
+                font-size 14px
+                line-height 16px
+
+                &:first-child
+                    padding-left 20px
+                    padding-right 0
+
+                &.center
+                    text-align center
+
+                &.right
+                    text-align right
+
+            th
+                color $getColor("gray")
+
+            td
+                color #3a3a3a
+
+            a
+                $link()
+                font-size 15px
+
+            tbody
+                tr:nth-child(odd)
+                    th
+                    td
+                        background #f0f0f0
+
+            .s-date-wrapper
+                .s-time
+                    color $getColor("gray")
+
+            .s-comment
+                color $getColor("gray")
+
+    .s-plugin-section
+        $block()
+        padding $indent() 50px
+        margin $indent() 0 0
+        background $getColor("background-gray")
+        &:first-child
+            margin-top 0
+
+        & > h2
+            &:first-child
+                $_section_header()
+                background #fff
+                margin (-($indent())) (-50px) $indent()
+                padding 20px 50px
+
+        // referrals plugin
+        #referrals-report-wrapper
+            margin-top $indent()
+
+        .referral-channels-report
+            margin-top $indent()
+            border 0
+
+            th
+            td
+                padding 15px 20px 15px 0
+                border 0
+                vertical-align middle
+                font-size 14px
+                line-height 20px
+
+                &:first-child
+                    padding-left 20px
+                    padding-right 0
+
+                &.center
+                    text-align center
+
+                &.right
+                    text-align right
+
+                .bonus
+                    background transparent !important
+
+            th
+                color $getColor("gray")
+
+            td
+                color #3a3a3a
+
+            a
+                $link()
+                font-size 15px
+
+            tbody
+                tr
+                    &:nth-child(even)
+                        th
+                        td
+                            background #f0f0f0
+
+                    &:last-child
+                        td
+                        th
+                            background #999
+                            color #fff
+
+                            .hint
+                                color #ccc

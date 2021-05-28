@@ -1,0 +1,52 @@
+@import "nib";
+
+@import "../../../../../site/themes/hypermarket/css/styl/include.styl";
+
+.m-subscriptions-page
+
+    .m-action-hint
+        padding $pad()
+        border-radius $radius
+        background $getColor("background-hint")
+
+    .m-subscriptions-section
+        $block()
+
+        & > .h-section-header
+            background #fff
+            padding 20px 50px
+
+            .h-header
+                font-size 15px
+                line-height 20px
+                font-weight 500
+                color #5f5f5f
+
+        & > .h-section-body
+            padding 30px 50px
+            background $getColor("background-gray")
+
+    .m-subscription-list
+        .m-subscription
+            margin 6px 0 0
+            &:first-child
+                margin-top 0
+
+            label
+                display inline-block
+                line-height 20px
+
+            .m-checkbox
+                position relative
+                top 2px
+                margin 0 4px 0 0
+
+    .m-actions-wrapper
+        margin $indent() 0 0
+        &:first-child
+            margin-top 0
+
+        & > *
+            margin-right 8px
+            &:last-child
+                margin-right 0

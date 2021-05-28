@@ -1,0 +1,252 @@
+.request-changed-params
+    display: none;
+
+.request-param-changed
+    color: red;
+
+
+html.is-request-page
+    .s-global-header
+        margin-bottom $pad(-1)
+
+        h1
+            $ellipsis()
+
+        .s-column-state
+            width 200px
+
+        .s-state-section
+            display inline-block
+            vertical-align top
+
+            .h-state-wrapper
+                text-align right
+
+                .h-state
+                    display inline-block
+                    vertical-align top
+                    margin 0
+                    padding 5px 10px
+                    min-width 60px
+                    font-size 13px
+                    line-height 20px
+                    background #178318
+                    color #fff
+                    text-align center
+
+                    border-radius $radius
+                    text-transform uppercase
+
+                    &.new
+                        background $getColor("state-new")
+                        color #fff
+
+                    &.processing
+                        background $getColor("state-processing")
+                        color #fff
+
+                    &.archive
+                        background $getColor("state-archive")
+                        color #fff
+
+                    &.deleted
+                        background $getColor("state-deleted")
+                        color #fff
+
+            .h-number-wrapper
+                margin 4px 0 0
+                text-align center
+                line-height 18px
+
+                .h-number
+                    vertical-align top
+                    color $getColor("gray")
+                    font-size 12px
+                    line-height 18px
+
+.h-request-page
+    padding 20px 0 $indent()
+
+    .h-confirmation-wrapper
+        margin: 0 0 1em
+
+    .wa-field
+        margin 9px 0 0
+
+        &#comment-attachments
+            .wa-name
+                color $getColor("gray")
+                width auto
+
+            .wa-value
+                margin 2px 0 0
+
+        &:not(#comment-attachments)
+            display table
+            width: inline-block
+
+            &:first-of-type
+                margin-top 0
+
+            .wa-name
+            .wa-value
+                display table-cell
+                float none
+
+            .wa-name
+                font-weight 600
+                padding-right 8px
+
+            .wa-value
+                &.attach
+                    margin-top 4px
+                    &:first-of-type
+                        margin-top 0
+
+                &.buttons
+                    padding-top $indent()
+                    input
+                        vertical-align middle
+
+                textarea
+                    width 100%
+
+    .h-logs-section
+        margin $indent() 0 0
+        .h-log-section
+            margin $indent() 0 0
+            &:first-child
+                margin-top 0
+
+    .h-request-section
+    .h-log-section
+        $block()
+
+        & > .h-section-header
+            background #fff
+            padding 12px $indent()
+
+        & > .h-section-body
+            padding $indent()
+            background $getColor("background-gray")
+
+        .h-user-wrapper
+            .h-image
+                margin 0 12px 0 0
+                width 50px
+                height 50px
+                border-radius 50%
+                vertical-align middle
+
+            .h-name
+                font-size 15px
+                font-weight 600
+                line-height 1em
+
+        .h-date
+            color $getColor("gray")
+
+        .h-params
+            margin: $pad() 0 0;
+            &:first-child
+                margin-top: 0;
+
+        .h-request-data
+        .h-log-data
+            margin: $pad() 0 0
+            &:first-child
+                margin-top: 0;
+
+        .h-text
+            hr
+                display: none;
+
+            .same-tab
+                $_width = 150px
+                display: inline-block
+                vertical-align top
+                max-width: $_width
+
+                img
+                    vertical-align top
+                    max-width: 100%
+                    max-height: ($_width/16*9)
+                    border-radius $radius
+
+            .h-request-images
+                margin $pad() 0 0
+
+                .h-request-image
+                    display inline-block
+                    vertical-align top
+                    margin 0
+
+                    p
+                        margin 0
+
+                    .same-tab
+                        margin 0
+
+        .h-attachments-list
+            margin $pad() 0 0
+            padding 0
+
+            .h-attachment
+                position relative
+                padding 1px 0
+                margin 6px 0 0
+                list-style none
+
+                &:first-child
+                    margin-top 0
+
+                &:before
+                    content: ""
+                    position absolute
+                    top 50%
+                    right 100%
+                    display block
+                    width 4px
+                    height 4px
+                    margin -2px 7px 0 0
+                    background $getColor("link")
+                    border-radius 50%
+                    box-sizing border-box
+
+                &:first-child
+                    margin-top: 0;
+
+                .h-size
+                    margin 0 0 0 4px
+                    color: $getColor("gray")
+
+
+    .h-actions-section
+        margin: $indent() 0 0;
+
+        .h-actions
+            text-align center
+            line-height 32px
+
+            & > *
+                margin-right 8px
+                &:last-child
+                    margin-right 0
+
+            .loading
+                vertical-align middle
+
+            .s-delete-link
+                margin 0 0 0 16px
+
+        .h-action-content
+            form
+                $block()
+                padding $indent()
+                background $getColor("background-gray")
+
+            iframe
+                position absolute
+
+            #comment-comment
+                width 100%

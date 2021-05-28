@@ -1,0 +1,228 @@
+.s-cart-page
+    .s-empty-section
+        width: 50%
+        margin: auto
+        $block()
+
+        & > .s-section-header
+            background #fff
+            padding 20px 50px
+
+            h2
+                font-size 16px
+                line-height 20px
+                color #5f5f5f
+
+        & > .s-section-body
+            padding 30px 50px
+            background $getColor("background-gray")
+
+        & > .s-section-footer
+            padding 20px 50px
+            background $getColor("background-gray")
+
+    .s-cart-products
+        border 1px solid #e1e1e1
+
+        .s-cart-product
+            padding $indent()
+            border-top 1px solid #e1e1e1
+            font-size 12px
+
+            &:first-child
+                border-top 0
+
+            & > .s-layout
+                & > .s-column
+                    padding 0 0 0 $indent()
+                    &:first-child
+                        padding-left 0
+
+            .s-image-column
+                width: 96px
+
+            .s-amount-column
+                width: 125px
+
+            .s-total-column
+                width 150px
+
+            .s-actions-column
+                width 16px
+                line-height 30px
+
+            .s-product-name
+                line-height 30px
+                margin 0
+                .s-name
+                    margin 0 4px 0 0
+
+            .s-sku-wrapper
+                margin 6px 0 0
+                font-size 13px
+                line-height 15px
+                color $getColor("gray")
+
+                .s-label
+                    margin 0 8px 0 0
+
+                .s-sku
+                    color $getColor("link")
+
+            .s-quantity-wrapper
+                width 100%
+
+            .s-product-total
+                font-size: 20px
+                line-height 30px
+                font-weight 600
+
+            .s-delete-button
+                display: inline-block;
+                line-height 16px
+                cursor pointer
+
+            .s-product-image
+                display block
+
+                img
+                    width 100%
+                    overflow hidden
+                    border-radius 2px
+
+            .s-delete-wrapper
+                margin 1em 0 0
+
+                .s-delete-button
+                    display block
+                    width 100%
+
+            .s-product-services
+                margin: 1em 0 0
+
+                .s-service
+                    margin-top 8px
+                    &:first-child
+                        margin-top 0
+
+                    input[type="checkbox"]
+                        position relative
+                        top 2px
+                        margin 0 4px 0 0
+
+                    select
+                        margin-left 6px
+                        height 24px
+
+    .s-cart-total
+        margin $indent() 0 0
+        padding-right ($indent(2) + 16)
+        font-size 13px
+        text-align right
+
+        .s-bonus-wrapper
+            .s-bonus-text
+                text-align left
+
+        .s-coupon-section
+            display inline-block
+            vertical-align top
+            width 270px
+            margin: 0 $indent() 0 0
+
+            &.is-extended
+                .s-hidden
+                    display block
+
+                .s-visible
+                    display none
+
+            .s-hidden
+                display none
+
+            .s-fields-wrapper
+                position relative
+
+                .s-text
+                    vertical-align top
+                    width 100%
+
+                .s-submit
+                    position absolute
+                    top 0
+                    right 0
+                    height 100%
+                    width 130px
+
+            .s-error
+                margin 4px 0 0
+                color red
+
+        .s-table-section
+            text-align right
+
+            .s-table-wrapper
+                display inline-block
+                vertical-align top
+                max-width 100%
+
+            .s-totals-table
+                border 0
+                padding 0
+                width: auto
+
+                td
+                    padding $pad(1.5) 0 0 $pad()
+                    border 0
+                    text-align right
+
+                    &:first-child
+                        padding-left 0
+
+                    &.s-column-price
+                        text-align right
+                        .s-price
+                            display inline-block
+                            min-width 194px
+
+                .s-discount-wrapper
+                    td
+                        font-size 14px
+                        line-height 32px
+
+                    .s-price
+                        font-size 18px
+
+                .s-bonus-wrapper
+                    td
+                        font-size 14px
+                        line-height 18px
+
+                    .s-price
+                        font-size 18px
+
+                .s-total-wrapper
+                    td
+                        font-size 18px
+                        line-height 22px
+                        font-weight 600
+
+                    .s-price
+                        font-size 22px
+
+                .s-cart-checkout
+                    td
+                        text-align right
+                        padding-top $indent()
+
+                    .s-submit-button
+                        width 270px
+                        max-width 100%
+                        height 50px
+                        line-height 47px
+                        font-size 18px
+                        font-weight 600
+
+        .s-affiliate-hint-wrapper
+            margin $indent() 0 0
+            text-align right

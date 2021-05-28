@@ -1,0 +1,161 @@
+// LABELS
+
+.h-staff
+.h-badge
+.h-kudos
+    $badge()
+
+.h-staff
+    background: #eeb;
+    color: #345;
+
+.h-badge
+    background: #eee;
+    color: #345;
+
+    &.badge-none
+        background: #fff;
+        color: #aaa;
+
+    &.badge-answered
+        background: #dfd;
+        color: green;
+        font-weight: 500;
+
+    &.badge-pending
+        background: #eee;
+        color: #777;
+
+    &.badge-accepted
+        background: #dfd;
+        color: green;
+
+    &.badge-confirmed
+        background: #cfc;
+        color: green;
+
+    &.badge-inprogress
+        background: #cfc;
+        color: green;
+        font-style: italic;
+
+    &.badge-rejected
+        background: #fdd;
+        color: #a00;
+
+    &.badge-complete
+        background: #dfd;
+        color: green;
+        font-weight: 500;
+
+    &.badge-fixed
+        background: #dfd;
+        color: green;
+        font-weight: 500;
+
+    &.badge-archived
+        background: #eed;
+        color: #aa7;
+
+.h-kudos
+    background #eee
+
+    &.is-positive
+        background $_green
+        color #fff
+
+    &.is-negative
+        background $_brown
+        color #fff
+
+.h-vote-block
+    display inline-block
+    min-width 20px
+    text-align center
+    font-size 20px
+
+    .h-vote-button
+        $_size = 16px
+
+        display block
+        width 100%
+        height $_size
+        padding 0
+        margin 0
+        border 0
+        text-align center
+        background: transparent 0 no-repeat
+
+        &:before
+            content ""
+            display inline-block
+            vertical-align top
+            width $_size
+            height $_size
+            background transparent 0 no-repeat
+            background-size $_size $_size;
+
+        &.is-up
+            &:before
+                background-image: url("../img/svg/triangle.top.svg");
+
+            &:hover
+            &.is-active
+                &:before
+                    background-image: url("../img/svg/triangle.top.active.svg");
+
+        &.is-down
+            &:before
+                background-image: url("../img/svg/triangle.bottom.svg");
+
+            &:hover
+            &.is-active
+                &:before
+                    background-image: url("../img/svg/triangle.bottom.active.svg");
+
+    .h-vote-value
+        margin .2em 0
+        display block
+
+// REDACTOR: CERTAIN DEFAULT.CSS STRLES RESET
+
+html
+    overflow: auto !important;
+
+.topic-form
+    .redactor-toolbar:after
+        clear: left;
+
+.comment
+    .redactor-toolbar
+        top: 0 !important;
+        visibility: visible !important;
+        width: 100% !important;
+
+        &:after
+            clear: none;
+
+#redactor-modal
+    footer
+        background: #fff;
+        top: 0;
+        position: static;
+        padding: 0;
+        min-height: 0;
+        font-size: 1em;
+        color: #000;
+
+#redactor-modal-close
+    text-align center
+    box-shadow none
+
+.redactor-modal-btn
+    height auto
+
+// TAGS AUTOCOMPLETE
+
+.ui-corner-all
+    border-radius: 0 !important;
+
+.ui-widget-content
+    background: #fff !important;

@@ -1,0 +1,507 @@
+$_product_count = 3
+
+
+$getPeriod($num = 3)
+    $_other_size = (16px * 3) + 240px
+    $_min_product_w = 192px
+    return $_other_size + $_min_product_w * $num
+
+.xxx
+    min-width $getPeriod(3)
+    width $getPeriod(4)
+    max-width $getPeriod(5)
+
+.s-products-wrapper
+    margin 0
+
+    .s-section-header
+        margin 0 0 14px
+        font-size 24px
+        line-height 30px
+
+    .s-slider-wrapper
+        position relative
+
+        &.type-1
+            .s-arrow.right
+                display block
+        &.type-2
+            .s-arrow.left
+            .s-arrow.right
+                display block
+        &.type-3
+            .s-arrow.left
+                display block
+
+        .s-arrow
+            display none
+            $_arrow_size = 40px
+            position absolute
+            top 50%
+            width $_arrow_size
+            height $_arrow_size
+            margin (-($_arrow_size/2)) 0 0
+            box-sizing border-box
+            z-index 2
+
+            background #fff
+            border 2px solid #f8d854
+            border-radius 50%
+            cursor pointer
+
+            box-shadow 3px 3px 3px rgba(0,0,0,.16)
+
+            &:before
+                content ""
+                display inline-block
+                width 10px
+                height 10px
+                position absolute
+                top 50%
+                left 50%
+                margin-top -6px
+
+                border 1px solid transparent
+                transform rotate(45deg)
+
+            &.left
+                left -10px
+                &:before
+                    margin-left -3px
+                    border-left-color #000
+                    border-bottom-color #000
+
+            &.right
+                right -10px
+                &:before
+                    margin-left -8px
+                    border-top-color #000
+                    border-right-color #000
+
+        .s-slider-block
+            overflow hidden
+            white-space nowrap
+            margin 0
+            border-left 1px solid #d4d4d4
+
+            .s-products-list
+                position relative
+                padding 0
+                transform translate(0,0)
+                transition transform 200ms ease-in-out
+
+                .s-product-wrapper
+                    white-space normal
+                    margin 0
+
+                    .s-product-block
+                        border-width 1px 1px 1px 0
+
+    .s-sorting-wrapper
+        margin 0 0 $pad()
+
+        i.sort-desc { height: 0; width: 0; border: 4px solid transparent; border-top-width: 2px; border-bottom-color: #000; margin-bottom: 0.2em; display: inline-block; }
+        i.sort-asc { height: 0; width: 0; border: 4px solid transparent; border-bottom-width: 2px; border-top-color: #000; margin-top: 0.1em; display: inline-block; }
+
+        .s-sorting-list
+            $_button_size = 24px
+
+            display inline-block
+            vertical-align top
+            margin 0 0 0 19px
+            padding 0
+
+            &:first-child
+                margin-left 0
+
+            .s-label
+                display inline-block
+                margin 0 4px 0 0
+                font-size 14px
+                line-height $_button_size
+                font-weight 500
+                color #7b7b7b
+
+            a
+                text-decoration none
+
+            &.sort-filters
+                .s-dropdown-wrapper
+                    position relative
+                    display inline-block
+                    vertical-align top
+                    margin 0 0 0 .25em
+                    font-size 12px
+                    line-height 0
+
+                    & > .s-sort-active
+                        display inline-block
+                        border-radius 2px
+                        overflow hidden
+                        line-height ($_button_size - 2)
+                        padding 0 .75em
+                        border 1px solid rgba(0,0,0,.1)
+                        color #464646
+
+                        &:after
+                            position relative
+                            top 4px
+                            content ""
+                            display inline-block
+                            vertical-align baseline
+                            border solid transparent
+                            border-width 5px 4px
+                            border-top-color #464646
+                            margin 0 0 0 6px
+
+                    & > ul
+                        display none
+                        position absolute
+                        top 100%
+                        left 0
+                        width 200px
+                        text-align left
+                        margin -1px 0 0
+                        padding 0
+                        background #fff
+                        overflow hidden
+                        border-radius 0 0 2px 2px
+                        border 1px solid rgba(0,0,0,.1)
+
+                        & > li
+                            display block
+                            margin 0
+                            padding 0
+
+                            & > a:hover
+                            &.is-active > a
+                                background rgba(0, 0, 0, 0.05);
+
+                            & > a
+                                display block
+                                padding 4px .75em
+                                line-height 1.25em
+                                box-sizing border-box
+
+                    &:hover
+                        z-index 2
+
+                        .s-sort-active
+                            border-radius 2px 2px 0 0
+
+                        & > ul
+                            display block
+
+            &.view-filters
+                $_icon_size = 20px
+
+                a
+                    display inline-block
+                    vertical-align top
+                    margin 0 0 0 8px
+                    box-sizing border-box
+                    border 2px solid #ccc
+
+                    .icon
+                        display inline-block
+                        vertical-align top
+                        width $_icon_size
+                        height $_icon_size
+                        background transparent no-repeat
+                        background-size contain
+                        margin 0
+
+                        &.thumbs
+                            background-image url("../img/svg/thumb.svg");
+
+                        &.table
+                            background-image url("../img/svg/table.svg");
+
+                    &.is-active
+                        border-color #f9dd6d
+
+    .s-products-list
+        margin 0
+        padding 0
+
+        .s-product-wrapper
+            position relative
+            margin 0
+            padding 0
+            list-style none
+            transition box-shadow 100ms linear
+
+            &:hover
+                box-shadow 0 0 10px rgba(0,0,0,.2)
+                z-index 1
+
+            .s-badge-wrapper
+                .badge
+                    z-index 1
+
+            .s-product-block
+                position relative // need for rotated badge
+                border 1px solid #d4d4d4
+                padding $pad()
+
+            .s-image-wrapper
+                $_image_h = 120px
+                height $_image_h
+                text-align center
+                line-height $_image_h
+
+                a
+                    display inline-block
+                    width 100%
+                    height 100%
+
+                img
+                    display inline-block
+                    vertical-align middle
+                    line-height inherit
+                    max-height 100%
+
+            .s-product-header
+                margin 0
+                height (14 * 2)px
+                font-size 12px
+                font-weight 500
+                line-height 14px
+                color $getColor("link")
+                overflow hidden
+
+                a
+                    text-decoration none
+                    color $getColor("link")
+                    &:hover
+                        color $getColor("link-hover")
+
+                    &:after
+                        content ""
+                        display block
+                        position absolute
+                        top 0
+                        left 0
+                        width 100%
+                        height 100%
+
+            .s-product-description
+                font-size 12px
+                line-height (14/12)em
+                color #7b7b7b
+
+            .s-actions-wrapper
+                position relative
+
+            .s-sku-wrapper
+                display none
+                font-size 12px
+                line-height (14/12)em
+
+                .s-label
+                    color #7b7b7b
+
+                .s-sku
+                    margin 0 0 0 4px
+                    color #000
+
+            .s-price-wrapper
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space nowrap
+
+                .s-price
+                    display block
+                    font-size 18px
+                    font-weight 500
+                    line-height 20px
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    color #000
+
+                .s-out-of-stock
+                .s-compare
+                    display block
+                    margin 5px 0 0
+                    font-size 13px
+                    line-height 14px
+                    height 14px
+
+                .s-compare
+                    text-decoration line-through
+                    color #f00
+
+            .s-rating-wrapper
+                font-size 12px
+                line-height 14px
+
+                .s-rating-block
+                    margin 0
+
+                .s-rating-hint
+                    position relative
+                    top -1px
+                    display inline-block
+                    margin 0 0 0 7px
+                    padding 0 4px
+                    border 1px solid #c2c2c2
+                    border-radius 4px
+                    color #7b7b7b
+
+            .s-buttons-wrapper
+                line-height 32px
+                .icon16
+                    top 0
+                    vertical-align middle
+
+                .s-compare-button
+                    display inline-block
+                    padding: 1px 8px 0;
+                    font-size 15px
+                    line-height 31px
+
+                    &.is-active
+                        color #888
+                        cursor default
+                        &:hover
+                            color #888
+
+                    &:hover
+                        .svg-icon.compare
+                            &.active
+                                background-image url("../img/svg/icon.simile.red.svg");
+
+                    .s-name
+                        display none
+
+        &.is-short
+            padding 1px 0 0 1px
+
+            .s-product-wrapper
+                display inline-block
+                vertical-align top
+                width (100/$_product_count)%
+                margin -1px 0 0 -1px
+
+                .s-product-header
+                    margin 13px 0 0
+
+                .s-price-wrapper
+                    margin 13px 0 0
+
+                    .s-out-of-stock
+                        margin 0
+                        height auto
+                        line-height 20px
+
+                .s-buttons-wrapper
+                    margin 13px 0 0
+                    min-height 32px
+
+        &.thumbs-view
+            padding 1px 0 0 1px
+
+            .s-product-wrapper
+                display inline-block
+                vertical-align top
+                width (100/$_product_count)%
+                margin -1px 0 0 -1px
+
+                .s-product-header
+                    margin 13px 0 0
+
+                .s-product-description
+                    display none
+
+                .s-price-wrapper
+                    margin 10px 0 0
+                    .s-price
+                        color #c5375f
+
+                .s-actions-wrapper
+                    margin 18px 0 0
+                    text-align left
+
+                .s-rating-wrapper
+                    display none
+                    margin 11px 0 0
+
+        &.table-view
+            .s-product-wrapper
+                $_pad = 20px
+                margin-top -1px
+
+                &:first-child
+                    margin-top 0
+
+                .s-product-block
+                    display table
+                    width 100%
+                    padding $_pad
+                    table-layout fixed
+                    box-sizing border-box
+
+                    & > *
+                        display table-cell
+                        vertical-align top
+                        padding-left $pad()
+                        &:first-child
+                            padding-left 0
+
+                    .s-image-wrapper
+                        width 120px
+
+                    .s-actions-wrapper
+                        width 130px
+
+                .s-product-header
+                    height auto
+                    font-size 14px
+                    font-weight 500
+                    line-height 18px
+
+                .s-product-description
+                    margin 6px 0 0
+
+                .s-sku-wrapper
+                .s-rating-wrapper
+                    display inline-block
+                    margin 6px 24px 0 0
+
+                .s-pricing-wrapper
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+
+                .s-buttons-wrapper
+                    .s-layout
+                        display block
+                        & > .s-column
+                            display block
+                            text-align left
+
+                    .s-compare-button
+                        margin $pad(.75) 0 0
+                        padding 0
+                        .s-name
+                            display inline-block
+                            margin-left 4px
+                            font-size 13px
+                            color inherit
+
+@media (min-width: $getPeriod(4)) and (max-width: $getPeriod(5))
+    $_product_count = 4
+    .s-products-wrapper
+        .s-products-list
+            &.thumbs-view
+            &.is-short
+                .s-product-wrapper
+                    width (100/$_product_count)%
+
+@media (min-width: $getPeriod(5))
+    $_product_count = 5
+    .s-products-wrapper
+        .s-products-list
+            &.thumbs-view
+            &.is-short
+                .s-product-wrapper
+                    width (100/$_product_count)%

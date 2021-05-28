@@ -1,0 +1,221 @@
+.p-photo-page
+    .p-photo-wrapper
+        position: relative;
+        display: block;
+
+        .p-left-top-hook
+            position absolute
+            top 0
+            left 0
+
+        .p-right-top-hook
+            position absolute
+            top 0
+            right 0
+
+            .s-plugins-wrapper
+                display inline-block
+                vertical-align top
+
+        .image-nav
+            $_arrow_width = 30px
+            $_arrow_h = 50px
+
+            display: block;
+            position: absolute;
+            cursor: pointer;
+            top 50%
+            width $_arrow_width
+            height $_arrow_h
+            margin-top -($_arrow_h/2)
+            background #000
+            z-index auto
+            opacity .3
+            transition opacity 200ms linear
+
+            &:hover
+                opacity 1
+
+            &:after
+                $_icon_w = 12px
+                $_icon_h = 25px
+                content ""
+                position absolute
+                top 50%
+                left (($_arrow_width - $_icon_w)/2)
+                width $_icon_w
+                height $_icon_h
+                margin (-($_icon_h/2)) 0 0
+                background transparent 50% no-repeat
+
+            &.rewind
+                border-radius 0 5px 5px 0
+                left 0
+                &:after
+                    background-image url("../img/svg/arrow-left.svg")
+
+            &.ff
+                border-radius 5px 0 0 5px
+                right 0
+                &:after
+                    background-image url("../img/svg/arrow-right.svg")
+
+
+        .p-photo-link
+            display block
+            cursor pointer
+            font-size 0
+            line-height 0
+
+            img
+                $block(false)
+                width 100% !important
+                height auto !important
+
+        .indicator
+            color: #fff;
+            background: rgba(0,0,0,0.5);
+            border-radius: 10px;
+            padding: 3px 6px;
+
+        .stripe
+            position:absolute;
+            z-index:9;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            line-height: 1em;
+
+            p
+                margin: 0 0;
+                padding: 5px;
+
+                a
+                    color: #fff;
+
+        .p-photo-stack
+            display none
+            position: absolute;
+            top: 5px;
+            left: 0;
+            right: 0;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+
+            .stack-nav
+                font-size: 120%;
+                padding: 4px 8px 4px;
+                display: inline-block;
+                position: relative;
+                background: #000;
+
+                img
+                    width: 22px;
+                    height: 20px;
+
+                .rewind
+                    position: absolute;
+                    left: -30px;
+                    top: 3px;
+
+                .ff
+                    position: absolute;
+                    right: -30px;
+                    left: auto;
+                    top: 3px;
+
+    .p-photo-stream
+        display none
+        width: 260px;
+        margin: 0 auto;
+        white-space nowrap
+
+        ul.photostream
+            position: relative;
+            padding: 0;
+            margin: 0;
+
+            li
+                display inline-block
+                margin 0
+
+                img
+                    width: 48px;
+                    height: 48px;
+                    padding: 1px;
+                    border: 1px solid #fff;
+
+                &.selected
+                    img
+                        border-color: #777;
+                        box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+
+                    & > a
+                        background: #fff;
+
+                &.stream-nav
+                    position: absolute;
+                    top: 21px;
+
+                    i
+                        display: block;
+                        width: 12px;
+                        height: 14px;
+                        background: url("../img/nav-photostream.png") no-repeat;
+                        background-size: 24px 14px;
+
+                    &.rewind
+                        left: -16px;
+                        padding: 0;
+
+                        i
+                            background-position: 0 0;
+                    &.ff
+                        right: -16px;
+                        padding: 0;
+
+                        i
+                            background-position: -12px 0;
+
+    .p-photo-details
+        margin $pad() 0 0
+        font-size 15px
+        line-height 21px
+
+        .s-column-details
+            padding-right $pad()
+
+    .p-photo-plugins
+        @import "./comments.styl"
+
+#photo-rate-votes-count
+#clear-photo-rate
+#photo-rate-error
+    position: relative;
+    top: 3px;
+    margin-left: 5px;
+    margin-right: 5px;
+
+#photo-rate-error
+    color: red;
+
+.p-awaiting-moderation
+    display inline-block
+    background: gray;
+    padding .25em
+    color: white;
+    font-style: italic;
+
+.p-declined
+    display inline-block
+    background: red;
+    padding .25em
+    color: white;
+    font-style: italic;
+
+    img
+        border: 2px solid red;
+        margin-top: -2px;

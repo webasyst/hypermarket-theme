@@ -1,0 +1,96 @@
+$_getPhotoWidth($count)
+    return (100/$count)%
+
+.p-photos-wrapper
+    margin $indent() 0 0
+
+    &:first-child
+        margin-top 0
+
+    .p-photo-list
+        position relative
+
+        .p-photo-item
+            position relative
+
+            .p-left-top-hook
+                position absolute
+                top 0
+                left 0
+
+            .p-right-top-hook
+                position absolute
+                top 0
+                right 0
+
+            .p-photo-link
+                display block
+                cursor pointer
+                font-size 0
+                line-height 0
+
+                .p-photo-image
+                    width 100% !important
+                    height auto !important
+                    box-sizing border-box
+
+        &.p-wide-list
+            .p-photo-item
+                margin $indent(2) 0 0
+
+                &:first-child
+                    margin-top 0
+
+                .p-photo-link
+                    img
+                        $block(false)
+
+                .p-text-wrapper
+                    margin $pad(.5) 0 0
+
+                    .p-photo-name
+                        color #444
+
+                .p-photo-stack
+                    position relative
+                    height 0
+
+                    .stack-nav
+                        position absolute
+                        right 0
+                        bottom 0
+                        width 100%
+                        padding 8px
+                        text-align right
+                        box-sizing border-box
+                        transition background 200ms linear
+                        background rgba(255,255,255,.2)
+
+                        &:hover
+                            background rgba(255,255,255,.4)
+
+                        a
+                            display inline-block
+                            vertical-align middle
+
+        &.p-thumb-list
+            font-size 0
+            line-height 0
+
+            .p-photo-item
+                position relative
+                display inline-block
+                vertical-align top
+                width $_getPhotoWidth(3)
+                padding 0 16px 16px 0
+                box-sizing border-box
+
+                &.is-image-loading
+                    display none
+
+@media (min-width $max_w)
+    .p-photos-wrapper
+        .p-photo-list
+            &.p-thumb-list
+                .p-photo-item
+                    width $_getPhotoWidth(4)

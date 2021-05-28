@@ -1,0 +1,49 @@
+.s-auth-page
+    padding-bottom 40px
+
+    .s-auth-section
+        $block()
+
+        .s-auth-header
+            background #fff
+            padding $indent(.5) 50px
+
+            & + .s-auth-body
+                padding-top $indent(.5)
+
+        .s-auth-body
+            padding $indent() 50px
+            background $getColor("background-gray")
+
+    .s-auth-text
+        font-size 12px
+        color $getColor("gray")
+
+    .wa-form-wrapper
+        .wa-form
+            padding 0
+
+            &.is-hidden
+                display none
+
+            .wa-field
+                margin 9px 0 0
+                &:first-child
+                    margin-top: 0
+
+                & > .wa-name
+                    position relative
+                    left 6px
+                    color $getColor("gray")
+                    font-size 13px
+
+                .wa-value
+                    padding: 0
+
+                    &.wa-submit
+                        margin $indent() 0 0
+                        a
+                            line-height 32px
+
+                            &[href*="signup"]
+                                color $getColor("red")

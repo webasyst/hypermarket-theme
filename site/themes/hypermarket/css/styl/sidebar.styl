@@ -1,0 +1,259 @@
+.s-sidebar-wrapper
+    .s-sidebar-block
+        position relative
+
+        & > *
+            margin-top $indent(.5)
+            &:first-child
+                margin-top 0
+
+        .s-banner-wrapper
+            a
+                display inline-block
+                img
+                    vertical-align top
+                    border-radius $radius
+
+        .s-back-link-wrapper
+            margin 17px 0 0
+            text-align right
+            font-size 13px
+            line-height 15px
+            a
+                vertical-align top
+                text-decoration none
+                font-weight 600
+
+                .svg-icon
+                    vertical-align top
+                    margin 0 8px 0 0
+
+        .s-sidebar-search
+            margin: $pad() -10px 0
+            &:first-child
+                margin-top 0
+
+            .h-text-input
+                width 100%
+
+                &::-webkit-input-placeholder
+                    color: #aaa
+                    font-size 12px
+                    font-style italic
+
+                &::-moz-placeholder
+                    color: #aaa
+                    font-size 12px
+                    font-style italic
+
+                &:-ms-input-placeholder
+                    color: #aaa
+                    font-size 12px
+                    font-style italic
+
+        .s-plugin-wrapper
+            ul.brands
+                $block()
+                margin 0
+                padding 20px 20px
+                font-size: 13px;
+                line-height: 16px;
+                color #4e4e4e
+
+                li
+                    position relative
+                    list-style none
+                    padding 1px 0
+                    margin 6px 0 0
+
+                    &:first-child
+                        margin-top 0
+
+                    &:before
+                        content: ""
+                        position absolute
+                        top ( (16 + 2)/2 - 2 - 1 )px
+                        right 100%
+                        display block
+                        width 4px
+                        height 4px
+                        margin 0 7px 0 0
+                        background $getColor("link")
+                        border-radius 50%
+                        box-sizing border-box
+
+                    & > ul
+                        margin 6px 0 0 12px
+
+        .s-info-block
+            $block()
+            padding 20px 20px
+
+            .s-info-header
+                margin 0 0 14px 0
+                color #000
+                font-weight 500
+
+                .s-icon
+                    position relative
+                    top -1px
+                    vertical-align middle
+                    margin 0 8px 0 0
+
+            .s-info-content
+                margin 0
+                font-size 13px
+                color #4e4e4e
+
+            .s-info-footer
+                margin 14px 0 0
+                font-size 12px
+
+        .s-sidebar-section
+            $block()
+            font-size 13px
+            line-height 16px
+
+            & > .s-section-header
+                background #fff
+                padding 18px 20px 17px
+                font-weight 500
+                $ellipsis()
+
+                & > .s-header
+                    font-size 13px
+                    line-height 16px
+                    font-weight 500
+                    margin 0
+
+            & > .s-section-body
+                padding 18px 20px 17px
+                background $getColor("background-gray")
+
+            & > .s-section-footer
+                background #fff
+                padding 18px 20px 17px
+                font-weight 500
+                &.gray
+                    background $getColor("background-gray")
+
+            .s-nav-wrapper
+                ul
+                    margin 0
+                    & + ul
+                        margin-top 6px
+
+                    li
+                        position relative
+                        list-style none
+                        padding 1px 0
+                        margin 6px 0 0
+
+                        &:first-child
+                            margin-top 0
+
+                        &:not(.with-icon):before
+                            content: ""
+                            position absolute
+                            top ( (16 + 2)/2 - 2 - 1 )px
+                            right 100%
+                            display block
+                            width 4px
+                            height 4px
+                            margin 0 7px 0 0
+                            background $getColor("link")
+                            border-radius 50%
+                            box-sizing border-box
+
+                        &.with-icon
+                            .s-icon
+                                position absolute
+                                top ((16 + 2 - 10)/2 - 1)px
+                                right 100%
+                                display block
+                                margin 0 4px 0 0
+
+                        & > ul
+                            margin 6px 0 0 12px
+
+                        &.is-selected
+                        &.is-current
+                            &:not(.has-menu)
+                                &:before
+                                    background $getColor("gray")
+                                    border-color rgba(0,0,0,.1)
+
+                        &.has-menu
+                        &.is-selected
+                        &.is-current
+                            & > a
+                            & > .s-link
+                                font-weight 500
+
+                        &.has-menu
+                            &:before
+                                display none
+
+                            & > .s-toggle
+                                display block
+                                position absolute
+                                top 2px
+                                right 100%
+                                width 4px
+                                height 6px
+                                padding 4px
+                                margin 0 3px 0 0
+                                background transparent url("../img/icons/sidebar/icon.arrow.svg") 50% no-repeat
+                                cursor pointer
+
+                                transform rotate(0deg)
+                                transition transform 200ms linear
+
+                            &.is-opened
+                                & > .s-toggle
+                                    transform rotate(90deg)
+
+                                & > ul
+                                    display block
+
+                            & > ul
+                                display none
+
+                                & > li
+                                    &:before
+                                        background transparent
+                                        border 1px solid $getColor("link")
+
+                                    &.is-selected
+                                        &:before
+                                            border 1px solid $getColor("text")
+
+            .s-news-list
+                margin 0
+                padding 0
+
+                .s-item
+                    list-style none
+                    margin 10px 0 0
+                    padding 0
+                    line-height 14px
+
+                    &:first-child
+                        margin-top 0
+
+                    & > *
+                        margin 2px 0 0
+                        &:first-child
+                            margin-top 0
+
+                    .s-date
+                        font-size 12px
+                        color $getColor("gray")
+
+                        .s-time
+                            color $getColor("time")
+
+                    .s-title
+                        .s-link
+                            font-size 13px
+                            text-decoration none

@@ -1,0 +1,141 @@
+.h-stream-section
+    margin $indent() 0 0
+
+    .h-stream-header
+        font-size 20px
+        line-height 20px
+        margin 0
+
+    .h-topics-wrapper
+        margin $pad() 0 0
+
+    .s-sorting-list
+        $_button_size = 24px
+
+        display inline-block
+        vertical-align top
+        margin 0 0 0 19px
+        padding 0
+
+        &:first-child
+            margin-left 0
+
+        .s-label
+            display inline-block
+            margin 0 4px 0 0
+            font-size 14px
+            line-height $_button_size
+            font-weight 500
+            color #7b7b7b
+
+.h-topics-wrapper
+    .h-topic-list
+        .h-topic-wrapper
+            position relative
+            border: 1px solid #ccc
+            margin-top -1px
+            &:first-child
+                margin-top 0
+
+            .h-topic
+                padding $pad()
+                transition all linear 200ms
+                &:hover
+                    box-shadow -2px 2px 10px rgba(0,0,0,.15)
+
+                .h-topic-name
+                    &:after
+                        content ""
+                        position absolute
+                        top 0
+                        left 0
+                        width 100%
+                        height 100%
+
+                .s-column-icon
+                    width 32px;
+                    padding-right $pad()
+
+                .s-column-replies
+                    width 100px
+                    text-align right
+                    padding-left $pad()
+                    white-space nowrap
+
+                .h-topic-summary
+                    padding 0 1em 0 0
+
+                    .h-badge
+                        margin 0 0 0 4px
+
+                    .h-rating
+                        display inline-block
+                        margin 0 4px 0 0
+
+                        font-weight 500
+                        color: gray;
+                        background: #eee;
+                        border-radius: 3px;
+                        font-size: 12px;
+                        line-height 1em
+                        padding: 4px;
+
+                        &.is-positive
+                            color: green;
+                            background: #dfd;
+
+                        &.is-negative
+                            color: brown;
+                            background: #fdd;
+
+                    .h-topic-author
+                        margin 4px 0 0 0
+                        font-size 12px
+                        color $getColor("gray")
+
+                        .h-author-name
+                            position relative
+
+                        .h-date
+                            margin 0 0 0 4px
+                            color $getColor("gray")
+
+                        .h-time
+                            margin 0 0 0 4px
+                            color $getColor("time")
+
+                    .h-topic-solution
+                        display table
+                        width 100%
+                        table-layout fixed
+                        padding 1em
+                        margin 1em 0 0
+                        background #dfd
+                        box-sizing border-box
+                        font-size 12px
+                        border-radius 3px
+
+                        .h-image
+                        .h-text
+                            display table-cell
+                            vertical-align top
+
+                        .h-image
+                            width 16px
+                            padding 0 .75em 0 0
+
+                            .userpic
+                                width 100%
+                        .h-text
+                            .h-comment-author
+                                margin 0 0 .5em
+
+                                .h-name
+                                    color #444
+                                    font-weight 500
+
+                                .h-staff
+                                    margin 0 0 0 4px
+
+                            .h-comment-text
+                                line-height 1.25em

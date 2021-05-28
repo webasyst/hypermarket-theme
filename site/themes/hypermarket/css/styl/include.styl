@@ -1,0 +1,111 @@
+// layout
+$rem = 15;
+
+$min_w = 995px
+$max_w = 1240px
+$aside_w = 240px
+$radius = 5px
+
+// font
+$getColor($name = "text")
+    if $name == "text"
+        return #121212
+    if $name == "page-header"
+        return #303030
+    if $name == "link"
+        return #206dc4
+    if $name == "gold"
+        return #dbba2c
+    if $name == "link-hover"
+        return #f00
+    if $name == "link-visited"
+        return #626262
+    if $name == "menu"
+        return #626262
+    if $name == "background-gray"
+        return #f7f7f7
+    if $name == "background-hint"
+        return #e6f9e6
+    if $name == "gray"
+        return #888
+    if $name == "time"
+        return #aaa
+    if $name == "gray-light"
+        return #b2b1b1
+    if $name == "red"
+        return #ff0012
+    if $name == "price"
+        return #c2375f
+    if $name == "menu"
+        return #000
+    if $name == "menu-hover"
+        return #c49726
+    if $name == "border-gray"
+        return #b7b7b7
+    if $name == "state-new"
+        return #178318
+    if $name == "state-processing"
+        return #3d64fa
+    if $name == "state-archive"
+        return #666
+    if $name == "state-deleted"
+        return #999
+
+$getFont($name = "text")
+    if $name == "text"
+        return unquote("'Fira Sans', Verdana, Arial, sans-serif");
+
+    if $name == "header"
+        return unquote("'Fira Sans', Verdana, Arial, sans-serif");
+
+    if $name == "menu"
+        return unquote("'Fira Sans', Verdana, Arial, sans-serif");
+
+    if $name == "badge"
+        return unquote("'Fira Sans', Verdana, Arial, sans-serif");
+
+$ellipsis(width = 100%)
+    max-width width
+    text-overflow ellipsis
+    white-space nowrap
+    overflow hidden
+
+$pad($unit = 1)
+    return ($unit * 16px)
+
+$indent($unit = 1)
+    return ($unit * $pad(2))
+
+$badge($font_size = .8em, $bg = false, $color = false)
+    display inline-block
+    padding 2px 4px
+    margin 0
+    box-sizing border-box
+
+    border 1px solid rgba(0,0,0,.05)
+    border-radius 2px
+
+    font-size $font_size
+    line-height 1.2em
+
+    word-wrap: break-word;
+
+    if $bg
+        background $bg
+
+    if $color
+        color $color
+
+$link()
+    color $getColor("link")
+    text-decoration none
+
+    &:hover
+        color $getColor("link-hover")
+
+$block($overflow = true)
+    background #fff
+    border 1px solid #ccc
+    border-radius $radius
+    if $overflow
+        overflow hidden

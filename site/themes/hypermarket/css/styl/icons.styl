@@ -1,0 +1,256 @@
+.times
+    margin 0 4px 0 0
+
+    &:before
+        content "×"
+        display inline-block
+        vertical-align top
+        text-align center
+        font-size 28px
+
+i.icon32
+    display inline-block
+    width 32px
+    height 32px
+    box-sizing border-box
+
+    &.rounded
+        border-radius 50%
+
+    &.vkontakte
+        border 1px solid #5a7feb
+        background-image url("../img/icons/socials/vk.svg");
+        background-position 50%
+        background-size contain
+
+    &.facebook
+        border 1px solid #24409f
+        background-image url("../img/icons/socials/facebook.svg");
+        background-position 50%
+        background-size contain
+
+    &.mailru
+        border 1px solid #4e76df
+        background-image url("../img/icons/socials/moimir.svg");
+        background-position 50%
+        background-size contain
+
+    &.twitter
+        border 1px solid #6ea9df
+        background-image url("../img/icons/socials/twitter.svg");
+        background-position 50%
+        background-size contain
+
+    &.google
+        border 1px solid #c62807
+        background-image url("../img/icons/socials/gplus.svg");
+        background-position 50%
+        background-size contain
+
+    &.yandex
+        border 1px solid #f00
+        background-image url("../img/icons/socials/yandex.svg");
+        background-position 50%
+        background-size contain
+
+    &.webasystID
+        background-image url("../img/icons/socials/webasystID.svg");
+        background-position 50%
+        background-size contain
+
+i.icon16
+    display inline-block
+    vertical-align top
+
+    height 16px
+    width 16px
+    margin: 0 6px
+
+    text-indent -9999px
+    text-decoration none !important
+    background-size: cover
+
+    &:first-child
+        margin-left 0
+
+    &:last-child
+        margin-right 0
+
+    &:not(.default)
+        position relative
+        top 2px
+        vertical-align baseline
+
+    &:not(.image)
+        background: transparent url("../img/icons/icons.png") no-repeat
+        background-size: 260px 160px
+
+    &.image
+        border-radius 50%
+
+    &.rss
+        background-position: -16px 0
+
+    &.facebook
+        background-position: -32px 0
+
+    &.twitter
+        background-position: -48px 0
+
+    &.vk
+        background-position: -64px 0
+
+    &.gplus
+        background-position: -80px 0
+
+    &.pinterest
+        background-position: -96px 0
+
+    &.youtube
+        background-position: -112px 0
+
+    &.instagram
+        background-position: -128px 0
+
+    &.userpic20
+        background-position: -2px -2px
+        border-radius: 50%
+        background-size: 20px 20px
+
+    &.color
+        border-radius: 50%
+        border: 1px solid rgba(0,0,0,0.2)
+        width: 12px
+        height: 12px
+        background-image: none
+
+    &.star
+    &.star-full
+        background-position:-16px -16px
+
+    &.star-half
+        background-position:-32px -16px
+
+    &.star-empty
+        background-position:-48px -16px
+
+    &.star-hover
+        background-position:-64px -16px
+
+    &.stock-red
+        background-position:-128px -16px
+
+    &.stock-yellow
+        background-position:-144px -16px
+
+    &.stock-green
+        background-position:-160px -16px
+
+    &.stock-transparent
+        background-position:-176px -16px
+
+    &.compare
+        background-position:-208px -16px
+
+    &.compare.active
+        background-position:-224px -16px
+
+    &.remove
+        background-position:-96px -16px
+
+    &.loading
+        background-image: url('../img/icons/loading32.gif')
+        background-position: 0 0
+        background-size: 16px 16px
+
+    &.cart
+        background-image url("../img/svg/cart.svg");
+        background-position 0 0
+        background-size contain
+
+    &.email-gold
+        background-image url("../img/svg/email-gold.svg");
+        background-position 50%
+        background-size 14px 10px
+
+.svg-icon
+    display inline-block
+    vertical-align baseline
+    margin: 0 0 0 3px
+    width 16px
+    height 16px
+    text-indent -9999px
+    text-decoration none !important
+
+    background: transparent 50% no-repeat
+    background-size: contain
+    overflow hidden
+
+    &:first-child
+        margin-left 0
+
+    &.lifted
+        position relative
+        top 2px
+
+    &.top
+        vertical-align top
+
+    for $size in (10..20)
+        &.size-{$size}
+            height ($size)px
+            width ($size)px
+
+    &.compare
+        background-image url("../img/svg/icon.simile.gray.svg")
+        &.active
+            background-image url("../img/svg/icon.simile.gold.svg")
+
+    &.star
+    &.star-full
+    &.star-hover
+        background-image url("../img/svg/icon.star.red.svg")
+
+    &.star-half
+        background-image url("../img/svg/icon.star.half_red.svg")
+
+    &.star-yellow
+        background-image url("../img/svg/icon.star.yellow.svg")
+
+    &.star-empty
+        background-image url("../img/svg/icon.star.gray.svg")
+
+    &.attention
+        background-image url("../img/svg/attention.svg")
+
+    &.back
+        background-image url("../img/svg/arrow.left.svg")
+
+    &.next
+        background-image url("../img/svg/arrow.right.svg")
+
+    &.map-marker
+        background-image url("../img/svg/map-marker.svg")
+
+    &.entrance
+        background-image url("../img/svg/entrance.svg")
+
+    &.clock
+        background-image url("../img/svg/clock.svg")
+
+    &.phone
+        background-image url("../img/svg/phone.svg")
+
+    &.phone-white
+        background-image url("../img/svg/phone.white.svg")
+
+    &.delete
+        background-image url("../img/svg/delete.svg")
+        &.active
+        &:hover
+            background-image url("../img/svg/delete.gold.svg")
+
+    &.home
+        width 15px
+        height 12px
+        background-image url("../img/svg/home.svg")

@@ -1,0 +1,219 @@
+.s-product-cart
+    font-size 12px
+
+    .s-hint
+        color: #aaa
+
+    .s-dialog-header
+        .s-sku-wrapper
+            white-space nowrap
+            font-size 13px
+            line-height 1em
+            margin-right 8px
+
+            .s-label
+                color #7b7b7b
+                margin 0 4px 0 0
+
+            .s-sku
+                font-weight 500
+
+        .s-rating-wrapper
+            white-space nowrap
+            font-size: 13px;
+            line-height: 1em;
+
+            .s-rating-hint
+                position relative
+                top -1px
+                display inline-block
+                margin 0 0 0 7px
+                padding 0 4px
+                border 1px solid #c2c2c2
+                border-radius 4px
+                color #7b7b7b
+
+    .s-skus-wrapper
+        .s-sku-item
+            margin: ($pad()/2) 0 0
+
+            &:first-child
+                margin-top: 0
+
+            &.is-disabled
+                opacity .5
+
+                .s-label
+                    cursor default
+
+            .s-label
+                & > *
+                    margin 0 4px 0 0
+
+            .price
+                font-weight bold
+                color: #c03
+
+            input[type="radio"]
+                position: relative;
+                top: 2px;
+                margin: 0 4px 0 0
+
+    .s-options-wrapper
+        .s-option
+            margin 4px 0 0
+            &:first-child
+                margin-top 0
+
+            .s-label
+                margin 0 4px 0 0
+                color $getColor("gray")
+
+        .inline-select
+            margin: $pad() 0 0
+            padding: 0
+
+            &:first-child
+                margin-top 0
+
+            a
+                display inline-block
+                vertical-align top
+                min-width: 37px
+                margin: 0 8px 8px 0
+                padding 8px
+                text-align center
+                border-radius $radius
+                text-decoration: none
+                white-space nowrap
+                overflow hidden
+
+                font-size 14px
+                font-weight 500
+                line-height 20px
+
+                border 1px solid rgba(0,0,0,.1)
+                color #6f6f6f
+                background-color: #f1f1f1
+                transition border-color 200ms linear
+
+                i
+                    display none
+
+                &.selected
+                &:hover
+                    padding 9px
+                    margin -2px 6px 6px -2px
+                    color #000
+                    background #fff
+                    border-width 2px
+
+                &:hover:not(.selected)
+                    border-color rgba(0,0,0,.33)
+
+                &.selected
+                    border-color #f8d854
+
+    .s-stocks-wrapper
+        margin $pad() 0 0
+        $_color_green = #59a040
+        $_color_yellow = #ffce00
+        $_color_red = #ec7474
+        $_color_gray = #ccc
+
+        .s-stock-item
+            .s-label
+                margin 0 8px 0 0
+
+        .stock-high
+            color: $_color_green
+
+        .stock-low
+            color: $_color_yellow
+
+        .stock-critical
+            color: $_color_red
+
+        .stock-none
+            color: $_color_gray
+
+        .s-icon
+            display inline-block
+            vertical-align baseline
+            width 8px
+            height 8px
+            border-radius 50%
+
+            &.green
+                background $_color_green
+
+            &.yellow
+                background $_color_yellow
+
+            &.red
+                background $_color_red
+
+            &.gray
+                background $_color_gray
+
+    .s-services-wrapper
+        margin $pad() 0 0
+
+        .service-item
+            margin-top 8px
+            &:first-child
+                margin-top 0
+
+            input[type="checkbox"]
+                position: relative;
+                top: 2px;
+                margin: 0 4px 0 0
+
+            select
+                height 24px
+
+    .s-price-wrapper
+        white-space nowrap
+        overflow hidden
+
+        .s-price
+            font-size: 40px
+            line-height 1em
+            font-weight 600
+
+        .s-compare-price
+            margin 4px 0 0
+            font-size 14px
+            color: #ff5151
+            text-decoration line-through
+
+            &.is-hidden
+                display none
+
+    .s-cart-footer
+        .s-button-wrapper
+            line-height 45px
+
+        .s-submit-button
+            min-width 120px
+            height 45px
+            font-size 18px
+            line-height 42px
+
+        .s-compare-button
+            font-size 13px
+            font-weight 400
+
+            .svg-icon
+                margin 0 4px 0 0
+
+            &.is-active
+                color #888
+                cursor default
+                &:hover
+                    color #888
+
+            &:hover
+                .svg-icon.compare
+                    &.active
+                        background-image url("../img/svg/icon.simile.red.svg");

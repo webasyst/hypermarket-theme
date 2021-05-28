@@ -1,0 +1,95 @@
+.s-button
+button
+input[type="button"]
+input[type="submit"]
+input[type="reset"]
+    display inline-block
+    vertical-align top
+    height 32px
+    width auto
+    margin: 0
+    padding: 1px 16px 0
+    box-sizing border-box
+
+    border 1px solid $getColor("border-gray")
+    border-radius $radius
+
+    font: 500 15px/29px $getFont("header")
+    text-decoration none
+    color: #000;
+
+    white-space: nowrap;
+    text-align: center;
+
+    appearance none
+    user-select none
+
+    background: #f9db60 linear-gradient(to bottom, #fbe693 0, #f9db60 100%) repeat-x;
+
+    &:not(.without-hover):hover
+        background: #fbe693 linear-gradient(to bottom, #f9db60 0, #fbe693 100%) repeat-x;
+        color #000
+
+    .is-large
+        height 42px
+        font-size 18px
+        line-height 39px
+
+    &:first-child
+        margin-left 0
+
+    &.transparent
+        color: inherit;
+        background transparent
+        border-color transparent
+        box-shadow none
+        &:hover
+            background transparent
+            color: inherit;
+
+    &[disabled]
+    &.is-disabled
+        background #eee
+        color $getColor("gray")
+        cursor default
+        &:hover
+            background #eee
+            color $getColor("gray")
+
+    &.white
+        color inherit
+        background #fff
+
+    &.green
+        color #fff
+        background #2fa42e
+
+    &.orange
+        color #fff
+        background #a4652e
+
+    &.gray
+        color #000
+        background: #ededed linear-gradient(to bottom, #ededed 0%,#d1d1d1 100%);
+
+    &.blue
+        color #fff
+        background: #73b9ff linear-gradient(to bottom, #73b9ff, #0d86ff);
+
+    &.red
+        background: #d9534f;
+        color: #fff;
+
+    &.is-active
+        color #fff
+        background #2fa42e
+        cursor default
+
+    &.reset
+        background transparent
+        border-color #eac436
+        color $getColor("red")
+        transition background 200ms linear
+
+        &:hover
+            background: #fbe693

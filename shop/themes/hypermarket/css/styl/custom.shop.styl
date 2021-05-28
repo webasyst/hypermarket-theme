@@ -1,0 +1,165 @@
+@import "nib"
+
+@import "../../../../../site/themes/hypermarket/css/styl/include.styl";
+
+@import "./slider.styl"
+
+@import "./page.home.styl"
+
+@import "./filters.styl"
+
+@import "./filters.range.styl"
+
+@import "./dialog.styl"
+
+@import "./my.orders.styl"
+
+@import "./my.affiliate.styl"
+
+@import "./page.product.styl"
+
+@import "./page.product.cart.styl"
+
+@import "./page.products.styl"
+
+@import "./page.reviews.styl"
+
+@import "./page.category.styl"
+
+@import "./page.compare.styl"
+
+@import "./page.cart.styl"
+
+@import "./page.checkout.styl"
+
+@import "./page.order.styl"
+
+@import "./jquery.datepicker.styl"
+
+.s-related-products
+    margin $indent() 0 0
+
+.s-sidebar-tags
+    li
+        display: inline-block;
+        word-break: break-all;
+        margin 0 4px 0 0
+        &:not(:last-child)
+            &:after
+                content ","
+
+        a
+            font-size 13px
+            line-height 20px
+
+.s-badge-wrapper
+    .badge
+        text-align center
+        font-family $getFont("badge")
+        font-weight bold
+        color #fff
+        background #dbba2c !important
+        &.new
+            background #c8405f !important
+        &.bestseller
+            background #d43a2f !important
+        &.low-price
+            background #007dc9 !important
+
+    &.is-corner
+        position absolute
+        top 0
+        right 0
+        width 90px
+        height 90px
+        overflow hidden
+
+        .badge
+            position absolute
+            top 8px
+            right -22px
+            display block
+            width 100%
+            padding 6px 0
+            font-size 10px
+            line-height 16px
+            transform rotate(45deg)
+            box-shadow 0 0 5px rgba(0,0,0,.1)
+
+    &.is-rounded
+        position absolute
+        top 8px
+        right 8px
+        display table
+
+        .badge
+            display table-cell
+            vertical-align middle
+            width 90px
+            height 90px
+            padding 20px
+            box-sizing border-box
+            border-radius 50%
+            font-size 15px
+            box-shadow 0 0 5px rgba(0,0,0,.1)
+
+.s-quantity-wrapper
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    white-space: nowrap;
+    width: 100px;
+    border-radius: 2px;
+    overflow: hidden;
+
+    input
+        margin: 0;
+        height: 30px;
+
+    input[type="text"]
+        width: 100%;
+        padding: 0 38px;
+        box-sizing: border-box;
+        text-align: center;
+
+    input[type="button"]
+        position: absolute;
+        top: 0;
+        width: 30px;
+        height: 100%;
+        padding: 0;
+        background: transparent;
+        color: rgba(111, 50, 18, 0.5);
+        border-color: transparent;
+
+        &.minus
+            left: 0;
+
+        &.plus
+            right: 0;
+
+.s-lazyloading-paging
+    ul
+        text-align center
+
+        li
+            display inline-block
+            vertical-align baseline
+            margin: 0 0.25rem
+
+            a
+                display block
+                padding: 0.25rem
+                min-width 2rem
+                box-sizing border-box
+                border-radius 50%
+
+                background #f0f0f0
+                text-decoration none
+                text-align: center
+                cursor pointer
+
+            &.selected
+                a
+                    background transparent
+                    cursor default

@@ -1,0 +1,320 @@
+.s-footer-wrapper
+    margin $indent() 0 0
+    padding 0 $pad()
+
+    .s-footer-block
+        padding $pad()
+        background $getColor("background-gray")
+        border-radius $radius $radius 0 0
+        border solid rgba(0,0,0,.1)
+        border-width 1px 1px 0 1px
+
+        .s-footer-top
+            margin 0
+
+            .s-nav-list
+                display block
+                margin 0
+                padding 0
+
+                li
+                    display inline-block
+                    vertical-align top
+                    margin 0 26px 0 0
+                    padding 0
+                    white-space nowrap
+                    font-size 14px
+                    line-height 20px
+
+                    .icon16
+                        vertical-align top
+                        top 1px
+
+                    &:last-child
+                        margin-right 0
+
+                    &.is-selected
+                        a
+                            cursor default
+                            color $getColor("menu-hover")
+
+                    a
+                        display inline-block
+                        vertical-align top
+                        padding 0
+                        text-decoration none
+                        color $getColor("text")
+
+                        &:hover
+                            color $getColor("menu-hover")
+
+            .s-phone-section
+                display inline-block
+                text-align left
+
+                & > .s-layout > .s-column
+                    padding-left $indent(2)
+
+                    &:first-child
+                        padding-left 0
+
+                .s-schedule-wrapper
+                    .s-label-wrapper
+                        color inherit
+
+                .s-phone-wrapper
+                    position relative
+                    display inline-block
+                    vertical-align middle
+                    white-space nowrap
+                    padding-left 22px
+                    font-size 12px
+                    line-height 1.5em
+
+                    .phone
+                        position absolute
+                        top 0
+                        left 0
+                        margin 0
+
+                    .s-phone
+                        font-size 16px
+                        font-weight 500
+
+                    .s-tip
+                        display block
+                        color $getColor("gray")
+
+                    .s-text
+                        display block
+
+                        .s-time
+                            margin-right 4px
+
+            .s-rating-wrapper
+                margin $pad() 0 0
+                padding 0 $pad() 0 0
+
+                a
+                img
+                    display inline-block
+                    vertical-align top
+                    max-width 100%
+
+        .s-footer-middle
+            margin ($pad()*3/2) 0 0
+
+            .s-layout
+                .s-column
+                    vertical-align bottom
+
+            .s-payments-wrapper
+                .s-header
+                    font-size 13px
+                    font-weight 500
+                    margin 0 0 ($pad()/2)
+
+                .s-payments-list
+                    margin 0
+                    padding 0
+
+                    li
+                        display inline-block
+                        vertical-align top
+                        margin 0 6px 0 0
+                        padding 0
+
+                        img
+                            vertical-align top
+
+                        &:last-child
+                            margin-right 0
+
+            .s-socials-list
+                margin 0
+                padding 0
+                text-align right
+
+                li
+                    display inline-block
+                    vertical-align top
+                    margin 0 0 0 ($pad()/2)
+                    padding 0
+                    list-style none
+
+                    &:first-child
+                        margin-left 0
+
+                    a
+                        display inline-block
+                        vertical-align top
+                        border 1px solid #ccc
+                        border-radius 50%
+                        overflow hidden
+                        transition border-color linear 200ms
+
+                        .icon
+                            display inline-block
+                            vertical-align top
+                            height 32px
+                            width 32px
+                            margin: 0
+                            text-indent -9999px
+                            text-decoration none !important
+                            -webkit-filter: grayscale(100%);
+                            filter: grayscale(100%);
+                            transition all linear 200ms
+
+                        &:hover
+                            .icon
+                                -webkit-filter: grayscale(0%);
+                                filter: grayscale(0%);
+
+                        &.vk
+                            &:hover
+                                border-color #5a7feb
+                            .icon
+                                background-image url("../img/icons/socials/vk.svg");
+                                background-position 50%
+                                background-size contain
+
+                        &.facebook
+                            &:hover
+                                border-color #24409f
+                            .icon
+                                background-image url("../img/icons/socials/facebook.svg");
+                                background-position 50%
+                                background-size contain
+
+                        &.od
+                            &:hover
+                                border-color #e8901f
+                            .icon
+                                background-image url("../img/icons/socials/od.svg");
+                                background-position 50%
+                                background-size contain
+
+                        &.moimir
+                            &:hover
+                                border-color #4e76df
+                            .icon
+                                background-image url("../img/icons/socials/moimir.svg");
+                                background-position 50%
+                                background-size contain
+
+                        &.twitter
+                            &:hover
+                                border-color #6ea9df
+                            .icon
+                                background-image url("../img/icons/socials/twitter.svg");
+                                background-position 50%
+                                background-size contain
+
+                        &.gplus
+                            &:hover
+                                border-color #c62807
+                            .icon
+                                background-image url("../img/icons/socials/gplus.svg");
+                                background-position 50%
+                                background-size contain
+
+                        &.instagram
+                            &:hover
+                                border-color #bea434
+                            .icon
+                                background-image url("../img/icons/socials/instagram.svg");
+                                background-position 50%
+                                background-size contain
+
+                        &.youtube
+                            &:hover
+                                border-color #df2b00
+                            .icon
+                                background-image url("../img/icons/socials/youtube.svg");
+                                background-position 50%
+                                background-size contain
+
+                        &.foursquare
+                            &:hover
+                                border-color #457bfc
+                            .icon
+                                background-image url("../img/icons/socials/foursquare.svg");
+                                background-position 50%
+                                background-size contain
+
+        .s-footer-bottom
+            margin ($pad()/2) 0 0
+
+            .s-layout
+                .s-column
+                    vertical-align bottom
+
+            .s-copyright
+                font-size 12px
+                color #888
+                a
+                    color inherit
+
+            .s-age-wrapper
+                display inline-block
+                vertical-align top
+                min-width 30px
+                text-align center
+                line-height 30px
+                border 1px solid #ccc
+                border-radius 50%
+                color #ccc
+
+        .s-subscribe-section
+            position: relative
+            margin $pad() 0 0
+
+            .s-header
+                font-size 13px
+                font-weight 500
+                margin 0 0 ($pad()/2)
+
+            .s-form-desc
+                margin .5em 0 0
+                font-size 13px
+                line-height 1.2em
+                color $getColor("gray")
+
+            &.is-extended
+                .s-hidden
+                    display: block
+
+            .s-visible
+                white-space nowrap
+
+                .s-submit-button
+                    position relative
+                    left: -5px
+
+            .s-hidden
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 340px;
+                padding: 1em;
+                background: #fff;
+                z-index: 1;
+                box-shadow: 0 0 16px rgba(0,0,0,.15);
+                border-radius: 3px;
+
+                .wa-captcha
+                    margin: 0;
+                    padding: 0;
+
+@media (max-width: $max_w)
+    .s-footer-wrapper
+        .s-footer-block
+            .s-phone-section
+                .s-phone-2
+                    display none
+
+            .s-footer-middle
+                .s-socials-list
+                    margin 24px 0 0
+                    text-align left

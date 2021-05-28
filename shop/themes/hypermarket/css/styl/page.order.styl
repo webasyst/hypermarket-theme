@@ -1,0 +1,285 @@
+$rem($size = 14)
+    $_rem = 14
+    return ($size/$_rem)rem
+
+$em($size = 14, $base = 14)
+    return ($size/$base)em
+
+.wa-order-dialog
+    .wa-field
+        .wa-name
+            padding-left 5px
+body
+    .wa-product-edit-dialog
+        .wa-cart-section
+
+            .wa-skus-wrapper
+                .wa-sku-wrapper
+                    &.is-disabled
+                        opacity 0.5
+                        .wa-label
+                            cursor default
+
+            .wa-features-wrapper
+                .wa-feature-wrapper
+                    .wa-variants-list
+                        .wa-variant
+                            margin: 0 $em(8) $em(8) 0
+
+                            &:hover:not(.selected)
+                            &.selected
+                                border-width 2px
+                                margin: -1px $em(7) $em(7) -1px
+                                background #fff
+                                background-image none
+
+                            &:hover
+                                border-color rgba(0,0,0,0.33)
+
+                            &.selected
+                                border-color #f8d854
+
+        .wa-dialog-footer
+            .wa-actions
+                .wa-button
+                    &.large
+                        height auto
+
+.s-checkout-order-page
+    padding: 37px 0 80px;
+
+    input::-webkit-input-placeholder
+        color: #aaa;
+        font-size: 12px;
+        font-style: italic;
+
+    input::-moz-placeholder
+        color: #aaa;
+        font-size: 12px;
+        font-style: italic;
+
+    input::-ms-input-placeholder
+        color: #aaa;
+        font-size: 12px;
+        font-style: italic;
+
+    img
+        font-size inherit
+
+    .wa-field-wrapper
+        .wa-label
+        .wa-checkbox-wrapper
+            padding-left 5px
+
+        .wa-select
+            height 32px
+
+        .wa-input
+            width 100%
+
+    .wa-dropdown > .wa-dropdown-toggle
+        padding-top 6px
+        padding-bottom 5px
+        border-radius $radius
+        background #fff
+
+    .s-back-link
+        text-align right
+
+    .s-order-section
+        &:not(:first-child)
+            margin-top 20px
+
+        & > .s-section-footer
+            padding: 18px 20px 17px 20px;
+
+        & > .s-section-header
+            border: solid #ccc;
+            border-width 1px 1px 0
+            border-radius $radius $radius 0 0
+            padding: 18px 20px 17px 20px;
+            background: #fff;
+
+            & > .s-header
+                margin: 0;
+                font-size: 25px;
+                line-height: 30px;
+                font-weight normal
+
+            .s-delete-button
+                display: inline-block;
+                color: #888;
+                line-height: 17px;
+
+                &:hover
+                    color: red;
+                    .s-delete-icon
+                        fill: red;
+
+                .s-delete-icon
+                    display: inline-block;
+                    width: 10px;
+                    height: 10px;
+                    margin: 0 6px 0 0;
+                    fill: #b8b8b8;
+
+    .wa-order-cart-wrapper
+    .wa-order-form-wrapper
+
+        p
+            &:first-child
+                margin-top 0
+            &:last-child
+                margin-bottom 0
+
+        & > .wa-cart-body
+        & > .wa-form-body
+            background: #fff;
+            padding: 20px 20px 40px;
+            border: solid #ccc;
+            border-width 0 1px 1px
+            border-radius 0 0 $radius $radius
+
+        & > .wa-cart-footer
+        & > .wa-form-footer
+            padding: 15px 20px;
+            color #aaa
+
+            a
+                color #999
+
+    .wa-order-cross_selling-wrapper
+        & > .wa-cross_selling-body
+            background: #f7f7f7;
+            border: solid #ccc;
+            border-width 0 1px 1px
+            border-radius 0 0 $radius $radius
+
+        .wa-slider-wrapper
+            .wa-slider-actions
+                .wa-action
+                    background #f7f7f7;
+
+    .wa-order-cart-wrapper
+        .wa-products
+            margin -20px -20px 0
+            padding 20px 20px 0
+            background: #f7f7f7;
+
+            .wa-product
+                &:last-child
+                    border-bottom 0
+
+                &.is-more-than-limit
+                &.is-disabled
+                    &:after
+                        left -20px
+                        padding 0 20px
+
+
+                .wa-image-section
+                    img
+                        border-radius $radius
+                        border 1px solid rgba(0,0,0,.1)
+                        box-sizing border-box
+
+                .wa-details-section
+                    .wa-services
+                        .wa-service
+                            .wa-variant
+                                select
+                                    height 24px
+
+        .wa-cart-details
+            .wa-coupon-section
+                .wa-input
+                .wa-button
+                    height 32px
+
+            .wa-affiliate-section
+                    .wa-button
+                        height 32px
+
+    .wa-order-form-wrapper
+        .wa-step-section.is-locked:not(.wa-step-confirm-section):after
+            background rgba(247, 247, 247, 0.5);
+
+        & > .wa-form-body
+            background: #f7f7f7;
+            .wa-step-section
+                &.wa-step-confirm-section
+                    border-top 0
+                    .wa-section-body
+                        margin -20px -20px -40px
+                        padding 20px 20px 40px
+                        border-radius 0 0 $radius $radius
+
+                    &:not(.is-single)
+                        .wa-section-body
+                            background #fff
+
+        .wa-step-shipping-section
+            .wa-delivery-types-section > .wa-header
+            .wa-delivery-variants-section > .wa-header
+                padding-left 5px
+
+        .wa-step-details-section
+            .wa-plugin-fields-wrapper > .wa-label
+                padding-left 5px
+
+        .wa-field-wrapper
+            &:not(.is-agreement-field)
+                .s-checkbox
+                    font-size $rem(16)
+                    transform translate(0,.15em)
+
+            &.is-agreement-field
+                .s-checkbox
+                    input:checked + span
+                        background #949494
+
+        .wa-step-confirm-section
+            .wa-section-body
+                .wa-total-section
+                    .wa-item.wa-item-total
+                        .wa-value
+                            .wa-price
+                                white-space nowrap
+
+@media screen and (min-width: 841px)
+    .s-checkout-order-page
+        display table
+        width 100%
+        table-layout fixed
+
+        & > .s-order-column
+            display table-cell
+            vertical-align top
+            padding 0 20px
+
+            &:first-of-type
+                padding-left 0
+            &:last-of-type
+                padding-right 0
+
+    .wa-order-form-wrapper
+        .wa-form-footer
+            font-size 14px
+            line-height (17/14)em
+            text-align right
+
+@media screen and (max-width: 840px)
+    .s-checkout-order-page
+        & > .s-order-column
+            margin-top: 40px;
+            &:first-child
+                margin-top 0
+
+@media screen and (max-width: 768px)
+    .s-checkout-order-page
+        .s-order-section
+            & > .s-section-header
+                .s-delete-button
+                    width: 43%;
+                    line-height: 14px;
+                    text-align: right;

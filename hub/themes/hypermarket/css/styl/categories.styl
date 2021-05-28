@@ -1,0 +1,72 @@
+.h-category-page
+.h-tag-page
+    .s-sorting-list
+        text-align right
+        margin 0 0 0 19px
+        padding 0
+
+        &:first-child
+            margin-left 0
+
+        .s-label
+            display inline-block
+            margin 0 4px 0 0
+            font-size 14px
+            line-height 24px
+            font-weight 500
+            color #7b7b7b
+
+    .h-topics-wrapper
+        margin $pad() 0 0
+        &:first-child
+            margin-top 0
+
+.h-category-list
+    margin 0 0 $pad(-1)
+
+    .h-category-wrapper
+        display inline-block
+        vertical-align top
+        width 49.99%
+        margin 0 0 $pad()
+        padding 0 $pad() 0 0
+        box-sizing border-box
+
+        .h-category-item
+            &.is-new
+                a.category-name,
+                .count
+                    font-weight: 500;
+
+            .s-column-image
+                width 48px
+                height 48px
+                padding-right $pad()
+
+                .h-image-link
+                    display inline-block
+                    vertical-align top
+
+                    img
+                        vertical-align top
+                        max-width: 100%;
+                        max-height: 48px;
+
+            .h-category-header
+                .h-header
+                    font-size 20px
+                    line-height 20px
+
+            .h-category-description
+                margin 8px 0 0
+                color: $getColor("gray")
+                font-size 13px
+
+            .h-featured-topics
+                margin 8px 0 0
+                font-size 13px
+
+                li
+                    margin 4px 0 0
+                    &:first-child
+                        margin-top 0

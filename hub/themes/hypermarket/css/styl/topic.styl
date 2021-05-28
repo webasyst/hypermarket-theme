@@ -1,0 +1,126 @@
+.s-global-header
+    .h-badge
+        position relative
+        top -.175em
+        margin 0 0 0 8px
+        font-size: .5em
+        line-height 1em
+
+.h-deleted-topic-section
+    $block()
+    width 400px
+    margin: auto
+
+    & > .h-section-header
+        background #fff
+        padding 20px 50px
+
+        .h-header
+            font-size 15px
+            line-height 20px
+            font-weight 500
+            color #5f5f5f
+
+    & > .h-section-body
+        padding 20px 50px
+        background $getColor("background-gray")
+
+.h-topic-page
+    .h-page-header
+        margin 0 0 $indent() 0
+
+        .h-actions
+            & > *
+                margin-right 6px
+                &:last-child
+                    margin-right 0
+
+        .h-credentials
+            line-height 20px
+
+            & > *
+                display inline-block
+                vertical-align top
+                margin-right 6px
+                &:last-child
+                    margin-left 0
+
+            .h-user-wrapper
+                line-height 20px
+
+                .h-userpic
+                    border-radius 50%
+                    margin 0 4px 0 0
+                    vertical-align top
+                    width 20px
+                    height 20px
+
+            .h-date
+                font-size 13px
+                line-height 20px
+                color $getColor("gray")
+
+.h-topic-wrapper
+    .h-edit-actions-wrapper
+        margin $indent() 0 0
+        text-align right
+        line-height 32px
+
+        & > *
+            display inline-block
+            vertical-align top
+            margin 0 8px 0 0
+
+            &:last-child
+                margin-right 0
+
+    .h-topic-actions
+        margin $indent() 0 0
+        padding $pad()
+        background $getColor("background-gray")
+        transition all 200ms linear
+        overflow hidden
+        border-radius $radius
+
+        .h-helpful-vote
+            .loading
+                vertical-align middle
+
+            p
+                margin $pad(.5) 0
+                &:first-child
+                    margin-top 0
+                &:last-child
+                    margin-bottom 0
+
+            .vote-form-question
+                .h-vote-button
+                    min-width 60px
+                    margin 0 0 0 8px
+
+        .h-follow-wrapper
+            .h-text
+                margin 8px 0 0
+                font-size 15px
+                line-height 15px
+
+            .loading
+                vertical-align middle
+
+            &.following .h-follow-content
+            &.not-following .h-unfollow-content
+                display: none;
+
+    .h-topic-block
+        margin 0 0 $indent()
+
+        .h-column-vote
+            width 60px
+            padding 0 $pad() 0 0
+            text-align center
+
+            .h-vote-block
+                font-size 32px
+
+        .h-actions
+            margin 1em 0 0

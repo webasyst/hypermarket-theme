@@ -1,0 +1,294 @@
+.h-edit-form
+    margin 1em 0 0
+    display none
+
+    &.is-shown
+        display block
+
+    .h-text-wrapper
+        padding 0
+
+    .h-buttons
+        margin $pad(.5) 0 0
+        & > *
+            margin-right 6px
+            &:last-child
+                margin-right 0
+
+.h-comment-form-section
+    margin $indent(2) 0 0
+    $block()
+
+    & > .h-section-header
+        background #fff
+        padding 20px 50px
+
+        .h-header
+            font-size 15px
+            line-height 20px
+            font-weight 500
+            color #5f5f5f
+
+    & > .h-section-body
+        padding 30px 50px
+        background $getColor("background-gray")
+
+    .h-form-block
+        .h-form-header
+            line-height 20px
+
+            .h-userpic
+            .h-user-name
+            .h-logout
+                display inline-block
+                vertical-align top
+                margin 0 4px 0 0
+
+            .h-user-name
+                color #777
+
+            .h-userpic
+                width 20px
+                img
+                    width 100%
+
+            .h-logout
+                color #aaa
+                text-decoration underline
+
+        .h-comment-body
+            margin 1em 0 0
+
+            .redactor-box
+                margin 0
+
+        .h-actions
+            margin $pad() 0 0
+            line-height: 32px;
+
+            & > *
+                margin-right 6px
+                &:last-child
+                    margin-right 0
+
+            .h-cancel-button
+                display none
+
+.h-comment-wrapper
+    .h-comment
+        margin 0
+        padding $pad()
+        border-radius $radius
+        transition background 200ms linear
+
+        &.is-new
+            background: #ffc;
+
+        &.is-solution
+            background: #dfd;
+
+        &.featured-comment
+            background: #eed;
+
+        &.in-reply-to
+            background: #f8f8f8
+
+        &:hover
+            background: #f3f3f3;
+
+            .h-inner-wrapper
+                .h-actions
+                    visibility visible
+
+        .h-comment-form-section
+            margin $indent() 0 $indent() $indent()
+            border 0
+            border-radius 0
+            background transparent
+            overflow visible
+
+            .h-section-header
+                display none
+
+            & > .h-section-body
+                padding 0
+                background transparent
+
+            .h-form-block
+                .h-actions
+                    .h-cancel-button
+                        display inline-block
+
+        .h-inner-wrapper
+            .h-image-column
+                width 50px
+                padding 0 $pad() 0 0
+                text-align center
+
+                img
+                    width 100%
+                    border-radius 50%
+
+            .h-vote-column
+                width 50px
+                padding 0 0 0 $pad()
+                text-align center
+
+            .h-actions
+                visibility hidden
+
+        .h-credentials
+            line-height 20px
+
+            & > *
+                display inline-block
+                vertical-align top
+                margin-right 6px
+                &:last-child
+                    margin-right 0
+
+            .h-userpic
+                margin 0 4px 0 0
+                position relative
+                top 0
+                line-height 0
+
+                img
+                    width 20px
+
+            //.h-user-name
+            //    color $getColor("gray")
+
+            .h-staff
+                position relative
+
+            .h-anchor
+                color $getColor("link")
+
+            .h-datetime
+                color $getColor("gray")
+                .h-time
+                    margin-left 6px
+                    color $getColor("time")
+
+            .h-solution-badge
+                $badge(.8em, #2fa42e, #fff)
+                margin-right 4px
+
+        .h-comment-text
+            margin $pad(.5) 0 0
+            line-height 20px
+            word-wrap break-word
+
+        .h-reply-info
+            margin $pad(.5) 0 0
+            text-align right
+            font-style italic
+
+        .h-actions
+            margin $pad() 0 0
+            line-height: 32px;
+
+            & > *
+                margin-right 6px
+                &:last-child
+                    margin-right 0
+
+        .h-vote-wrapper
+            margin 4px 0 0
+
+.h-comments-wrapper
+    margin $indent(2) 0 0
+
+    .h-comments-header
+        margin 0
+
+    .h-comment-sorting
+        line-height 24px
+        .s-label
+            margin 0 4px 0 0
+
+    .h-comment-list
+        margin $pad() 0 0
+
+        ul
+            margin 0
+            padding 0
+
+            li
+                margin $pad() 0 0
+                padding 0
+                list-style none
+                &:first-child
+                    margin-top 0
+
+    & > .h-comment-list > ul > .h-comment-wrapper > ul
+        margin-top $pad()
+        padding-left 24px
+
+        & > .h-comment-wrapper > ul
+            padding-left 24px
+
+            & > .h-comment-wrapper > ul
+                padding-left 24px
+
+.h-forum-comment-form
+    margin $indent() 0 0
+
+    .s-column-image
+        width 48px
+        padding-right $pad()
+
+        img
+            width 100%
+            vertical-align top
+
+.comment-form-fields input {
+    width: 20em;
+}
+
+.comment-form .comment-redactor .errormsg {
+    margin-left: 0;
+    margin-bottom: 20px;
+}
+
+.comments textarea {
+    height: 100px;
+    min-height: 100px;
+    width: 75%;
+    margin-top: 0;
+}
+
+.comments ul li ul li .comment.in-reply-to .comment-form-fields label {
+    display: none;
+}
+
+.comments ul li ul li .comment.in-reply-to .comment-form .comment-redactor {
+    margin-left: 0;
+}
+
+.comments ul li ul li .comment.in-reply-to .comment-form .comment-submit {
+    padding-left: 0;
+}
+
+.comments.forum .comment {
+    clear: left;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 20px 0 30px;
+    margin: 0;
+    min-height: 50px;
+}
+
+.comments.forum .text {
+    margin-left: 0;
+}
+
+.comments ul li .comment .wa-auth-adapters ul {
+    padding-left: 0;
+    margin-top: 5px;
+}
+
+.comments ul li .comment .wa-auth-adapters ul li {
+    list-style: none;
+    clear: none;
+}

@@ -1,0 +1,474 @@
+.s-checkout-page
+    $_content_lift = 0
+    font-size 13px
+
+    .icon.yes
+        display inline-block
+        vertical-align top
+        width 20px
+        height 16px
+        background transparent url("../img/svg/success.svg") 50% no-repeat
+
+    .error
+        color red
+
+    .s-steps-wrapper
+        margin 0
+
+        .wa-form
+            .wa-error-msg
+                color red
+            .wa-field
+                margin 9px 0 0
+                color: #888
+
+                &:first-child
+                    margin-top 0
+                    .wa-value
+                        margin-top 0
+
+                .wa-name
+                    position relative
+                    left 6px
+
+                &.wa-field-address
+                &.billing-address-fake
+                    margin-top $pad(1.5)
+
+                    & > .wa-name
+                        left: 0
+                        color #000
+                        font-weight: bold
+                        width 200px
+                        text-align right
+
+                    .wa-value
+                        .field > span
+                            position relative
+                            left 6px
+                            display block
+
+                &.s-field-create-user
+                    margin-top $indent()
+
+                //.wa-name
+                //    display none
+
+                .wa-value
+                    .field
+                        display block
+                        margin: 0.5em 0 0
+
+                        &:first-child
+                            margin-top: 0
+
+                        span
+                            margin-right 8px
+
+                .wa-submit
+                    margin-top $indent()
+                    input
+                        vertical-align middle
+                    a
+                        $link()
+
+            input[type="text"]
+            input[type="password"]
+                box-shadow 3px 3px 3px -3px rgba(0,0,0,0.1) inset
+
+                &:not(.error)
+                    border-top-color #d0d0d0
+                    border-left-color #d0d0d0
+
+            ul
+                margin 0
+                padding 0
+                li
+                    margin 0
+                    padding 0
+                    list-style none
+
+        .s-login-toggle-wrapper
+            padding $pad() 0 0
+
+            .s-login-toggle
+                margin 0
+                padding 0 0 $indent()
+
+                li
+                    margin 4px 0 0
+                    padding 0
+                    list-style none
+
+                    &:first-child
+                        margin-top 0
+
+                input[type="radio"]
+                    margin-left 0
+
+            .s-login-form
+                margin-top $pad(-1)
+                padding-left $indent(5)
+                padding-bottom: 24px;
+
+                .s-adapters-section
+                    margin 0
+
+                .s-auth-text
+                    margin 12px 0 $indent()
+                    color: #888
+                    font-size: 12px
+
+        .s-step-wrapper
+            border-radius 5px
+            border 1px solid #bfbfbf
+            overflow hidden
+            margin $pad() 0 0
+
+            &.is-next
+                .s-step-header
+                    .s-name
+                        color #888
+
+            &:first-child
+                margin-top 0
+
+            .s-step-header
+                padding $pad() $pad() $pad() 50px
+                a
+                    $link()
+
+                .s-value
+                    color $getColor("gray")
+
+            .s-step-content-wrapper
+                padding $pad() $pad() $indent() 50px
+                background $getColor("background-gray")
+
+                .s-authorized-wrapper
+                    margin 0 0 $indent() 0
+                    padding $pad()
+                    background $getColor("background-hint")
+
+                    .s-authorized-user
+                        display table
+                        width: 100%
+                        box-sizing border-box
+
+                        .left-column
+                        .righs-column
+                            display table-cell
+                            vertical-align middle
+
+                        .left-column
+                            width: 50px;
+                            padding 0 1em 0 0
+                            line-height 0
+
+                            img
+                                border-radius: 50%
+
+                    .s-hint
+                        margin .5em 0 0
+                        color #666
+
+                        a
+                            color #369
+
+                .s-step-content
+                    .s-contact-form
+                        padding-left $_content_lift
+
+                        .s-adapters-section
+                            margin $indent() 0 0
+
+                        .s-column-info
+                            width $aside_w
+                            padding-top 20px
+
+                            .s-info-block
+                                $block()
+                                padding 20px 20px
+                                margin $pad() 0 0
+                                background $getColor("background-gray")
+
+                                &:first-child
+                                    margin-top 0
+
+                                .s-info-header
+                                    margin 0 0 14px 0
+                                    color $getColor("gray")
+                                    font-weight 500
+
+                                    .s-icon
+                                        position relative
+                                        top -1px
+                                        vertical-align middle
+                                        margin 0 8px 0 0
+
+                                .s-info-content
+                                    margin 0
+                                    font-size 13px
+                                    color $getColor("gray")
+
+                    .s-payment-options
+                        margin: 0
+
+                        .s-payment-item
+                            margin $indent() 0 0
+                            list-style none
+
+                            &:first-child
+                                margin-top 0
+
+                            &.has-error
+                                background rgba(255,0,0,.1)
+
+                            .s-payment-header
+                                margin 0
+
+                                label
+                                    & > *
+                                        margin 0 0 0 4px
+                                        vertical-align middle
+                                        &:first-child
+                                            margin-left 0
+
+                            .s-payment-description
+                                margin 0
+                                padding 0 0 0 $_content_lift
+                                color #666
+
+                                a
+                                    $link()
+
+                            .s-payment-content
+                                margin 1em 0 0
+
+                                &.is-hidden
+                                    display none
+
+                    .s-shipping-options
+                        margin: 0
+
+                        .s-shipping-item
+                            margin: $indent() 0 0
+                            padding: 0
+                            list-style none
+
+                            &:first-child
+                                margin-top: 0
+
+                            & > .s-layout
+                                .s-column:first-child
+                                    width 66%
+
+                            .s-shipping-header
+                                padding: 0
+                                margin 0
+
+                                .s-shipping-label
+                                    & > *
+                                        margin 0 0 0 4px
+                                        vertical-align middle
+                                        &:first-child
+                                            margin-left 0
+
+                            .s-shipping-details
+                                padding 0 $pad() $pad() $_content_lift
+
+                            .s-shipping-select
+                                display inline-block
+                                vertical-align middle
+                                font-size 1rem
+
+                            img
+                                vertical-align middle
+
+                            .wa-form
+                                margin 24px 0 0
+
+                        .s-shipping-controls
+                            margin 0 0 1em
+
+                        .s-shipping-description
+                            margin 0 0 1em 0
+
+                        .s-rate-wrapper
+                            .s-price-wrapper
+                                margin 0
+
+                                .s-price
+                                    margin 0
+                                    font-size 16px
+                                    font-weight 500
+                                    line-height 32px
+
+                            .s-comment
+                                margin 1em 0 0
+
+                            .s-delivery-wrapper
+                                .s-delivery
+                                    display block
+                                    font-weight 500
+
+                    .s-confirm-wrapper
+                        padding 0 0 0 $_content_lift
+
+                        .s-contact-wrapper
+                            margin $pad() 0 0
+
+                            &:first-child
+                                margin-top 0
+
+                            .s-contact-header
+                                margin 0
+                                font-weight 500
+
+                            .s-contact-block
+                                margin 1px 0 0
+                                padding 4px 0 0
+                                font-size 13px
+                                line-height 16px
+                                font-weight 400
+
+                                .s-userpic
+                                    vertical-align top
+                                    border-radius 50%
+                                    width 16px
+                                    height: 16px
+                                    margin 0 4px 0 0
+
+                            .s-address-wrapper
+                                margin 4px 0 0
+
+                        .s-cart-table
+                            margin $indent() 0 0
+                            width 100%
+                            table-layout fixed
+                            border 0
+
+                            tr
+                                td
+                                th
+                                    padding 8px $pad(.5)
+                                    border 0
+                                    text-align right
+
+                                th
+                                    color #868686
+                                    font-weight 500
+                                    background transparent
+
+                            tbody
+                                tr:nth-child(odd)
+                                    & > *
+                                        background #fff
+
+                            .s-column-name
+                                text-align left
+
+                            .s-column-amount
+                            .s-column-total
+                                width 25%
+
+                            .s-name
+                                color #393939
+
+                            .s-value
+                            .s-tax
+                            .s-total
+                                margin 0
+
+                            .s-value
+                            .s-total
+                                color $getColor("gray")
+                                .bold
+                                    color $getColor("text")
+
+                        .s-total-wrapper
+                            margin $indent() 0 0
+                            text-align right
+                            border 0
+
+                            tr
+                                td
+                                th
+                                    padding 4px 0 4px $pad()
+                                    border 0
+                                    text-align right
+
+                                    &:first-child
+                                        padding-left 0
+
+                                    &.column-2
+                                        width 25%
+                                        white-space nowrap
+                                        font-weight 500
+
+                                th
+                                    color #868686
+                                    font-weight 400
+
+                                    strong
+                                        color #000
+
+                                &.s-total-sum
+                                    td
+                                        padding-top $indent()
+                                        font-weight 500
+                                        font-size: 18px
+
+                        .s-textarea-wrapper
+                            margin 2em 0 0
+
+                            textarea
+                                height 100px
+                                resize vertical
+
+                        .s-terms-wrapper
+                            margin $pad() 0 0
+
+                    .s-checkout-success
+                        .s-text-section
+                            margin $indent(1.5) 0 $indent(2)
+
+                            p
+                                line-height 20px
+
+                            .s-order-number
+                                display inline-block
+                                font-size 18px
+                                line-height 20px
+                                font-weight 500
+
+                        .s-plugin-wrapper
+                            margin 1em 0 0
+
+                            input
+                                width auto
+
+                        .s-payment-message
+                            .highlighted
+                                padding 2px
+
+                        .s-actions
+                            margin-top $indent(2)
+
+                    .hint
+                        display inline-block
+                        margin 1em 0
+
+            .s-step-footer
+                padding $pad() $pad() $pad() 50px
+
+                .s-confirm-button-wrapper
+                    text-align right
+
+                    .s-step-submit
+                        width: 270px
+                        max-width: 100%
+                        height: 50px
+                        line-height: 47px
+                        font-size: 18px
+                        font-weight: 600
