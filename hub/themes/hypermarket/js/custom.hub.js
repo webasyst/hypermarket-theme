@@ -786,6 +786,7 @@
             that.$commentsWrapper = that.$topicWrapper.find(".h-comments-wrapper");
 
             // VARS
+            that.locales = options["locales"];
             that.topic_type = options["topic_type"];
             that.selected_class = "is-selected";
             that.reply_class = "in-reply-to";
@@ -826,6 +827,22 @@
                 event.preventDefault();
                 if (!that.is_locked) {
                     that.onSubmit();
+                }
+            });
+
+            var is_changed = false,
+                is_submit_event = false;
+
+            that.$form
+                .on("submit", function() {
+                    is_submit_event = true;
+                    setTimeout( function() { is_submit_event = false; }, 100);
+                })
+                .on("input change", function () { is_changed = true; });
+
+            $(window).on('beforeunload', function(event) {
+                if (is_changed && !is_submit_event) {
+                    return "";
                 }
             });
         };

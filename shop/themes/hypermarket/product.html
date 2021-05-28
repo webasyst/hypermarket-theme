@@ -336,7 +336,7 @@
                     <span class="s-label">[`Tags`]:</span>
                     {foreach $product.tags as $t}
                         <div class="s-tag-wrapper">
-                            <a href="{$wa->getUrl('/frontend/tag', ['tag' => urlencode($t)])}">{$t}</a>
+                            <a href="{$wa->getUrl('/frontend/tag', ['tag' => str_replace('%2F', '/', urlencode($t))])}">{$t}</a>
                         </div>
                     {/foreach}
                 </div>

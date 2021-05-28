@@ -4,6 +4,7 @@
 {$auth_adapters = $wa->authAdapters(true)}
 {if $auth_adapters}
     {$_supported_icons = ["vkontakte", "facebook", "mailru", "twitter", "google", "yandex", "webasystID"]}
+    {$oauth_adapter_sizes = $wa->defaultAuthAdapterWindowSizes()}
 
     <section class="s-adapters-section">
         {$linked_adapters = []}
@@ -23,7 +24,9 @@
                     {$_name = $a->getName()}
 
                     <li>
-                        <a href="{$a->getUrl()}" title="{$_name|escape}">
+                        <a href="{$a->getUrl()}" title="{$_name|escape}"
+                            data-width="{$oauth_adapter_sizes[$_id].width}"
+                            data-height="{$oauth_adapter_sizes[$_id].height}">
                             {if in_array($_id, $_supported_icons)}
                                 <i class="icon32 rounded {$_id}"></i>
                             {else}

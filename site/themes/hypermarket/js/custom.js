@@ -276,15 +276,18 @@
                     provider = $li.data("provider");
 
                 if (provider !== 'guest' && provider !== 'signup') {
-                    var left = (screen.width-600)/ 2,
-                        top = (screen.height-400)/ 2,
+                    var width = $link.data('width') || 600,
+                        height = $link.data('height') || 500,
+                        left = (screen.width-width)/ 2,
+                        top = (screen.height-height)/ 2,
                         href = $link.attr("href");
 
                     if ( ( typeof require_authorization !== "undefined" ) && !require_authorization) {
                         href = href + "&guest=1";
                     }
 
-                    window.open(href, "oauth", "width=600,height=400,left="+left+",top="+top+",status=no,toolbar=no,menubar=no");
+                    window.open(href, "oauth", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top +
+                        ",status=no,toolbar=no,menubar=no");
                 }
             }
         };
