@@ -953,7 +953,9 @@
                 before = [],
                 after = [],
                 images;
-
+            if ($.swipebox.isOpen) {
+                return;
+            }
             $.each(that.imageArray, function(index, image_src) {
                 var image = {
                     href: image_src,

@@ -23,7 +23,18 @@
 
     <section class="s-products-wrapper" id="js-products-wrapper">
         {if !empty($section_title)}
-            <div class="s-section-header">{$section_title}</div>
+            <div class="s-section-header">
+                <div class="s-layout">
+                    <div class="s-column left middle">
+                        {$section_title}
+                    </div>
+                    {if !empty($compare_ids) && !empty($theme_settings.enable_compare)}
+                        <div class="s-column right">
+                            <input type="button" onClick="javascript:window.location='{$wa->getUrl('/frontend/compare', ['id' => implode(',', $compare_ids)])}';" value="[`Compare all`]" />
+                        </div>
+                    {/if}
+                </div>
+            </div>
         {/if}
 
         {if empty($short)}
