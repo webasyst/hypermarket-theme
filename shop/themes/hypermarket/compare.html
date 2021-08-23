@@ -72,15 +72,37 @@
                                             <a href="{$_product_url}reviews/" class="s-rating-hint"> {if !empty($_product.rating_count)}{$_product.rating_count}{else}0{/if}</a>
                                         </div>
                                         <div class="s-price-wrapper">
-                                            <div class="s-price">{shop_currency_html($_product.price)}</div>
+                                            <div class="s-price">{shop_currency_html($_product.skus[$_product.sku_id]['price'])}</div>
                                             <div class="s-compare">
                                                 {if !empty($_product.compare_price)}
-                                                    <span class="strike">{shop_currency_html($_product.compare_price)}</span>
+                                                    <span class="strike">{shop_currency_html($_product.skus[$_product.sku_id]['compare_price'])}</span>
                                                 {else}
                                                     &nbsp;
                                                 {/if}
                                             </div>
                                         </div>
+                                        {if $_product.sku_count > 1}
+                                            <br>
+                                            <div class="s-skus-wrapper">
+                                                {foreach $_product.skus as $sku}
+                                                    {$sku_available = $_product.status && $sku.available && ($wa->shop->settings('ignore_stock_count') || $sku.count === null || $sku.count > 0)}
+                                                    <div class="s-sku-item {if !$sku.available}is-disabled{/if}">
+                                                        <label class="s-label">
+                                                            <input name="sku_id" type="radio" value="{$sku.id}"
+                                                                data-compare-price="{shop_currency_html($sku.compare_price, $_product.currency)|escape}"
+                                                                data-price="{shop_currency_html($sku.price, $_product.currency)|escape}"
+                                                                {if !$sku.available} disabled="true" data-disabled="1"{/if}
+                                                                {if $sku.id == $_product.sku_id} checked="checked"{/if}
+                                                                {if $sku.image_id} data-image-id="{$sku.image_id}"{/if}
+                                                            >&nbsp;
+                                                            <span>{shop_currency_html($sku.price, $_product.currency)}</span>&nbsp;&nbsp;
+                                                            <span>{$sku.name|escape}</span>
+                                                        </label>
+                                                    </div>
+                                                {/foreach}
+                                            </div>
+                                        {/if}
+
                                         <div class="s-actions-wrapper">
                                             <div class="s-layout">
                                                 <div class="s-column middle">
@@ -122,22 +144,26 @@
                             {if $_feature.type !== 'divider'}
                                 <th class="s-column-name">{$_feature.name}</th>
                                 {foreach $products as $_product}
-                                    {$_product_feature = false}
-                                    {if !empty($_product.features[$_feature_id])}
-                                        {$_product_feature = $_product.features[$_feature_id]}
-                                    {/if}
-
-                                    <td>
-                                        {if $_product_feature}
-                                            {if is_array($_product_feature)}
-                                                {implode('<br> ', $_product_feature)}
-                                            {else}
-                                                {$_product_feature}
-                                            {/if}
-                                        {else}
-                                            <span class="gray">&mdash;</span>
+                                    {$_sku_feature = ''}
+                                    {foreach $_product.skus as $_sku}
+                                        {$style = ($_sku.id == $_product.sku_id) ? '' : 'display: none;'}
+                                        {if !empty($_sku.features[$_feature_id])}
+                                            {$_sku_feature = $_sku.features[$_feature_id]}
+                                        {elseif !empty($_product.features[$_feature_id])}
+                                            {$_sku_feature = $_product.features[$_feature_id]}
                                         {/if}
-                                    </td>
+                                        <td style="{$style}" data-product="{$_product.id}" data-sku-id="{$_sku.id}">
+                                            {if $_sku_feature}
+                                                {if is_array($_sku_feature)}
+                                                    {implode('<br> ', $_sku_feature)}
+                                                {else}
+                                                    {$_sku_feature}
+                                                {/if}
+                                            {else}
+                                                <span class="gray">&mdash;</span>
+                                            {/if}
+                                        </td>
+                                    {/foreach}
                                 {/foreach}
                             {else}
                                 <th class="s-column-name" colspan="{$_product_count + 1}">{$_feature.name}</th>
@@ -168,6 +194,43 @@
                 }
             });
         })(jQuery, window.waTheme);
+
+        $('input[name="sku_id"]').on('change', function (ev) {
+            var sku_id = $(this).val();
+            if (sku_id) {
+                var compare_price = $(this).attr('data-compare-price');
+                var price         = $(this).attr('data-price');
+                var $s_features   = $('td[data-sku-id="'+ sku_id +'"]');
+                var product_id    = $s_features.first().attr('data-product');
+                if (product_id) {
+                    $('div[data-id="'+ product_id +'"] div.s-price').html(price);
+                    if (compare_price) {
+                        $('div[data-id="'+ product_id +'"] div.s-compare .strike').html(compare_price);
+                    }
+                    $('td[data-product="'+ product_id +'"]').hide();
+                    $s_features.show();
+
+                    $('.s-compare-table tbody tr').each(function (index_1, obj_1) {
+                        var value;
+                        var same = true;
+                        var item = $(obj_1).find('td:visible');
+                        value = item.first().html();
+                        if (typeof value !== 'undefined') {
+                            item.each(function (index_2, obj_2) {
+                                if (value !== $(obj_2).html()) {
+                                    same = false;
+                                }
+                            });
+                            if (same) {
+                                $(obj_1).addClass('same');
+                            } else {
+                                $(obj_1).removeClass('same');
+                            }
+                        }
+                    });
+                }
+            }
+        });
     </script>
 </div>
 

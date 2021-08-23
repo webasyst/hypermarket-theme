@@ -2952,6 +2952,10 @@ body.no-user-select {
 .s-checkout-page .s-steps-wrapper .wa-form .wa-field .wa-value .field span {
   margin-right: 8px;
 }
+.s-checkout-page .s-steps-wrapper .wa-form .wa-field .wa-value p .field.wa-required span:after {
+  content: " *";
+  color: #f00;
+}
 .s-checkout-page .s-steps-wrapper .wa-form .wa-field .wa-submit {
   margin-top: 32px;
 }

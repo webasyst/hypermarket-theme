@@ -1022,9 +1022,8 @@
         };
 
         ComparePage.prototype.initToggle = function() {
-            var that = this,
-                $filter = that.$wrapper.find(".js-compare-filter"),
-                $sameFields = that.$table.find("tr.same");
+            var that = this;
+            var $filter = that.$wrapper.find(".js-compare-filter");
 
             $filter.on("change", ".s-toggle", function(event) {
                 var $toggle = $(this),
@@ -1032,6 +1031,7 @@
                     is_active = ($toggle.attr("checked") === "checked");
 
                 if (is_active) {
+                    var $sameFields = that.$table.find('tr.same');
                     if (value === "all") {
                         $sameFields.show();
                     } else {
