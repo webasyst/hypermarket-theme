@@ -72,7 +72,11 @@
                                             <a href="{$_product_url}reviews/" class="s-rating-hint"> {if !empty($_product.rating_count)}{$_product.rating_count}{else}0{/if}</a>
                                         </div>
                                         <div class="s-price-wrapper">
+                                            {if $_product.min_price < $_product.max_price}
+                                            <div class="s-price">{shop_currency_html($_product.min_price, ['extended_format' => '%t', 'format' => true])} &mdash; {shop_currency_html($_product.max_price)}</div>
+                                            {else}
                                             <div class="s-price">{shop_currency_html($_product.price)}</div>
+                                            {/if}
                                             <div class="s-compare">
                                                 {if !empty($_product.compare_price)}
                                                     <span class="strike">{shop_currency_html($_product.compare_price)}</span>
