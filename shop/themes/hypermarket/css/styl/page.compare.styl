@@ -1,4 +1,12 @@
 .s-compare-page
+
+    .price-wrapper
+        white-space nowrap
+
+    .no-currency
+        .currency
+            display none
+
     .s-empty-page
         margin 1em 0 0
 
@@ -70,19 +78,53 @@
                     border-radius 4px
                     color #7b7b7b
 
-            .s-price-wrapper
-                margin $pad(.5) 0 0
-                white-space nowrap
+            .s-prices-section
+                font-size 13px
+                line-height 16px
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-top 10px
+                min-height 40px
+
+                .price
+                    white-space normal
+                    word-break: break-word;
+
+                .s-price-wrapper
+                    .s-price
+                        &:not(:last-child)
+                            margin-right 20px
 
                 .s-price
-                .s-compare
-                    $ellipsis()
-                    line-height 16px
+                    display block
+                    line-height 18px
+                    color #000
+                    .price
+                        font-size: 18px
+                        line-height 1em
+                        font-weight 700
 
-                .s-price
-                    font-size 16px
-                    font-weight 500
-                    color $getColor("red")
+                .s-base-price
+                    display block
+                    line-height 15px
+                    color #888
+                    .price
+                        font-size: 15px
+                        line-height 1em
+                        font-weight 700
+
+                .s-compare-price
+                    margin-top 4px
+                    font-size 13px
+                    color: #ff5151
+                    text-decoration line-through
+
+                    .s-out-of-stock
+                        text-decoration none
+
+                .s-ratio-wrapper
+                    margin-top 4px
+                    color #888
 
             .s-actions-wrapper
                 margin $pad() 0 0
@@ -108,7 +150,7 @@
                 td
                     padding 7px 0 7px $pad()
                     border 0
-                    width 200px
+                    width 250px
                     font-size 13px
                     line-height 16px
                     font-weight normal

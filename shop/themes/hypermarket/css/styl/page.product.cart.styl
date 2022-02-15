@@ -172,17 +172,40 @@
             select
                 height 24px
 
-    .s-price-wrapper
+    .s-prices-section
         white-space nowrap
         overflow hidden
+        font-size 14px
+        line-height 16px
+
+        .price
+            white-space normal
+            word-break: break-word;
+
+        .s-price-wrapper
+            .s-price
+                &:not(:last-child)
+                    margin-right 20px
 
         .s-price
-            font-size: 40px
-            line-height 1em
-            font-weight 600
+            display inline-block
+            line-height 30px
+            color #000
+            .price
+                font-size: 30px
+                line-height 1em
+                font-weight 700
+
+        .s-base-price
+            display inline-block
+            line-height 20px
+            color #888
+            .price
+                font-size: 20px
+                line-height 1em
+                font-weight 700
 
         .s-compare-price
-            margin 4px 0 0
             font-size 14px
             color: #ff5151
             text-decoration line-through
@@ -190,30 +213,46 @@
             &.is-hidden
                 display none
 
+        .s-ratio-wrapper
+            margin 6px 0 0
+            color #888
+
     .s-cart-footer
-        .s-button-wrapper
-            line-height 45px
+        & > .s-layout
+            margin: auto
 
-        .s-submit-button
-            min-width 120px
-            height 45px
-            font-size 18px
-            line-height 42px
+        .s-quantity-section
+            margin-right 20px
 
-        .s-compare-button
-            font-size 13px
-            font-weight 400
+        .s-actions-wrapper
+            text-align center
 
-            .svg-icon
-                margin 0 4px 0 0
+            .s-button-wrapper
+                line-height 45px
 
-            &.is-active
-                color #888
-                cursor default
-                &:hover
+                .s-submit-button
+                    min-width 120px
+                    height 45px
+                    font-size 18px
+                    line-height 42px
+
+            .s-compare-button
+                display inline-block
+                margin-top 1rem
+                font-size 13px
+                font-weight 400
+                white-space nowrap
+
+                .svg-icon
+                    margin 0 4px 0 0
+
+                &.is-active
                     color #888
+                    cursor default
+                    &:hover
+                        color #888
 
-            &:hover
-                .svg-icon.compare
-                    &.active
-                        background-image url("../img/svg/icon.simile.red.svg");
+                &:hover
+                    .svg-icon.compare
+                        &.active
+                            background-image url("../img/svg/icon.simile.red.svg");

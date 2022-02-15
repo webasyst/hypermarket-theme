@@ -82,7 +82,7 @@
 
     {* NOVELTIES *}
     {if !empty($theme_settings.homepage_novelties_list_id)}
-        {$_products = $wa->shop->productSet($theme_settings.homepage_novelties_list_id)}
+        {$_products = $wa->shop->productSet($theme_settings.homepage_novelties_list_id, null, null, ['fields' => '*,sku_filtered'])}
         {if !empty($_products)}
             {$_title = ""}
             {if $theme_settings.homepage_novelties_title}{$_title = $theme_settings.homepage_novelties_title}{/if}
@@ -93,7 +93,7 @@
 
     {* BESTSELLERS *}
     {if !empty($theme_settings.homepage_bestsellers_list_id)}
-        {$_products = $wa->shop->productSet($theme_settings.homepage_bestsellers_list_id)}
+        {$_products = $wa->shop->productSet($theme_settings.homepage_bestsellers_list_id, null, null, ['fields' => '*,sku_filtered'])}
         {if !empty($_products)}
             {$_title = ""}
             {if $theme_settings.homepage_bestsellers_title}{$_title = $theme_settings.homepage_bestsellers_title}{/if}
@@ -104,7 +104,7 @@
 
     {* ONSALES *}
     {if !empty($theme_settings.homepage_onsale_list_id)}
-        {$_products = $wa->shop->productSet($theme_settings.homepage_onsale_list_id)}
+        {$_products = $wa->shop->productSet($theme_settings.homepage_onsale_list_id, null, null, ['fields' => '*,sku_filtered'])}
         {if !empty($_products)}
             {$_title = ""}
             {if $theme_settings.homepage_onsale_title}{$_title = $theme_settings.homepage_onsale_title}{/if}

@@ -1,0 +1,9 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="minus" viewBox="0 0 12 12">
+        <g><rect fill="currentColor" y="5" width="12" height="2" /></g>
+    </symbol>
+
+    <symbol id="plus" viewBox="0 0 12 12">
+        <g><path fill="currentColor" d="M5,12V7H0V5H5V0H7V5h5V7H7v5Z" /></g>
+    </symbol>
+</svg>

@@ -305,31 +305,54 @@ $getPeriod($num = 3)
                     margin 0 0 0 4px
                     color #000
 
-            .s-price-wrapper
+            .s-prices-section
+                font-size 13px
+                line-height 16px
                 overflow: hidden;
                 text-overflow: ellipsis;
-                white-space nowrap
+
+                .price
+                    white-space normal
+                    word-break: break-word;
+
+                .s-price-columns
+                    display flex
+                    align-items baseline
+                    flex-wrap wrap
+                    & > *
+                        margin-bottom 4px
+                        &:not(:last-child)
+                            margin-right 20px
 
                 .s-price
-                    display block
-                    font-size 18px
-                    font-weight 500
-                    line-height 20px
-                    overflow: hidden;
-                    text-overflow: ellipsis;
+                    display inline-block
+                    line-height 18px
                     color #000
+                    .price
+                        font-size: 18px
+                        line-height 1em
+                        font-weight 700
 
-                .s-out-of-stock
-                .s-compare
-                    display block
-                    margin 5px 0 0
+                .s-base-price
+                    display inline-block
+                    line-height 15px
+                    color #888
+                    .price
+                        font-size: 15px
+                        line-height 1em
+                        font-weight 700
+
+                .s-compare-price
+                    margin-top 4px
                     font-size 13px
-                    line-height 14px
-                    height 14px
-
-                .s-compare
+                    color: #ff5151
                     text-decoration line-through
-                    color #f00
+
+                    .s-out-of-stock
+                        text-decoration none
+
+                .s-ratio-wrapper
+                    color #888
 
             .s-rating-wrapper
                 font-size 12px
@@ -386,13 +409,10 @@ $getPeriod($num = 3)
                 .s-product-header
                     margin 13px 0 0
 
-                .s-price-wrapper
-                    margin 13px 0 0
-
-                    .s-out-of-stock
-                        margin 0
-                        height auto
-                        line-height 20px
+                .s-prices-section
+                    margin 10px 0 0
+                    &:not(.is-short)
+                        min-height: 80px;
 
                 .s-buttons-wrapper
                     margin 13px 0 0
@@ -400,6 +420,9 @@ $getPeriod($num = 3)
 
         &.thumbs-view
             padding 1px 0 0 1px
+            display: flex;
+            flex-flow: row;
+            flex-wrap: wrap;
 
             .s-product-wrapper
                 display inline-block
@@ -407,16 +430,19 @@ $getPeriod($num = 3)
                 width (100/$_product_count)%
                 margin -1px 0 0 -1px
 
+                .s-product-block
+                    height: 100%;
+                    box-sizing: border-box;
+
                 .s-product-header
                     margin 13px 0 0
 
                 .s-product-description
                     display none
 
-                .s-price-wrapper
+                .s-prices-section
                     margin 10px 0 0
-                    .s-price
-                        color #c5375f
+                    min-height: 80px;
 
                 .s-actions-wrapper
                     margin 18px 0 0
@@ -489,19 +515,17 @@ $getPeriod($num = 3)
                             color inherit
 
 @media (min-width: $getPeriod(4)) and (max-width: $getPeriod(5))
-    $_product_count = 4
     .s-products-wrapper
         .s-products-list
             &.thumbs-view
             &.is-short
                 .s-product-wrapper
-                    width (100/$_product_count)%
+                    width calc(25%)
 
 @media (min-width: $getPeriod(5))
-    $_product_count = 5
     .s-products-wrapper
         .s-products-list
             &.thumbs-view
             &.is-short
                 .s-product-wrapper
-                    width (100/$_product_count)%
+                    width calc(20%)

@@ -7,7 +7,14 @@
     {/if}
 {/if}
 
+{$_currency = $wa->shop->currency()}
+{*{$_currency_data = $wa->shop->getCurrencyData($_currency)}*}
+
 {foreach $products as $product}
+    {if class_exists('shopFrac')}
+        {* this code sets default values for empty SKU fields *}
+        {$product = shopFrac::inheritSkuFieldsFromProduct($product)}
+    {/if}
     {$available = $wa->shop->settings('ignore_stock_count') || $product.count === null || $product.count > 0}
     {$badge_html = $wa->shop->badgeHtml($product.badge)}
     {$_product_image_src = $wa->shop->productImgUrl($product, "200")|default:"`$wa_theme_url`img/svg/empty_photo.svg"}
@@ -16,6 +23,9 @@
         {$sku = $product.skus[$product.sku_id]}
         {if empty($sku.available) && (count($product.skus) === 1)}{$available = false}{/if}
     {/if}
+
+    {$active_sku = $product.skus[$product["sku_id"]]}
+    {$_show_fractional = !empty($formatted_units[$product["stock_unit_id"]]) && !empty($formatted_units[$product["base_unit_id"]]) && ($product["stock_unit_id"] !== $product["base_unit_id"]) && !empty($active_sku["stock_base_ratio"])}
 
     <li class="s-product-wrapper" data-product-id="{$product.id}" itemscope itemtype="http://schema.org/Product">
         {if !empty($badge_html)}
@@ -36,20 +46,69 @@
             </div>
 
             <div class="s-offers-wrapper" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                <div class="s-price-wrapper">
-                    <span class="s-price">{shop_currency_html($product.price)}</span>
-                    {if empty($hide_buttons)}
-                        <span class="s-compare">{if $product.compare_price > 0}{shop_currency_html($product.compare_price)}{/if}</span>
-                    {/if}
+                {if $available}
+                    <meta itemprop="price" content="{shop_currency($product.price, null, null, 0)}">
+                    <meta itemprop="priceCurrency" content="{$wa->shop->currency()}">
+                    <link itemprop="availability" href="http://schema.org/InStock"/>
+                {else}
+                    <meta itemprop="price" content="{shop_currency($product.price, null, null, 0)}">
+                    <meta itemprop="priceCurrency" content="{$wa->shop->currency()}">
+                    <link itemprop="availability" href="http://schema.org/OutOfStock"/>
+                {/if}
 
-                    {if $available}
-                        <meta itemprop="price" content="{shop_currency($product.price, null, null, 0)}">
-                        <meta itemprop="priceCurrency" content="{$wa->shop->currency()}">
-                        <link itemprop="availability" href="http://schema.org/InStock"/>
+                <div class="s-prices-section {if !empty($hide_buttons)}is-short{/if}">
+                    {if !empty($_show_fractional)}
+                        {$_stock_unit = $formatted_units[$product["stock_unit_id"]]}
+                        {$_base_unit = $formatted_units[$product["base_unit_id"]]}
+                        {$_stock_price = shop_currency($product["price"], ["unit" => $_stock_unit["name_short"], "in_currency" => $_currency, "format" => "price_wrapper"])}
+                        {$_stock_compare_price = shop_currency($product["compare_price"], ["unit" => $_stock_unit["name_short"], "in_currency" => $_currency, "format" => "price_wrapper"])}
+                        {$_base_price = ($active_sku["price"]/$active_sku["stock_base_ratio"])}
+                        {$_base_price = shop_currency($_base_price, ["unit" => $_base_unit["name_short"], "in_currency" => $_currency, "format" => "price_wrapper"])}
+
+                        <div class="s-price-columns">
+                            <div class="s-column">
+                                <span class="s-price">{$_stock_price}</span>
+                                {if empty($hide_buttons)}
+                                    {if $available}
+                                        <div class="s-compare-price">{if $product["compare_price"] > 0}{$_stock_compare_price}{/if}</div>
+                                    {else}
+                                        {if !$wa->shop->settings('ignore_stock_count')}
+                                            <div class="s-compare-price">{if $product["compare_price"] > 0}{$_stock_compare_price}{/if}</div>
+                                        {else}
+                                            <div class="s-compare-price"><strong class="s-out-of-stock">[`Pre-order only`]</strong></div>
+                                        {/if}
+                                    {/if}
+                                {/if}
+                            </div>
+                            {if empty($hide_buttons)}
+                                <span class="s-base-price">{$_base_price}</span>
+                            {/if}
+                        </div>
+
+                        {if empty($hide_buttons)}
+                            <div class="s-ratio-wrapper">
+                                <span>{sprintf(_w("1 %s"), $_stock_unit["name_short"])}</span>
+                                <span>&nbsp;=&nbsp;</span>
+                                <span class="js-stock-base-ratio">{$wa->shop->numberFormat($active_sku["stock_base_ratio"])}</span>&nbsp;<span>{$_base_unit["name_short"]}</span>
+                            </div>
+                        {/if}
                     {else}
-                        <meta itemprop="price" content="{shop_currency($product.price, null, null, 0)}">
-                        <meta itemprop="priceCurrency" content="{$wa->shop->currency()}">
-                        <link itemprop="availability" href="http://schema.org/OutOfStock"/>
+                        {$_stock_price = shop_currency($active_sku["price"], ["in_currency" => $_currency, "format" => "price_wrapper"])}
+                        {$_stock_compare_price = shop_currency($active_sku["compare_price"], ["in_currency" => $_currency, "format" => "price_wrapper"])}
+
+                        {if !empty($formatted_units) && $formatted_units[$product["stock_unit_id"]]}
+                            {$_stock_unit = $formatted_units[$product["stock_unit_id"]]}
+                            {if !empty($fractional_config) && $fractional_config["stock_units_enabled"]}
+                                {$_stock_price = shop_currency($active_sku["price"], ["unit" => $_stock_unit["name_short"], "in_currency" => $_currency, "format" => "price_wrapper"])}
+                                {$_stock_compare_price = shop_currency($active_sku["compare_price"], ["unit" => $_stock_unit["name_short"], "in_currency" => $_currency, "format" => "price_wrapper"])}
+                            {/if}
+                        {/if}
+
+                        <div class="s-price">{$_stock_price}</div>
+
+                        {if empty($hide_buttons)}
+                            <div class="s-compare-price">{if $product.compare_price > 0}{$_stock_compare_price}{/if}</div>
+                        {/if}
                     {/if}
                 </div>
             </div>
@@ -60,7 +119,8 @@
                         <div class="s-layout">
                             <div class="s-column">
                                 {if $available}
-                                    <form class="add-to-cart" {if $product.sku_count > 1}data-url="{$product.frontend_url}{if strpos($product.frontend_url, '?')}&{else}?{/if}cart=1"{/if} method="post" action="{$wa->getUrl('/frontendCart/add')}">
+                                    {$_show_dialog = ($product.sku_count > 1 || $product["order_multiplicity_factor"] != 1)}
+                                    <form class="add-to-cart" {if $_show_dialog}data-url="{$product.frontend_url}{if strpos($product.frontend_url, '?')}&{else}?{/if}cart=1"{/if} method="post" action="{$wa->getUrl('/frontendCart/add')}">
                                         <input class="s-button js-add-button" type="submit" value="{_wd('shop', 'Buy')}">
                                         <input type="hidden" name="product_id" value="{$product.id}">
                                     </form>

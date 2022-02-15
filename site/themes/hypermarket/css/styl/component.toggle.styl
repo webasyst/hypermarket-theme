@@ -1,0 +1,47 @@
+$_hover_bg = #fff
+$_active_bg = #f8d855
+$_hover_color = #000
+$_active_color = #000
+
+.toggle { display: inline-block; vertical-align: top; margin: 0; padding: 0.25rem; font-size: 0; white-space: nowrap; max-width: 100%; overflow: hidden; border-radius: 5px; background: #fff; border: 1px solid #d8b93c; user-select: none; }
+.toggle > * { display: inline-block; vertical-align: top; margin: 0; padding: 0.5em 0.75em; list-style: none; border: 0; border-radius: 0.25rem; font-size: 1rem; line-height: 1em; background: #fff; color: #555; position: relative; outline: none; cursor: pointer; }
+.toggle > *:not(:last-child) { margin-right: 0.25em; }
+.toggle > *.selected { background: $_active_bg; color: $_active_color; cursor: default; transition: 0.2s color; }
+.toggle > *:hover:not(.selected) { background: $_hover_bg; color: $_hover_color }
+.toggle.small { padding: 0.125rem; }
+.toggle.small > * { font-size: 0.75rem; }
+.toggle.rounded { border-radius: 10rem; }
+.toggle.rounded > * { border-radius: 10rem; }
+.toggle > button:hover { box-shadow: none; }
+.toggle > button:active { top: 0; }
+
+.toggle.animate { position: relative; }
+.toggle.animate > * { background: transparent; }
+.toggle.animate .animation-block { position: absolute; top: 0; left: 0; background: $_active_bg; transition: all 200ms linear; }
+
+.toggle.tabs-mode
+    padding 0
+    border-radius 0
+    background transparent
+    color #555
+
+    & > *
+        padding 0.875em 0
+        border-radius 0
+        border-bottom .25em solid transparent
+        color inherit
+        &:not(:last-child)
+            margin-right: 1.75em;
+
+        &:hover
+        &.selected
+            border-bottom-color #1a9afe
+            background transparent
+            color #000
+
+    &.animate
+        & > *:not(.animation-block)
+            border-color transparent
+        .animation-block
+            background transparent
+            border-bottom-color #1a9afe

@@ -11,12 +11,79 @@
     {include file="./product.cart.dialog.html" inline}
 
 {else}
-    <div class="s-product-cart">
-        <form id="s-product-form" method="post" action="{$wa->getUrl('/frontendCart/add')}">
+    {$_locales = [
+        "to_compare" => "[`To comparison`]",
+        "in_compare" => "[`In comparison list`]",
+        "added" => _w("Added"),
+        "buy" => "{if $wa->shop->cart->total() > 0}{_w("Add to cart")}{else}{_w("Buy now")}{/if}"
+    ]}
+
+    {if class_exists('shopFrac')}
+        {* this code sets default values for empty SKU fields *}
+        {$product = shopFrac::inheritSkuFieldsFromProduct($product)}
+    {/if}
+    {$active_sku = $product.skus[$product["sku_id"]]}
+    {$_currency = $wa->shop->currency()}
+    {if method_exists($wa->shop, "getCurrencyData")}
+        {$_currency_data = $wa->shop->getCurrencyData($_currency)}
+    {else}
+        {if ($currency_info["sign_position"])}
+            {$_pattern_html = "<span class=\"price-wrapper\"><span class=\"price\">%s</span>`$currency_info["sign_delim"]`<span class=\"currency\">`$currency_info["sign_html"]`</span></span>"}
+            {$_pattern_text = "<span class=\"price-wrapper\"><span class=\"price\">%s</span>`$currency_info["sign_delim"]`<span class=\"currency\">`$currency_info["sign"]`</span></span>"}
+        {else}
+            {$_pattern_html = "<span class=\"price-wrapper\"><span class=\"currency\">`$currency_info["sign_html"]`</span>`$currency_info["sign_delim"]`<span class=\"price\">%s</span></span>"}
+            {$_pattern_text = "<span class=\"price-wrapper\"><span class=\"currency\">`$currency_info["sign"]`</span>`$currency_info["sign"]`<span class=\"price\">%s</span></span>"}
+        {/if}
+
+        {$_currency_data = [
+            'code'             => $currency_info['code'],
+            'fraction_divider' => ifset($currency_info, 'decimal_point', '.'),
+            'fraction_size'    => ifset($currency_info, 'precision', 2),
+            'group_divider'    => $currency_info["thousands_sep"],
+            'group_size'       => 3,
+
+            'pattern_html' => $_pattern_html,
+            'pattern_text' => $_pattern_text,
+            'pattern_unit' => "%s"
+        ]}
+    {/if}
+
+    {$_show_fractional = !empty($formatted_units[$product["stock_unit_id"]]) && !empty($formatted_units[$product["base_unit_id"]]) && ($product["stock_unit_id"] !== $product["base_unit_id"]) && !empty($active_sku["stock_base_ratio"])}
+
+    <div class="s-product-cart" id="js-product-cart">
+        <form class="s-product-form" method="post" action="{$wa->getUrl('/frontendCart/add')}">
             <header class="s-cart-header">
-                <div class="s-price-wrapper">
-                    <div class="s-price js-product-price" data-price="{shop_currency($product.price, null, null, 0)}">{shop_currency_html($product.price)}</div>
-                    <div class="s-compare-price js-compare-price {if !($product.compare_price > 0)}is-hidden{/if}" data-compare-price="{shop_currency_html($product.compare_price, null, null, 0)}" > {shop_currency_html($product.compare_price)} </div>
+                <div class="s-prices-section">
+                    {if !empty($_show_fractional)}
+                        {$_stock_unit = $formatted_units[$product["stock_unit_id"]]}
+                        {$_base_unit = $formatted_units[$product["base_unit_id"]]}
+                        {$_stock_price = shop_currency($active_sku["price"], ["unit" => $_stock_unit["name_short"], "in_currency" => $_currency, "format" => "price_wrapper"])}
+                        {$_stock_compare_price = shop_currency($active_sku["compare_price"], ["unit" => $_stock_unit["name_short"], "in_currency" => $_currency, "format" => "price_wrapper"])}
+                        {$_base_price = ($active_sku["price"]/$active_sku["stock_base_ratio"])}
+                        {$_base_price = shop_currency($_base_price, ["unit" => $_base_unit["name_short"], "in_currency" => $_currency, "format" => "price_wrapper"])}
+
+                        <div class="s-price-wrapper">
+                            <span class="s-price js-product-price">{$_stock_price}</span>
+                            <span class="s-base-price js-product-base-price">{$_base_price}</span>
+                        </div>
+
+                        <div class="s-compare-price js-compare-price {if !($product.compare_price > 0)}is-hidden{/if}">{$_stock_compare_price}</div>
+
+                        <div class="s-ratio-wrapper">
+                            <span>{sprintf(_w("1 %s"), $_stock_unit["name_short"])}</span>
+                            <span>&nbsp;=&nbsp;</span>
+                            <span class="js-stock-base-ratio">{$wa->shop->numberFormat($active_sku["stock_base_ratio"])}</span>&nbsp;<span>{$_base_unit["name_short"]}</span>
+                        </div>
+                    {elseif !empty($fractional_config) && $fractional_config["stock_units_enabled"] && !empty($formatted_units) && !empty($formatted_units[$product["stock_unit_id"]])}
+                        {$_stock_unit = $formatted_units[$product["stock_unit_id"]]}
+                        {$_stock_price = shop_currency($active_sku["price"], ["unit" => $_stock_unit["name_short"], "in_currency" => $_currency, "format" => "price_wrapper"])}
+                        {$_stock_compare_price = shop_currency($active_sku["compare_price"], ["unit" => $_stock_unit["name_short"], "in_currency" => $_currency, "format" => "price_wrapper"])}
+                        <div class="s-price js-product-price">{$_stock_price}</div>
+                        <div class="s-compare-price js-compare-price {if !($active_sku["compare_price"] > 0)}is-hidden{/if}">{$_stock_compare_price}</div>
+                    {else}
+                        <div class="s-price js-product-price">{shop_currency($active_sku["price"], ["in_currency" => $_currency, "format" => "price_wrapper"])}</div>
+                        <div class="s-compare-price js-compare-price {if !($product.compare_price > 0)}is-hidden{/if}">{shop_currency($active_sku["compare_price"], ["in_currency" => $_currency, "format" => "price_wrapper"])}</div>
+                    {/if}
                 </div>
             </header>
 
@@ -60,7 +127,10 @@
                     {* list all SKUs for Schema.org markup *}
                     {foreach $product.skus as $sku}
                         <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                            {$sku_available =  $product.status && $sku.available && ($wa->shop->settings('ignore_stock_count') || $sku.count === null || $sku.count > 0)}
+                            {$sku_available = $product.status && $sku.available && ($wa->shop->settings('ignore_stock_count') || $sku.count === null || $sku.count > 0)}
+                            {if !$wa->shop->settings('ignore_stock_count') && !empty($sku["order_count_min"]) && $sku.count > 0 && ($sku["order_count_min"] > $sku.count)}
+                                {$sku_available = false}
+                            {/if}
                             {if $sku.name}<meta itemprop="name" content="{$sku.name|escape}">{/if}
                             <meta itemprop="price" content="{shop_currency($sku.price, $product.currency, null, 0)}">
                             <meta itemprop="priceCurrency" content="{$wa->shop->currency()}">
@@ -80,6 +150,9 @@
                         <div class="s-skus-wrapper">
                             {foreach $product.skus as $sku}
                                 {$sku_available =  $product.status && $sku.available && ($wa->shop->settings('ignore_stock_count') || $sku.count === null || $sku.count > 0)}
+                                {if !$wa->shop->settings('ignore_stock_count') && !empty($sku["order_count_min"]) && $sku.count > 0 && ($sku["order_count_min"] > $sku.count)}
+                                    {$sku_available = false}
+                                {/if}
                                 <div class="s-sku-item {if !$sku.available}is-disabled{/if}" itemscope itemtype="http://schema.org/Offer">
                                     <label class="s-label">
                                         <input name="sku_id" type="radio" value="{$sku.id}"
@@ -133,41 +206,59 @@
 
                 {if $product_available || count($product.skus) > 1}
                     <div class="s-stocks-wrapper">
+                        <span class="sku-no-stock" style="display: none;">
+                            <strong class="stock-critical">[`Out of stock`]</strong>
+                        </span>
+
                         {function name=in_stock n=0 low=5 critical=2}
+                            {$unit_name = ''}
+                            {if !empty($formatted_units[$product["stock_unit_id"]])}
+                                {$unit_name = $formatted_units[$product["stock_unit_id"]]["name_short"]}
+                            {/if}
+                            {$left_text = _w("%s left", "%s left", $n)}
+
                             {if $n > $low or $n === null}
                                 <strong class="stock-high"><i class="s-icon green"></i> [`In stock`]</strong>
                             {elseif $n > $critical}
-                                <strong class="stock-low"><i class="s-icon yellow"></i> {* _w("Only %d left in stock", "Only %d left in stock", $n) *}{_w("Only a few items left")}</strong>
+                                <strong class="stock-low"><i class="s-icon yellow"></i> {$left_text} {$unit_name}</strong>
                             {elseif $n > 0}
-                                <strong class="stock-critical"><i class="s-icon red"></i> {_w("Only %d left in stock", "Only %d left in stock", $n)}</strong>
+                                <strong class="stock-critical"><i class="s-icon red"></i> {$left_text} {$unit_name}</strong>
                             {else}
                                 <strong class="stock-none"><i class="s-icon gray"></i> {if $wa->shop->settings('ignore_stock_count')}[`Pre-order only`]{else}[`Out of stock`]{/if}</strong>
                             {/if}
                         {/function}
                         {foreach $product.skus as $sku}
                             <div class="sku-{$sku.id}-stock" {if $sku.id != $product.sku_id}style="display:none"{/if} data-sku-count="{$sku.count}">
-                                {if $sku.stock}
-                                    {foreach $stocks as $stock_id => $stock}
-                                        {if isset($sku.stock[$stock_id])}
-                                            {$stock_count = $sku.stock[$stock_id]}
-                                        {else}
-                                            {$stock_count = null}
-                                        {/if}
-                                        <div class="s-stock-item">
-                                            <span class="s-label">{$stock.name|escape}:</span>
-                                            {in_stock n=$stock_count low=$stock.low_count critical=$stock.critical_count}
+                                {if $sku.available}
+                                    {if !$wa->shop->settings('ignore_stock_count') && $sku.count !== null && ($sku.count == 0 || !empty($sku["order_count_min"]) && $sku.count > 0 && $sku["order_count_min"] > $sku.count)}
+                                        <div class="sku-no-stock">
+                                            <strong class="stock-critical">[`Out of stock`]</strong>
                                         </div>
-                                    {/foreach}
+                                        {$_is_out_of_stock = true}
+                                    {else}
+                                        {if $sku.stock}
+                                            {foreach $stocks as $stock_id => $stock}
+                                                {if isset($sku.stock[$stock_id])}
+                                                    {$stock_count = $sku.stock[$stock_id]}
+                                                {else}
+                                                    {$stock_count = null}
+                                                {/if}
+                                                <div class="s-stock-item">
+                                                    <span class="s-label">{$stock.name|escape}:</span>
+                                                    {in_stock n=$stock_count low=$stock.low_count critical=$stock.critical_count}
+                                                </div>
+                                            {/foreach}
+                                        {else}
+                                            {in_stock n=$sku.count}
+                                        {/if}
+                                    {/if}
                                 {else}
-                                    {in_stock n=$sku.count}
+                                    <div class="sku-not-available">
+                                        <strong class="stock-none">[`Product with the selected option combination is not available for purchase`]</strong>
+                                    </div>
                                 {/if}
                             </div>
                         {/foreach}
-                        {if $product.sku_type}
-                            <div class="sku-no-stock" style="display: none;">
-                                <strong class="stock-none">[`Product with the selected option combination is not available for purchase`]</strong>
-                            </div>
-                        {/if}
                     </div>
                 {/if}
 
@@ -195,32 +286,70 @@
             </div>
 
             <footer class="s-cart-footer">
-                <div class="s-layout">
-                    <div class="s-column left middle">
+                <div class="s-layout inline">
+                    <div class="s-column">
 
-                        <div class="s-button-wrapper">
-                            <input class="s-submit-button js-submit-button" type="submit" value="[`Buy`]" {if !$product_available}disabled="disabled"{/if}>
+                        {$_is_disabled = !$product_available || (count($product.skus) === 1 && !empty($_is_out_of_stock))}
+                        <div class="s-quantity-section" id="js-quantity-section" {if $_is_disabled}style="visibility: hidden;"{/if}>
+                            <div class="s-section-body">
+                                <div class="s-button-wrapper">
+                                    <button class="s-button s-minus-button transparent js-decrease" type="button">
+                                        <span class="s-icon"><i class="svg-sprite-icon top size-14"><svg><use xlink:href="{$wa_real_active_theme_url}img/svg/sprite.svg?v={$wa->version()}#minus"></use></svg></i></span>
+                                        <span class="s-description js-min-description" style="display: none;"></span>
+                                    </button>
+                                </div>
+                                <div class="s-field-wrapper">
+                                    <input class="s-field js-quantity-field" name="quantity" value="{$active_sku["order_count_min"]|default:1|floatval|json_encode}">
+                                    {if !empty($fractional_config) && $fractional_config["stock_units_enabled"]}
+                                        {$_stock_unit = $formatted_units[$product["stock_unit_id"]]}
+                                        <span class="s-unit">{$_stock_unit["name_short"]}</span>
+                                    {/if}
+                                </div>
+                                <div class="s-button-wrapper">
+                                    <button class="s-button s-plus-button transparent js-increase" type="button">
+                                        <span class="s-icon"><i class="svg-sprite-icon top size-14"><svg><use xlink:href="{$wa_real_active_theme_url}img/svg/sprite.svg?v={$wa->version()}#plus"></use></svg></i></span>
+                                        <span class="s-description js-max-description" style="display: none;"></span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            {$_quantity_locales = [
+                                "min" => _w("min. %s"),
+                                "max" => _w("max. %s")
+                            ]}
+
+                            <script>
+                                ( function($) {
+                                    new waTheme.init.shop.Quantity({
+                                        $wrapper: $("#js-quantity-section").removeAttr("id"),
+                                        denominator: {$product["order_multiplicity_factor"]|default:1|floatval|json_encode},
+                                        step: {$active_sku["order_count_step"]|default:1|floatval|json_encode},
+                                        min: {$active_sku["order_count_min"]|default:1|floatval|json_encode},
+                                        max: {$active_sku.count|default:0|floatval|json_encode},
+                                        locales: {$_quantity_locales|json_encode}
+                                    });
+                                })(jQuery);
+                            </script>
                         </div>
 
                     </div>
-                    {*
-                    <div class="s-column right middle">
-                        <div class="s-quantity-wrapper">
-                            <input class="minus js-decrease" type="button" value="&minus;">
-                            <input class="s-quantity-field js-quantity-field" type="text" name="quantity" value="1" data-max-quantity="{$product.count}">
-                            <input class="plus js-increase" type="button" value="+">
-                        </div>
-                    </div>
-                    *}
-                    {if !empty($_show_compare)}
-                        <div class="s-column right">
-                            <a class="s-compare-button js-compare-product {if $wa->shop->inComparison($product.id)}is-active{/if}" href="javascript:void(0);" data-product="{$product.id}" title="{if $wa->shop->inComparison($product.id)}[`In comparison list`]{else}[`To comparison`]{/if}">
-                                <i class="svg-icon compare size-11 {if $wa->shop->inComparison($product.id)}{else}active{/if}"></i>
-                                <span class="s-name">{if $wa->shop->inComparison($product.id)}[`In comparison list`]{else}[`To comparison`]{/if}</span>
-                            </a>
-                        </div>
-                    {/if}
+                    <div class="s-column">
 
+                        <div class="s-actions-wrapper">
+                            <div class="s-button-wrapper">
+                                {$_is_disabled = !$product_available || (count($product.skus) === 1 && !empty($_is_out_of_stock))}
+                                <input class="s-submit-button js-submit-button" type="submit" value="[`Buy`]" {if $_is_disabled}disabled="disabled"{/if}>
+                            </div>
+
+                            {if !empty($_show_compare)}
+                                <a class="s-compare-button js-compare-product {if $wa->shop->inComparison($product.id)}is-active{/if}" href="javascript:void(0);" data-product="{$product.id}" title="{if $wa->shop->inComparison($product.id)}[`In comparison list`]{else}[`To comparison`]{/if}">
+                                    <i class="svg-icon compare size-11 {if $wa->shop->inComparison($product.id)}{else}active{/if}"></i>
+                                    <span class="s-name">{if $wa->shop->inComparison($product.id)}[`In comparison list`]{else}[`To comparison`]{/if}</span>
+                                </a>
+                            {/if}
+                        </div>
+
+                    </div>
                 </div>
                 <input type="hidden" name="product_id" value="{$product.id}">
             </footer>
@@ -228,24 +357,27 @@
         </form>
 
         <script>
-            ( function($) {
-                var $form = $("#s-product-form").removeAttr("id");
+            ( function($, waTheme) {
+                waTheme.addCurrency({$_currency_data|json_encode});
 
-                new window.waTheme.init.shop.Product({
-                    $form: $form,
+                new waTheme.init.shop.Product({
+                    $wrapper: $("#js-product-cart").removeAttr("id"),
                     is_dialog: false,
-                    currency: {json_encode($currency_info)},
+                    currency: {$_currency|json_encode},
+                    currency_info: {$currency_info|json_encode},
                     services: {if count($product.skus) > 1 or $product.sku_type}{json_encode($sku_services)}{else}false{/if},
                     features: {if $product.sku_type}{json_encode($sku_features_selectable)}{else}false{/if},
-                    skus: {$product.skus|json_encode},
-                    locales: {
-                        to_compare: "[`To comparison`]",
-                        in_compare: "[`In comparison list`]",
-                        added: "[`Added`]",
-                        buy: "{if $wa->shop->cart->total() > 0}[`Add to cart`]{else}[`Buy now`]{/if}"
-                    }
+                    product: {
+                        sku_id: {$product.sku_id|json_encode},
+                        skus: {$product.skus|json_encode},
+                        stock_unit_id: {$product.stock_unit_id|json_encode},
+                        base_unit_id: {$product.base_unit_id|json_encode}
+                    },
+                    fractional_config: {if !empty($fractional_config)}{$fractional_config|json_encode}{else}null{/if},
+                    units: {if !empty($formatted_units)}{$formatted_units|json_encode}{else}[]{/if},
+                    locales: {$_locales|json_encode}
                 });
-            })(jQuery);
+            })(jQuery, window.waTheme);
         </script>
     </div>
 {/if}

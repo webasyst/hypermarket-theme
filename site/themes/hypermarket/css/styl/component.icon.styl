@@ -1,0 +1,57 @@
+.svg-sprite-icon
+    display: inline-block;
+    background: transparent 50% no-repeat;
+    background-size: contain;
+    font-size: 1em;
+    line-height: 1em;
+    vertical-align: -0.0625em;
+    text-align: center;
+    width: 1em;
+    height: 1em;
+
+    & > *
+        display: inline-block;
+        vertical-align: top;
+        width: 1em;
+        height: 1em;
+        background-size: contain;
+        border-radius: inherit;
+
+    &.rounded,
+    & > .rounded { border-radius: 50%; }
+    &.bordered { border: 1px solid rgba(0,0,0,.2); }
+
+    /* align */
+    &.top { vertical-align: top; }
+    &.middle { vertical-align: middle; }
+    &.baseline { vertical-align: baseline;}
+    &.baseline > * { vertical-align: baseline; }
+    &.shift-1 { vertical-align: -0.0625em; }
+    &.shift-2 { vertical-align: -0.125em; }
+    &.shift-3 { vertical-align: -0.1875em; }
+    &.shift-4 { vertical-align: -0.25em; }
+    &.shift-5 { vertical-align: -0.3125em; }
+    &.shift-6 { vertical-align: -0.375em; }
+    &.shift-7 { vertical-align: -0.4375em; }
+    &.shift-8 { vertical-align: -0.5em; }
+
+    /* size */
+    &.size-8  { font-size: 8px; }
+    &.size-10 { font-size: 10px; }
+    &.size-11 { font-size: 11px; }
+    &.size-12 { font-size: 12px; }
+    &.size-13 { font-size: 13px; }
+    &.size-14 { font-size: 14px; }
+    &.size-16 { font-size: 16px; }
+    &.size-18 { font-size: 18px; }
+    &.size-20 { font-size: 20px; }
+    &.size-22 { font-size: 22px; }
+    &.size-24 { font-size: 24px; }
+    &.size-26 { font-size: 26px; }
+    &.size-28 { font-size: 28px; }
+    &.size-30 { font-size: 30px; }
+    &.size-32 { font-size: 32px; }
+    &.size-48 { font-size: 48px; }
+    &.size-64 { font-size: 64px; }
+    &.size-80 { font-size: 80px; }
+    &.size-96 { font-size: 96px; }

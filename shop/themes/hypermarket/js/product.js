@@ -6,39 +6,65 @@
             var that = this;
 
             // DOM
-            that.$form = options["$form"];
+            that.$wrapper = options["$wrapper"];
+            that.$form = that.$wrapper.find("form:first");
             that.$skus = that.$form.find(".s-skus-wrapper");
             that.$services = that.$form.find(".s-services-wrapper");
-            that.$quantity = that.$form.find(".js-quantity-field");
             that.$footer = that.$form.find(".s-product-footer");
             that.$button = that.$form.find("input[type=submit]");
             that.$price = that.$form.find(".js-product-price");
             that.$comparePrice = that.$form.find(".js-compare-price");
+            that.$base_price = that.$form.find(".js-product-base-price");
+            that.$stock_base_ratio = that.$form.find(".js-stock-base-ratio");
 
             // VARS
             that.is_dialog = ( options["is_dialog"] || false );
-            that.dialog = (that.is_dialog ? that.$form.closest(".s-dialog-wrapper").data("dialog") : false);
+            that.dialog = (that.is_dialog ? that.$form.closest(".s-dialog-wrapper").data("dialog") : null);
             that.currency = options["currency"];
+            that.currency_info = options["currency_info"];
             that.services = options["services"];
             that.features = options["features"];
             that.locales = options["locales"];
             that.images = options["images"];
-            that.skus = options["skus"];
-            that.added_class = "is-added";
+            that.product = options["product"];
+            that.skus = that.product.skus;
+
+            that.$quantity = that.$form.find(".js-quantity-field");
+            that.quantity_controller = that.$quantity.data("controller");
+            that.$quantity_section = that.quantity_controller.$wrapper;
+
+            // Настройки дробных
+            that.fractional_config = formatFractionalConfig(options["fractional_config"]);
+            // Массив с единицами измерения
+            that.units = options["units"];
 
             // DYNAMIC VARS
-            that.volume = 1;
+            that.sku_id = that.product.sku_id;
+            that.sku = that.skus[that.sku_id];
+
             that.price = parseFloat( that.$price.data("price") );
             that.compare_price = parseFloat( that.$comparePrice.data("compare-price") );
 
             // INIT
             that.initProduct();
+
+            console.log( that );
+
+            function formatFractionalConfig(config) {
+                if (config) {
+                    config.frac_enabled = (config.frac_enabled === "1");
+                    config.stock_units_enabled = (config.stock_units_enabled === "1");
+                    config.base_units_enabled = (config.base_units_enabled === "1");
+                } else {
+                    config = {};
+                }
+
+                return config;
+            }
         };
 
         Product.prototype.initProduct = function() {
             var that = this;
-            //
-            that.initQuantityToggle();
             //
             that.bindEvents();
             //
@@ -63,7 +89,7 @@
                 } else {
                     var $radio = getRadioInput();
                     if ($radio) {
-                        $radio.click();
+                        $radio.trigger("change");
                     }
                 }
 
@@ -208,9 +234,9 @@
                 that.updatePrice();
             });
 
-            that.$form.find('.inline-select a').on("click", function () {
+            that.$form.find('.inline-select a').on("click", function(event) {
+                event.preventDefault();
                 that.onSelectClick( $(this) );
-                return false;
             });
 
             that.$skus.find("input[type=radio]").on("change", function () {
@@ -230,92 +256,6 @@
                 event.preventDefault();
                 that.onCompareProduct( $(this) );
             });
-
-        };
-
-        Product.prototype.initQuantityToggle = function() {
-            var that = this,
-                $wrapper = that.$form.find(".s-quantity-wrapper"),
-                $quantity = that.$quantity;
-
-            $wrapper.on("click", ".js-increase", function(event) {
-                event.preventDefault();
-                increaseVolume( true );
-            });
-
-            $wrapper.on("click", ".js-decrease", function(event) {
-                event.preventDefault();
-                increaseVolume( false );
-            });
-
-            $quantity.on("change", function() {
-                prepareChangeVolume( $(this) );
-                return false;
-            });
-
-            // Preparing to change volume
-            function prepareChangeVolume( $input ) {
-                var new_volume = parseFloat( $input.val() );
-
-                // AntiWord at Field
-                if (new_volume) {
-                    $input.val( new_volume );
-                    changeVolume( new_volume );
-
-                } else {
-                    $input.val( that.volume );
-                }
-            }
-
-            // Change Volume
-            function changeVolume( type ) {
-                var current_val = parseInt( $quantity.val() ),
-                    input_max_data = parseInt( $quantity.data("max-quantity")),
-                    max_val = ( isNaN(input_max_data) || input_max_data === 0 ) ? Infinity : input_max_data,
-                    new_val;
-
-                if ( type > 0 && type !== that.volume ) {
-                    if (current_val <= 0) {
-                        if ( that.volume > 1 ) {
-                            new_val = 1;
-                        }
-
-                    } else if (current_val >= max_val) {
-                        new_val = max_val;
-
-                    } else {
-                        new_val = current_val;
-                    }
-                }
-
-                // Set product data
-                if (new_val) {
-                    that.volume = new_val;
-
-                    // Set new value
-                    $quantity.val(new_val);
-
-                    // Update Price
-                    that.updatePrice();
-                }
-            }
-
-            function increaseVolume( type ) {
-                var new_val;
-
-                // If click "+" button
-                if ( type ) {
-                    new_val = that.volume + 1;
-
-                } else {
-                    new_val = that.volume - 1;
-                }
-
-                $quantity
-                    .val(new_val)
-                    .trigger("change");
-
-            }
         };
 
         Product.prototype.initSubmit = function() {
@@ -417,6 +357,8 @@
                         $loading = $("<i class=\"icon16 loading\"></i>"),
                         time = 3000;
 
+                    var added_class = "is-added";
+
                     $button.attr("disabled", true);
                     $loading.insertAfter($button);
 
@@ -425,7 +367,7 @@
 
                         if (response.status === "ok") {
                             $button
-                                .addClass(that.added_class)
+                                .addClass(added_class)
                                 .val(that.locales.added);
 
                             clearTimeout(timer);
@@ -434,7 +376,7 @@
                                 if (is_exist) {
                                     $button
                                         .attr("disabled", false)
-                                        .removeClass(that.added_class)
+                                        .removeClass(added_class)
                                         .val(that.locales.buy);
                                 }
                             }, time);
@@ -448,8 +390,7 @@
             var that = this;
 
             // DOM
-            var $form = that.$form,
-                $button = that.$button;
+            var $form = that.$form;
 
             var key = getKey(),
                 sku = that.features[key];
@@ -460,7 +401,14 @@
                 var sku_name = false;
                 try { sku_name = that.skus[sku.id].sku; } catch(e) {}
 
-                sku_id = sku.id;
+                that.sku_id = sku_id = sku.id;
+                that.sku = that.skus[that.sku_id];
+
+                that.quantity_controller.update({
+                    step: that.sku.order_count_step,
+                    min: that.sku.order_count_min,
+                    max: that.sku.count
+                });
 
                 renderSKU(sku_name);
                 //
@@ -469,26 +417,20 @@
                 that.changeImage(sku.image_id);
                 //
                 if (sku.available) {
-                    $button.removeAttr('disabled');
+                    that.toggleAvailable(true, that.sku);
 
                 } else {
-                    $form.find(".s-stocks-wrapper > div").hide();
-                    $form.find(".sku-no-stock").show();
-                    $button.attr("disabled", "disabled");
+                    that.toggleAvailable(false, that.sku);
                 }
 
                 //
                 sku["compare_price"] = ( sku["compare_price"] ) ? sku["compare_price"] : 0 ;
                 //
-                that.updatePrice(sku["price"], sku["compare_price"]);
+                that.updatePrice();
 
             } else {
                 //
-                $form.find(".s-stocks-wrapper > div").hide();
-                //
-                $form.find(".sku-no-stock").show();
-                //
-                $button.attr('disabled', 'disabled');
+                that.toggleAvailable(false, that.sku);
                 //
                 that.$comparePrice.hide();
                 //
@@ -517,26 +459,28 @@
                 compare_price = $link.data("compare-price"),
                 image_id = $link.data('image-id');
 
-            // DOM
-            var $button = that.$button;
-
             var sku = (that.skus[sku_id] ? that.skus[sku_id] : null);
             if (!sku) { alert("SKU ERROR"); return false; }
+
+            that.sku_id = sku_id;
+            that.sku = sku;
+
+            that.quantity_controller.update({
+                step: that.sku.order_count_step,
+                min: that.sku.order_count_min,
+                max: that.sku.count
+            });
 
             renderSKU(sku.sku);
 
             that.changeImage(image_id);
 
-            if ($link.data('disabled')) {
-                $button.attr('disabled', 'disabled');
-            } else {
-                $button.removeAttr('disabled');
-            }
+            that.toggleAvailable(!$link.data('disabled'), sku);
 
             //
             that.updateSkuServices(sku_id);
             //
-            that.updatePrice(price, compare_price);
+            that.updatePrice();
             //
             that.$form.trigger("product_sku_changed", [sku_id, sku]);
         };
@@ -581,9 +525,10 @@
 
             var that = this;
             var i, j, kw, kd, km;
-            var decimals = that.currency.frac_digits;
-            var dec_point = that.currency.decimal_point;
-            var thousands_sep = that.currency.thousands_sep;
+            var currency = that.currency_info;
+            var decimals = currency.frac_digits;
+            var dec_point = currency.decimal_point;
+            var thousands_sep = currency.thousands_sep;
 
             // input sanitation & defaults
             if( isNaN(decimals = Math.abs(decimals)) ){
@@ -610,41 +555,23 @@
             kd = (decimals && (number - i) ? dec_point + Math.abs(number - i).toFixed(decimals).replace(/-/, 0).slice(2) : "");
 
             number = km + kw + kd;
-            var s = no_html ? that.currency.sign : that.currency.sign_html;
-            if (!that.currency.sign_position) {
-                return s + that.currency.sign_delim + number;
+            var s = no_html ? currency.sign : currency.sign_html;
+            if (!currency.sign_position) {
+                return s + currency.sign_delim + number;
             } else {
-                return number + that.currency.sign_delim + s;
+                return number + currency.sign_delim + s;
             }
         };
 
         Product.prototype.serviceVariantHtml= function (id, name, price) {
-            var that = this;
-            return $('<option data-price="' + price + '" value="' + id + '"></option>').text(name + ' (+' + that.currencyFormat(price, 1) + ')');
+            var that = this,
+                price_string = waTheme.formatPrice(price, { currency: that.currency, html: false });
+            return $('<option data-price="' + price + '" value="' + id + '"></option>').text(name + ' (+' + price_string + ')');
         };
 
         Product.prototype.updateSkuServices = function(sku_id) {
             var that = this,
-                $form = that.$form,
-                $skuStock = $form.find(".sku-" + sku_id + "-stock"),
-                sku_count = $skuStock.data("sku-count");
-
-            if ( !(sku_count && sku_count > 0) ) {
-                sku_count = null;
-            }
-
-            // Hide others
-            $form.find(".s-stocks-wrapper > div").hide();
-
-            // Show
-            $skuStock.show();
-
-            that.volume = 1;
-
-            that.$quantity
-                .val(that.volume)
-                .data("max-quantity", sku_count)
-                .trigger("change");
+                $form = that.$form;
 
             for (var service_id in that.services[sku_id]) {
 
@@ -661,8 +588,12 @@
                                 .removeAttr('disabled');
 
                     if (typeof (v) === 'string' || typeof (v) === 'number') {
-                        $form.find(".service-" + service_id + ' .service-price').html( that.currencyFormat(v) );
-                        $form.find(".service-" + service_id + ' input').data('price', v);
+                        var $service = $form.find(".service-" + service_id);
+
+                        var price_string = waTheme.formatPrice(v, { currency: that.currency });
+
+                        $service.find(".service-price").html(price_string);
+                        $service.find("input").data("price", v);
 
                     } else {
 
@@ -695,7 +626,7 @@
             }
         };
 
-        Product.prototype.updatePrice = function(price, compare_price) {
+        Product.prototype.updatePrice = function() {
             var that = this;
 
             var hidden_class = "is-hidden";
@@ -705,41 +636,78 @@
                 $price = that.$price,
                 $compare = that.$comparePrice;
 
-            // VARS
+            var price = that.sku["price"],
+                compare_price = that.sku["compare_price"],
+                stock_base_ratio = that.sku.stock_base_ratio,
+                stock_unit_name,
+                base_unit_name;
+
+            price = (parseFloat(price) >= 0 ? parseFloat(price) : 0);
+            compare_price = (parseFloat(compare_price) > 0 ? parseFloat(compare_price) : null);
+            stock_base_ratio = (parseFloat(stock_base_ratio) > 0 ? parseFloat(stock_base_ratio) : null);
+
+            if (that.fractional_config["stock_units_enabled"]) {
+                if (that.product.stock_unit_id && that.units[that.product.stock_unit_id]) {
+                    stock_unit_name = that.units[that.product.stock_unit_id].name_short;
+                }
+            }
+
+            if (that.fractional_config["base_units_enabled"]) {
+                if (that.product.base_unit_id && (that.product.stock_unit_id !== that.product.base_unit_id) && that.units[that.product.base_unit_id] && stock_base_ratio) {
+                    base_unit_name = that.units[that.product.base_unit_id].name_short;
+                }
+            }
+
+            //
             var services_price = getServicePrice(),
-                volume = that.volume,
-                price_sum,
-                compare_sum;
-
-            //
-            if (price) {
-                that.price = price;
-                $price.data("price", price);
-            } else {
-                price = that.price;
-            }
-
-            //
-            if (compare_price >= 0) {
-                that.compare_price = compare_price;
-                $compare.data("price", compare_price);
-            } else {
-                compare_price = that.compare_price;
-            }
-
-            //
-            price_sum = (price + services_price) * volume;
-            compare_sum = (compare_price + services_price) * volume;
+                price_sum = (price + services_price),
+                compare_sum = (compare_price + services_price);
 
             // Render Price
-            $price.html( that.currencyFormat(price_sum) );
-            $compare.html( that.currencyFormat(compare_sum) );
+            var price_string = waTheme.formatPrice(price_sum, { currency: that.currency, unit: stock_unit_name });
+            $price.html(price_string);
 
             // Render Compare
-            if (compare_price > 0) {
-                $compare.removeClass(hidden_class);
+            if (compare_price) {
+                var compare_price_string = waTheme.formatPrice(compare_sum, { currency: that.currency, unit: stock_unit_name });
+                $compare
+                    .html(compare_price_string)
+                    .removeClass(hidden_class);
+
             } else {
                 $compare.addClass(hidden_class);
+            }
+
+            // Base Price
+            if (that.$base_price.length) {
+                if (base_unit_name) {
+                    var base_sub = (price_sum/stock_base_ratio),
+                        base_price_string = waTheme.formatPrice(base_sub, { currency: that.currency, unit: base_unit_name });
+
+                    that.$base_price
+                        .html(base_price_string)
+                        .show();
+                } else {
+                    that.$base_price.hide();
+                }
+            }
+
+            // Stock Base Ratio
+            if (that.$stock_base_ratio.length) {
+                if (stock_base_ratio) {
+                    that.$stock_base_ratio
+                        .html(formatNumber(that.sku.stock_base_ratio))
+                        .show();
+                } else {
+                    that.$stock_base_ratio
+                        .hide()
+                        .html("");
+                }
+            }
+
+            //
+            if (that.is_dialog) {
+                that.dialog.resize();
             }
 
             //
@@ -767,6 +735,34 @@
                 });
 
                 return services_price;
+            }
+
+            function formatNumber(number) {
+                var result = number;
+                if (typeof number !== "string") { return result; }
+
+                var parts = number.split(".");
+                if (parts.length === 2) {
+                    var tail = parts[1],
+                        result2 = [],
+                        result3 = [parts[0]];
+
+                    if (tail.length) {
+                        for (var i = 0; i < tail.length; i++) {
+                            var letter = tail[tail.length - (i+1)];
+                            if (letter !== "0" || result2.length) {
+                                result2.push(letter);
+                            }
+                        }
+                        if (result2.length) {
+                            result3.push(result2.reverse().join(""));
+                        }
+                    }
+
+                    result = result3.join(".");
+                }
+
+                return result;
             }
         };
 
@@ -823,6 +819,28 @@
 
                 $icon.addClass(active_class);
             }
+        };
+
+        Product.prototype.toggleAvailable = function(available, sku) {
+            var that = this;
+
+            // toggle button
+            that.$button.attr("disabled", !available);
+
+            // toggle stocks
+            that.$form.find(".s-stocks-wrapper > div").each( function() {
+                var $stock = $(this),
+                    is_target = $stock.hasClass("sku-" + sku.id + "-stock");
+
+                if (is_target) {
+                    $stock.show();
+                } else {
+                    $stock.hide();
+                }
+            });
+
+            // quantity
+            that.$quantity_section.css("visibility", (available ? "" : "hidden"));
         };
 
         return Product;

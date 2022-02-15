@@ -58,7 +58,81 @@
             <div class="s-filter-group {if !empty($_is_selected)}is-opened{/if}">
                 {if $fid == 'price'}
                     {$c = $wa->shop->currency(true)}
-                    <h5 class="s-filter-header">[`Price`]</h5>
+                    <h5 class="s-filter-header is-price">
+                        <span class="s-filter-name js-filter-toggle">[`Price`]</span>
+                        {if !empty($fractional_config) && $fractional_config["stock_units_enabled"]}
+                            {if !empty($formatted_filter_units)}
+                                {* count($filter_stock_units) > 1 *}
+                                {if count($formatted_filter_units) > 2}
+                                    <div class="s-units-section">
+                                        <span class="s-divider">[`per`]</span>
+                                        <div class="dropdown" id="js-filter-units-dropdown">
+                                            <span class="dropdown-toggle">{$filter_unit.name_short|default:_w("product")|escape}</span>
+                                            <div class="dropdown-body center">
+                                                <div class="dropdown-item {if empty($filter_unit)}selected{/if}" data-id="">{_w("product")|escape}</div>
+                                                {foreach $formatted_filter_units as $_unit}
+                                                    {$_is_active = (!empty($filter_unit) && ($_unit.id === $filter_unit.id))}
+                                                    <div class="dropdown-item {if $_is_active}selected{/if}" data-id="{$_unit.id|escape}" title="{$_unit.name|escape}">{$_unit.name_short|escape}</div>
+                                                {/foreach}
+                                            </div>
+                                        </div>
+                                        <input name="unit" type="hidden" value="{$filter_unit.id|default:""|escape}">
+                                        <script>
+                                            ( function($) {
+                                                var $dropdown = $("#js-filter-units-dropdown"),
+                                                    $field = $dropdown.closest(".s-units-section").find("[name=\"unit\"]");
+
+                                                new waTheme.init.site.Dropdown({
+                                                    $wrapper: $dropdown,
+                                                    items: ".dropdown-item",
+                                                    change: function(event, target, dropdown) {
+                                                        var unit_id = $(target).data("id");
+                                                        unit_id = (typeof unit_id !== "undefined" ? "" + unit_id : "");
+                                                        $field.val(unit_id);
+                                                    }
+                                                });
+                                            })(jQuery);
+                                        </script>
+                                    </div>
+                                {else}
+                                    <div class="s-units-section">
+                                        <span class="s-divider">[`per`]</span>
+                                        <div class="toggle small" id="js-filter-units-toggle">
+                                            {if (count($filter_stock_units) > 1)}
+                                                <span class="{if empty($filter_unit)}selected{/if}" data-id="">{_w("product")|escape}</span>
+                                            {/if}
+                                            {foreach $formatted_filter_units as $_unit}
+                                                {$_is_active = (!empty($filter_unit) && ($_unit.id === $filter_unit.id))}
+                                                <span class="{if $_is_active}selected{/if}" data-id="{$_unit.id|escape}" title="{$_unit.name|escape}">{$_unit.name_short|escape}</span>
+                                            {/foreach}
+                                        </div>
+                                        <input name="unit" type="hidden" value="{$filter_unit.id|default:""|escape}">
+                                        <script>
+                                            ( function($) {
+                                                var $toggle = $("#js-filter-units-toggle"),
+                                                    $field = $toggle.closest(".s-units-section").find("[name=\"unit\"]");
+
+                                                new waTheme.init.site.Toggle({
+                                                    $wrapper: $toggle,
+                                                    use_animation: false,
+                                                    change: function(event, target, toggle) {
+                                                        var unit_id = $(target).data("id");
+                                                        unit_id = (typeof unit_id !== "undefined" ? "" + unit_id : "");
+                                                        $field.val(unit_id);
+                                                    }
+                                                });
+                                            })(jQuery);
+                                        </script>
+                                    </div>
+                                {/if}
+                            {elseif !empty($filter_unit)}
+                                <div class="s-units-section">
+                                    <span class="s-divider">[`per`]</span>
+                                    {$filter_unit.name_short|escape}
+                                </div>
+                            {/if}
+                        {/if}
+                    </h5>
                     <div class="s-filter-wrapper">
                         <div class="s-filter-item s-range-item" data-min="{floor($filter.min)}" data-max="{ceil($filter.max)}">
                             [`from`]
@@ -69,7 +143,9 @@
                         </div>
                     </div>
                 {else}
-                    <h5 class="s-filter-header">{$filter.name|escape}</h5>
+                    <h5 class="s-filter-header">
+                        <span class="s-filter-name js-filter-toggle">{$filter.name|escape}</span>
+                    </h5>
                     <div class="s-filter-wrapper">
                         {if $filter.type == "boolean"}
                             <div class="s-filter-item s-radio-item">

@@ -103,40 +103,97 @@
             font-size 15px
             box-shadow 0 0 5px rgba(0,0,0,.1)
 
-.s-quantity-wrapper
+.s-quantity-section
     position: relative;
-    display: inline-block;
-    vertical-align: top;
     white-space: nowrap;
-    width: 100px;
-    border-radius: 2px;
-    overflow: hidden;
 
-    input
-        margin: 0;
-        height: 30px;
+    .s-field-wrapper
+        position relative
+        display inline-block
+        vertical-align top
+        border: 1px solid #b7b7b7;
+        padding 4px
+        margin 0 4px
+        border-radius 4px
 
-    input[type="text"]
-        width: 100%;
-        padding: 0 38px;
-        box-sizing: border-box;
-        text-align: center;
+        .s-field
+            display inline-block
+            vertical-align top
+            margin: 0;
+            padding: 0 4px 0 0;
+            width: 60px;
+            height: auto;
 
-    input[type="button"]
-        position: absolute;
-        top: 0;
-        width: 30px;
-        height: 100%;
-        padding: 0;
-        background: transparent;
-        color: rgba(111, 50, 18, 0.5);
-        border-color: transparent;
+            font-size 18px
+            line-height 20px
+            color #000
 
-        &.minus
-            left: 0;
+            border 0
+            box-sizing: border-box;
+            text-align: right;
 
-        &.plus
-            right: 0;
+        .s-unit
+            position absolute
+            top 100%
+            left 50%
+            transform translate(-50%, 1px)
+            display block
+            color #aaa
+            font-size: 15px;
+            line-height 20px
+            cursor default
+
+    .s-button-wrapper
+        display inline-block
+        vertical-align bottom
+
+        .s-button
+            display flex
+            flex-flow column
+
+            justify-content center
+            align-items center
+
+            min-width: 30px
+            min-height: 32px
+            padding: 0;
+            margin 0
+            border 0
+            line-height 1em
+
+            background: transparent;
+            border-color: transparent;
+            color: #c4c4c4
+
+            &:not(.is-locked)
+                .s-text
+                    display none
+
+            &.is-near-limit
+            &.is-locked
+                .s-icon
+                    display none
+
+            &.is-locked
+                cursor default
+                opacity .5
+                &:hover
+                    color: #c4c4c4
+
+            &:hover
+                background: transparent;
+                border-color: transparent;
+                color #000
+
+            .s-description
+                display block
+                font-size 12px
+                line-height 16px
+                color #aaa
+
+                .s-step
+                    display block
+                    line-height 14px
 
 .s-lazyloading-paging
     ul

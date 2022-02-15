@@ -503,7 +503,7 @@
         ProductsFilter.prototype.bindEvents = function() {
             var that = this;
 
-            that.$wrapper.on("click", ".s-filter-header", function(event) {
+            that.$wrapper.on("click", ".js-filter-toggle", function(event) {
                 event.preventDefault();
                 that.showFilter( $(this).closest(".s-filter-group") );
             });

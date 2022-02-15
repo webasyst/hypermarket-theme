@@ -42,7 +42,8 @@
                 width: 96px
 
             .s-amount-column
-                width: 125px
+                width: 200px
+                text-align: right
 
             .s-total-column
                 width 150px
@@ -69,8 +70,35 @@
                 .s-sku
                     color $getColor("link")
 
-            .s-quantity-wrapper
-                width 100%
+            .s-quantity-section
+                .s-field-wrapper
+                    .s-unit
+                        top auto
+                        bottom calc(100% + 2px);
+
+            .s-prices-section
+                margin 6px 34px 0 0
+                white-space nowrap
+                overflow hidden
+                font-size 13px
+                line-height 16px
+                color #999
+
+                .price
+                    white-space normal
+                    word-break: break-word;
+
+                .s-price
+                    display block
+                    .price
+                        font-weight 700
+                        color #888
+
+                .s-base-price
+                    display block
+                    .price
+                        font-weight 700
+                        color #888
 
             .s-product-total
                 font-size: 20px

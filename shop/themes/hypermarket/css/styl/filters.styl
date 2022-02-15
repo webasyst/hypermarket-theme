@@ -3,7 +3,6 @@ $_pad = 19px
 .s-category-filters
     border 1px solid #ccc
     border-radius 5px
-    overflow hidden
     font-size 12px
 
     .s-filters-header
@@ -19,7 +18,10 @@ $_pad = 19px
         &.is-opened
             .s-filter-header
                 &:before
-                    transform rotate(90deg);
+                    transform translate(0, -65%) rotate(90deg);
+
+                .s-units-section
+                    display inline-block
 
             .s-filter-wrapper
                 display block
@@ -34,19 +36,58 @@ $_pad = 19px
             position relative
             margin 0
             font-size 13px
-            cursor pointer
 
             &:before
                 content ""
                 display block
                 position absolute
-                top 2px
+                top 50%
                 right 100%
                 margin 0 3px 0 0
                 width 11px
                 height 11px
                 transition all 200ms linear
+                transform translate(0, -50%)
                 background transparent url("../img/svg/icon.arrow.svg") 50% no-repeat
+
+            &.is-price
+                white-space nowrap
+                .dropdown
+                    white-space normal
+
+            .s-filter-name
+                cursor pointer
+
+            .s-divider
+                margin 0 4px
+
+            .s-units-section
+                display none
+
+                .dropdown
+                    .dropdown-toggle
+                        color #246fc5
+                        padding-right: 1rem;
+                        cursor: pointer;
+                        &:after
+                            right .5rem
+
+                    .dropdown-body
+                        left 50%
+                        transform translate(-50%, 0)
+                        width 120px
+
+                .toggle
+                    vertical-align -6px
+                    padding 0
+                    & > *
+                        padding: 3px 6px;
+                        &:not(:last-child)
+                            margin-right: 0
+                            border-radius 0.25rem 0 0 0.25rem
+                        &:not(:first-child)
+                            margin-right: 0
+                            border-radius 0 0.25rem 0.25rem 0
 
         .s-filter-wrapper
             display none

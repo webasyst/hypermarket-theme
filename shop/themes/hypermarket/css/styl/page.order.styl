@@ -167,6 +167,12 @@ body
             background: #f7f7f7;
 
             .wa-product
+                &.is-out-of-stock:after
+                &.is-more-than-limit:after
+                &.is-disabled:after
+                    background #f7f7f7
+                    opacity .7
+
                 &:last-child
                     border-bottom 0
 
@@ -201,6 +207,11 @@ body
                         height 32px
 
     .wa-order-form-wrapper
+        &.is-locked:after
+            left: 1px;
+            width: calc(100% - 2px);
+            height: calc(100% - 4px);
+
         .wa-step-section.is-locked:not(.wa-step-confirm-section):after
             background rgba(247, 247, 247, 0.5);
 

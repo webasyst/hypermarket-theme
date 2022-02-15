@@ -1630,12 +1630,405 @@
 
     //
 
+    var Dropdown = ( function($) {
+
+        Dropdown = function(options) {
+            var that = this;
+
+            // DOM
+            that.$wrapper = options["$wrapper"];
+            that.$button = that.$wrapper.find("> .dropdown-toggle");
+            that.$menu = that.$wrapper.find("> .dropdown-body");
+            that.$filter = that.$menu.find("> .dropdown-filter");
+
+            // VARS
+            that.on = {
+                change: (typeof options["change"] === "function" ? options["change"] : function() {}),
+                ready: (typeof options["ready"] === "function" ? options["ready"] : function() {}),
+                open: (typeof options["open"] === "function" ? options["open"] : function() {}),
+                close: (typeof options["close"] === "function" ? options["close"] : function() {})
+            };
+            that.options = {
+                items       : (options["items"] ? options["items"] : null),
+                hover       : (typeof options["hover"] === "boolean" ? options["hover"] : false),
+                hide        : (typeof options["hide"] === "boolean" ? options["hide"] : true),
+                disabled    : (typeof options["disabled"] === "boolean" ? options["disabled"] : false),
+                active_class: (options["active_class"] ? options["active_class"] : "selected"),
+                update_title: (typeof options["update_title"] === "boolean" ? options["update_title"] : true),
+                protect: {
+                    use_protect: (typeof options["protect"] === "boolean" ? options["protect"] : true),
+                    right: (typeof options["protect"] === "object" && typeof options["protect"]["right"] === "number" ? options["protect"]["right"] : 20),
+                    bottom: (typeof options["protect"] === "object" && typeof options["protect"]["bottom"] === "number" ? options["protect"]["bottom"] : 70)
+                }
+            };
+
+            // DYNAMIC VARS
+            that.is_opened = false;
+            that.$before = null;
+            that.$active = null;
+
+            // INIT
+            if (!that.options.disabled) {
+                that.init();
+            }
+        };
+
+        Dropdown.prototype.init = function() {
+            var that = this,
+                $document = $(document),
+                $body = $("body");
+
+            if (that.options.hover) {
+                that.$button.on("mouseenter", function() {
+                    that.toggleMenu(true);
+                });
+
+                that.$wrapper.on("mouseleave", function() {
+                    that.toggleMenu(false);
+                });
+            }
+
+            that.$button.on("click", function(event) {
+                event.preventDefault();
+                that.toggleMenu(!that.is_opened);
+            });
+
+            if (that.options.items) {
+                if (that.$filter.length) { that.initFilter(); }
+                that.initChange(that.options.items);
+            }
+
+            $body.on("keyup", keyWatcher);
+            function keyWatcher(event) {
+                var is_exist = $.contains(document, that.$wrapper[0]);
+                if (is_exist) {
+                    var is_escape = (event.keyCode === 27);
+                    if (that.is_opened && is_escape) {
+                        event.stopPropagation();
+                        that.hide();
+                    }
+                } else {
+                    $body.off("keyup", keyWatcher);
+                }
+            }
+
+            $document.on("click", clickWatcher);
+            function clickWatcher(event) {
+                var wrapper = that.$wrapper[0],
+                    is_exist = $.contains(document, wrapper);
+
+                if (is_exist) {
+                    var is_target = (event.target === wrapper || $.contains(wrapper, event.target));
+                    if (that.is_opened && !is_target) {
+                        that.hide();
+                    }
+                } else {
+                    $document.off("click", clickWatcher);
+                }
+            }
+
+            that.$wrapper.data("dropdown", that);
+            that.on.ready(that);
+        };
+
+        Dropdown.prototype.toggleMenu = function(open) {
+            var that = this,
+                active_class = "is-opened";
+
+            that.is_opened = open;
+
+            if (open) {
+                that.$wrapper.addClass(active_class);
+
+                // Защита от всплывания окна за правой/нижней границей экрана
+                if (that.options.protect.use_protect) { protect(); }
+
+                that.on.open(that);
+
+                if (that.$filter.length) { that.$filter.find(".js-field").trigger("focus"); }
+
+            } else {
+                that.$wrapper.removeClass(active_class);
+                that.on.close(that);
+
+                if (that.$filter.length) { that.$filter.find(".js-field").val("").trigger("input"); }
+            }
+
+            function protect() {
+                var top_class = "top",
+                    right_class = "right";
+
+                // clear
+                that.$menu
+                    .removeClass(top_class)
+                    .removeClass(right_class);
+
+                var $window = $(window),
+                    rect = that.$wrapper[0].getBoundingClientRect(),
+                    menu_rect = that.$menu[0].getBoundingClientRect();
+
+                // BOTTOM PROTECTION
+                var top_space = rect.y,
+                    bottom_space = $window.height() - rect.y - rect.height;
+
+                // Если места снизу под меню не хватает
+                if (bottom_space < menu_rect.height + that.options.protect.bottom) {
+                    // Если места сверху хватает под меню ЛИБО места сверху больше чем снизу
+                    if (top_space > menu_rect.height || top_space > bottom_space) {
+                        that.$menu.addClass(top_class);
+                    }
+                }
+
+                // RIGHT PROTECTION
+                var right_space = $window.width() - rect.x - that.$menu.outerWidth(),
+                    use_right = ($window.width() - menu_rect.right < that.options.protect.right);
+
+                if (use_right) {
+                    that.$menu.addClass(right_class);
+                }
+            }
+        };
+
+        Dropdown.prototype.initChange = function(selector) {
+            var that = this,
+                active_class = that.options.active_class;
+
+            that.$active = that.$menu.find(selector + "." + active_class);
+
+            that.$wrapper.on("click", selector, onChange);
+
+            function onChange(event) {
+                event.preventDefault();
+
+                var $target = $(this);
+
+                if (that.$active.length) {
+                    that.$before = that.$active.removeClass(active_class);
+                }
+
+                that.$active = $target.addClass(active_class);
+
+                if (that.options.update_title) {
+                    that.setTitle($target.html());
+                }
+
+                if (that.options.hide) {
+                    that.hide();
+                }
+
+                that.$wrapper.trigger("change", [$target[0], that]);
+                that.on.change(event, this, that);
+            }
+        };
+
+        Dropdown.prototype.open = function() {
+            var that = this;
+
+            that.toggleMenu(true);
+        };
+
+        Dropdown.prototype.hide = function() {
+            var that = this;
+
+            that.toggleMenu(false);
+        };
+
+        Dropdown.prototype.setTitle = function(html) {
+            var that = this;
+
+            that.$button.html( html );
+        };
+
+        /**
+         * @param {String} name
+         * @param {String} value
+         * @return {Boolean} result
+         * */
+        Dropdown.prototype.setValue = function(name, value) {
+            var that = this,
+                result = false;
+
+            if (that.options.items) {
+                that.$menu.find(that.options.items).each( function() {
+                    var $target = $(this),
+                        target_value = "" + $target.data(name);
+
+                    if (target_value) {
+                        if (target_value === value) {
+                            $target.trigger("click");
+                            result = true;
+                            return false;
+                        }
+                    }
+                });
+            }
+
+            return result;
+        };
+
+        Dropdown.prototype.initFilter = function() {
+            var that = this;
+
+            var $wrapper = that.$filter,
+                $field = $wrapper.find(".js-field");
+
+            $field.on("input", function() {
+                filter($.trim($field.val()));
+            });
+
+            function filter(value) {
+                value = (typeof value === "string" ? value.toLowerCase() : "");
+
+                var $items = that.$menu.find(that.options.items);
+
+                if (value.length) {
+                    $items.each( function() {
+                        var $item = $(this),
+                            name = $item.text().toLowerCase();
+
+                        if (name.indexOf(value) >= 0) {
+                            $item.show();
+                        } else {
+                            $item.hide();
+                        }
+                    });
+                } else {
+                    $items.show();
+                }
+            }
+        };
+
+        return Dropdown;
+
+    })($);
+
+    var Toggle = ( function($) {
+
+        Toggle = function(options) {
+            var that = this;
+
+            // DOM
+            that.$wrapper = options["$wrapper"];
+
+            // VARS
+            that.on = {
+                ready: (typeof options["ready"] === "function" ? options["ready"] : function() {}),
+                change: (typeof options["change"] === "function" ? options["change"] : function() {})
+            };
+            that.active_class = (options["active_class"] || "selected");
+            that.use_animation = ( typeof options["use_animation"] === "boolean" ? options["use_animation"] : true);
+            that.type = (typeof options["type"] === "string" ? options["type"] : "default");
+
+            // DYNAMIC VARS
+            that.$before = null;
+            that.$active = that.$wrapper.find("> *." + that.active_class);
+
+            // INIT
+            that.init();
+        };
+
+        Toggle.prototype.init = function() {
+            var that = this,
+                active_class = that.active_class;
+
+            switch (that.type) {
+                case "tabs":
+                    that.$wrapper.addClass("tabs-mode");
+                    break;
+                case "default":
+                    that.$wrapper.addClass("default");
+                    break;
+                default:
+                    break;
+            }
+
+            that.$wrapper.on("click", "> *", onClick);
+
+            that.$wrapper.trigger("ready", that);
+
+            that.on.ready(that);
+
+            if (that.use_animation) {
+                that.initAnimation();
+            }
+
+            //
+
+            function onClick(event) {
+                event.preventDefault();
+
+                var $target = $(this),
+                    is_active = $target.hasClass(active_class);
+
+                if (is_active) { return false; }
+
+                if (that.$active.length) {
+                    that.$before = that.$active.removeClass(active_class);
+                }
+
+                that.$active = $target.addClass(active_class);
+
+                that.$wrapper.trigger("toggle.change", [this, that]);
+                that.on.change(event, this, that);
+            }
+        };
+
+        Toggle.prototype.initAnimation = function() {
+            var that = this;
+
+            var is_ready = false;
+
+            var observer = new MutationObserver(refresh);
+            observer.observe(that.$wrapper[0],{
+                childList: true,
+                subtree: true
+            });
+
+            that.$wrapper.addClass("animate");
+            that.$wrapper.on("toggle.change", refresh);
+
+            var $wrapper = $("<div class=\"animation-block\" />");
+
+            if (that.$active.length) { refresh(); }
+
+            function refresh() {
+                if (!that.$active.length) { return false; }
+
+                var area = getArea(that.$active);
+
+                $wrapper.css(area);
+
+                if (!is_ready) {
+                    $wrapper.prependTo(that.$wrapper);
+                    is_ready = true;
+                }
+            }
+
+            function getArea() {
+                var offset = that.$active.offset(),
+                    wrapper_offset = that.$wrapper.offset();
+
+                return {
+                    top: offset.top - wrapper_offset.top,
+                    left: offset.left - wrapper_offset.left,
+                    width: that.$active.width(),
+                    height: that.$active.height()
+                };
+            }
+        };
+
+        return Toggle;
+
+    })($);
+
     waTheme.init.site.Layout = Layout;
     waTheme.init.site.Pane = Pane;
     waTheme.init.site.ProfilePage = ProfilePage;
     waTheme.init.site.FixedBlock = FixedBlock;
     waTheme.init.site.SubscribeSection = SubscribeSection;
     waTheme.init.site.ScheduleSection = ScheduleSection;
+    waTheme.init.site.Dropdown = Dropdown;
+    waTheme.init.site.Toggle = Toggle;
 
     waTheme.init.shop.Compare = Compare;
     waTheme.init.shop.Cart = Cart;

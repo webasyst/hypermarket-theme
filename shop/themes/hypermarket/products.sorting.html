@@ -37,6 +37,10 @@
 
 {$_active_sort = $_sort_fields["create_datetime"]}
 
+{if !empty($_active_sort_name) && $_active_sort_name === "base_price"}
+    {$_active_sort_name = "price"}
+{/if}
+
 {if !empty($category) && empty($category.sort_products)}
     {$_part = [
         "new" => [
@@ -61,6 +65,37 @@
     {$wa->title( $wa->title()|cat:' — '|cat:$_active_sort.name)}
 {/if}
 
+{strip}
+{function name="_sort_url" _value="" _name="" _active=""}
+    {$data = waRequest::get()}
+    {if $_value === ""}
+        {$data["sort"] = null}
+        {$data["order"] = null}
+    {else}
+        {if !empty($data["sort"]) && $data["sort"] === "base_price" && $_value === "price"}
+            {$_value = "base_price"}
+            {$_active = "base_price"}
+        {/if}
+
+        {$data["sort"] = $_value}
+
+        {if $_value === $_active}
+            {if !empty($data["order"]) && $data["order"] === "asc"}
+                {$data['order'] = "desc"}
+            {else}
+                {$data['order'] = "asc"}
+            {/if}
+        {else}
+            {$data['order'] = null}
+            {$data['sort_unit'] = null}
+        {/if}
+    {/if}
+    <a href="?{$data|http_build_query}">
+        {$_name}{if $_value === $_active} <i class="sort-{if $data['order'] == 'asc'}desc{else}asc{/if}"></i>{/if}
+    </a>
+{/function}
+{/strip}
+
 {if !empty($category)}
     <div class="s-sorting-list sort-filters">
         <span class="s-label">[`Sorting`]:</span>
@@ -74,12 +109,82 @@
                     {/if}
 
                     <li class="{if !empty($_is_active)}is-active{/if}">
-                        {$wa->shop->sortUrl($_sort.id, $_sort.name, $_active_sort.id)}
+                        {_sort_url _value=$_sort.id _name=$_sort.name _active=$_active_sort.id}
                     </li>
                 {/foreach}
             </ul>
         </div>
     </div>
+
+    {if !empty($fractional_config) && $fractional_config["stock_units_enabled"] && !empty($formatted_filter_units) && $_active_sort.id === "price"}
+        {$_product_price_unit = [
+            "id" => "",
+            "name" => _w("product"),
+            "name_short" => _w("product")
+        ]}
+
+        {$_active_sort_unit = reset($formatted_filter_units)}
+        {if !empty($filter_stock_units) && count($filter_stock_units) > 1}
+            {$_active_sort_unit = $_product_price_unit}
+        {/if}
+
+        {$_active_sort_unit_id = waRequest::request("sort_unit", null, waRequest::TYPE_STRING)}
+        {if $_active_sort_unit_id !== null}
+            {if $_active_sort_unit_id !== ""}
+                {foreach $formatted_filter_units as $_unit}
+                    {if $_unit.id === $_active_sort_unit_id}
+                        {$_active_sort_unit = $_unit}
+                        {break}
+                    {/if}
+                {/foreach}
+            {/if}
+        {/if}
+
+        {$_base_units_ids = []}
+        {if !empty($filter_base_units)}
+            {foreach $filter_base_units as $_unit}
+                {$_base_units_ids[] = $_unit.id}
+            {/foreach}
+        {/if}
+
+        {strip}
+        {function name="_filter_url" filter_name="" filter_value=""}
+            {$data = waRequest::get()}
+            {if $filter_value === ""}
+                {$data["sort"] = "price"}
+                {$data[$filter_name] = null}
+            {else}
+                {$data[$filter_name] = $filter_value}
+                {if !empty($_base_units_ids) && in_array($filter_value, $_base_units_ids)}
+                    {$data["sort"] = "base_price"}
+                {else}
+                    {$data["sort"] = "price"}
+                {/if}
+            {/if}
+            {$data|http_build_query}
+        {/function}
+        {/strip}
+
+        <div class="s-sorting-list sort-filters" id="js-sorting-inits-dropdown">
+            <span class="s-label">[`per`]:</span>
+            <div class="s-dropdown-wrapper">
+                <span class="s-sort-active">{$_active_sort_unit.name_short|escape}</span>
+                <ul>
+                    {if !empty($filter_stock_units) && count($filter_stock_units) > 1}
+                        <li class="{if $_active_sort_unit.id === ""}is-active{/if}">
+                            <a href="?{_filter_url filter_name="sort_unit" filter_value=""}">[`product`]</a>
+                        </li>
+                    {/if}
+                    {foreach $formatted_filter_units as $_unit}
+                        {$_is_active = ($_active_sort_unit.id === $_unit.id)}
+                        <li class="{if !empty($_is_active)}is-active{/if}">
+                            <a href="?{_filter_url filter_name="sort_unit" filter_value=$_unit.id}" title="{$_unit.name|escape}">{$_unit.name_short|escape}</a>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
+    {/if}
 {/if}
 
 {/strip}

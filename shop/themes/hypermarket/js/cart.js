@@ -33,21 +33,29 @@
                 $product = that.$products,
                 $productServices = that.$services;
 
-            $product.on("click", ".js-increase", function() {
-                var $currentProduct = $(this).closest(".s-cart-product");
-                that.changeProductQuantity("positive", $currentProduct);
-                return false;
-            });
+            $wrapper.on("quantity.changed", ".s-cart-product", function(event, quantity) {
+                var $product = $(this),
+                    $loading = $product.find(".js-product-loading"),
+                    xhr = $product.data("xhr");
 
-            $product.on("click", ".js-decrease", function() {
-                var $currentProduct = $(this).closest(".s-cart-product");
-                that.changeProductQuantity("negative", $currentProduct);
-                return false;
-            });
+                if (xhr) {
+                    xhr.abort();
+                    xhr = null;
+                }
 
-            $product.on("change", ".s-product-quantity", function() {
-                that.onChangeProductQuantity( $(this) );
-                return false;
+                if (quantity > 0) {
+                    $loading.show();
+                    xhr = that.changeProductQuantity($product, quantity)
+                        .always( function() {
+                            $product.data("xhr", null);
+                            $loading.hide();
+                        });
+
+                    $product.data("xhr", xhr);
+
+                } else {
+                    that.deleteProduct($(this));
+                }
             });
 
             $product.on("click", ".js-delete-product", function() {
@@ -250,97 +258,29 @@
             }
         };
 
-        Cart.prototype.changeProductQuantity = function(type, $product) {
-            var that = this,
-                $quantityInput = $product.find(".js-quantity-field"),
-                current_val = parseInt( $quantityInput.val() ),
-                is_disabled = ( $quantityInput.attr("disabled") === "disabled"),
-                disable_time = 800,
-                new_val;
+        Cart.prototype.changeProductQuantity = function($product, quantity, quantity_controller) {
+            var that = this;
 
-            if (type === "positive") {
-                new_val = current_val + 1;
-            } else if (type === "negative") {
-                new_val = current_val - 1;
-            }
-
-            // Set new value
-            if (!is_disabled) {
-
-                if ( new_val > 0 ) {
-                    $quantityInput.attr("disabled","disabled");
-
-                    $quantityInput.val(new_val);
-
-                    // Recalculate Price
-                    $quantityInput.change();
-
-                    setTimeout( function() {
-                        $quantityInput.attr("disabled", false)
-                    }, disable_time);
-
-                    // If volume is zero => remove item from basket
-                } else {
-
-                    this.deleteProduct($product );
-                }
-            }
-        };
-
-        Cart.prototype.onChangeProductQuantity = function( $input ) {
-            var that = this,
-                $product = $input.closest(".s-cart-product"),
-                $deferred = $.Deferred(),
-                $sum_wrapper = $product.find(".js-product-total"),
-                product_quantity = parseInt( $input.val() ),
-                request_data;
-
-            // Check for STRING Data at Quantity Field
-            if ( isNaN( product_quantity ) ) {
-                product_quantity = 1;
-            }
-            $input.val( product_quantity );
-
-            // Data for Request
-            request_data  = {
+            var data = {
                 html: 1,
                 id: $product.data('id'),
-                quantity: product_quantity
+                quantity: quantity
             };
 
-            // If Quantity 1 or more
-            if (product_quantity > 0) {
-
-                $.post("save/", request_data, function (response) {
-                    $deferred.resolve(response);
-                }, "json");
-
-                $deferred.done( function(response) {
-                    $sum_wrapper.html( response.data.item_total );
+            return $.post("save/", data, "json")
+                .done( function(response) {
+                    $product.find(".js-product-total").html( response.data.item_total );
 
                     if (response.data.q) {
-                        $input.val( response.data.q );
+                        quantity_controller.set(response.data.q);
                     }
 
                     if (response.data.error) {
-                        $input.addClass(that.error_class);
-
-                        // at Future make it better ( renderErrors(errors) )
                         alert(response.data.error);
-
-                    } else {
-
-                        $input.removeClass(that.error_class);
-
                     }
 
                     that.updateCart($product, response.data);
                 });
-
-            // Delete Product
-            } else if (product_quantity == 0) {
-                that.deleteProduct($product );
-            }
         };
 
         Cart.prototype.deleteProduct = function($product ) {
