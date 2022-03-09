@@ -145,6 +145,8 @@
                                         "max" => _w("max. %s")
                                     ]}
 
+                                    {$_max = 0}{if !$wa->shop->settings('ignore_stock_count') && $active_sku.count > 0}{$_max = $active_sku.count}{/if}
+
                                     <script>
                                         ( function($) {
                                             new waTheme.init.shop.Quantity({
@@ -152,7 +154,7 @@
                                                 denominator: {$product["order_multiplicity_factor"]|default:1|floatval|json_encode},
                                                 step: {$active_sku["order_count_step"]|default:1|floatval|json_encode},
                                                 min: {$active_sku["order_count_min"]|default:1|floatval|json_encode},
-                                                max: {$active_sku.count|default:0|floatval|json_encode},
+                                                max: {$_max|floatval|json_encode},
                                                 locales: {$_quantity_locales|json_encode}
                                             });
                                         })(jQuery);
