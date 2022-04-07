@@ -375,6 +375,7 @@
                         stock_unit_id: {$product.stock_unit_id|json_encode},
                         base_unit_id: {$product.base_unit_id|json_encode}
                     },
+                    ignore_stock_count: {if $wa->shop->settings('ignore_stock_count')}true{else}false{/if},
                     fractional_config: {if !empty($fractional_config)}{$fractional_config|json_encode}{else}null{/if},
                     units: {if !empty($formatted_units)}{$formatted_units|json_encode}{else}[]{/if},
                     locales: {$_locales|json_encode}

@@ -33,6 +33,9 @@
             that.quantity_controller = that.$quantity.data("controller");
             that.$quantity_section = that.quantity_controller.$wrapper;
 
+            // Игнорировать ограничения складов
+            that.ignore_stock_count = options["ignore_stock_count"];
+
             // Настройки дробных
             that.fractional_config = formatFractionalConfig(options["fractional_config"]);
             // Массив с единицами измерения
@@ -407,7 +410,7 @@
                 that.quantity_controller.update({
                     step: that.sku.order_count_step,
                     min: that.sku.order_count_min,
-                    max: that.sku.count
+                    max: (!that.ignore_stock_count && that.sku.count > 0 ? that.sku.count : 0)
                 });
 
                 renderSKU(sku_name);
@@ -468,7 +471,7 @@
             that.quantity_controller.update({
                 step: that.sku.order_count_step,
                 min: that.sku.order_count_min,
-                max: that.sku.count
+                max: (!that.ignore_stock_count && that.sku.count > 0 ? that.sku.count : 0)
             });
 
             renderSKU(sku.sku);
