@@ -835,12 +835,14 @@
                 var $stock = $(this),
                     is_target = $stock.hasClass("sku-" + sku.id + "-stock");
 
-                if (is_target) {
+                if (available && is_target) {
                     $stock.show();
                 } else {
                     $stock.hide();
                 }
             });
+
+            that.$form.find(".s-stocks-wrapper > .sku-not-available").css("display", (available ? "none" : ""));
 
             // quantity
             that.$quantity_section.css("visibility", (available ? "" : "hidden"));
