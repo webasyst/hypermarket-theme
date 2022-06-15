@@ -155,7 +155,7 @@
                 {$data[$filter_name] = null}
             {else}
                 {$data[$filter_name] = $filter_value}
-                {if !empty($_base_units_ids) && in_array($filter_value, $_base_units_ids)}
+                {if !empty($_base_units_ids) && in_array($filter_value, $_base_units_ids) && count($filtered_stock_unit_ids) > 1}
                     {$data["sort"] = "base_price"}
                 {else}
                     {$data["sort"] = "price"}

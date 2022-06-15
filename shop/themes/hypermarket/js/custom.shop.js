@@ -508,6 +508,35 @@
                 that.showFilter( $(this).closest(".s-filter-group") );
             });
 
+            $("#js-filter-units-dropdown").on("change", function() {
+                resetSlider($(this).find(".dropdown-item.selected"), this);
+            });
+
+            $("#js-filter-units-toggle").on("click", function() {
+                resetSlider($(this).find("span.selected"), this);
+            });
+
+            function resetSlider($unit, that) {
+                var min = Math.floor($unit.data("min")),
+                    max = Math.ceil($unit.data("max")),
+                    $range = $(that).parents(".s-filter-group").find(".s-range-item"),
+                    $inputMin = $range.find(".min"),
+                    $inputMax = $range.find(".max"),
+                    slider = $range.data("range_slider");
+
+                if ($inputMin.length && $inputMax.length && min >= 0 && max > 0) {
+                    $range.attr({"data-min": min, "data-max": max});
+                    $inputMin.val("").attr("placeholder", min);
+                    $inputMax.val("").attr("placeholder", max);
+
+                    if (slider) {
+                        slider.min = min;
+                        slider.max = max;
+                        slider.setRange(0, 100, true);
+                    }
+                }
+            }
+
             // On submit form
             that.$form.on("submit", function(event) {
                 event.preventDefault();
@@ -519,10 +548,18 @@
 
             that.$form.on("reset", function(event) {
                 setTimeout(function() {
+                    // Очищаем поля
+                    var $inputs = that.$form.find("input[type=text]");
+                    if ($inputs.length) { $inputs.val(""); }
+
+                    // Очищаем юниты
+                    var $units = $("#js-filter-units-dropdown").find("[data-id='']");
+                    if ($units.length) { $units.trigger("click"); }
+
                     if (!that.is_locked) {
                         that.onSubmit( $(this) );
                     }
-                }, 100);
+                }, 0);
             });
 
             that.is_locked = false;
@@ -580,6 +617,18 @@
 
                 function formatData(form_array) {
                     var result = [];
+
+                    let searchParams = new URLSearchParams(window.location.search),
+                        sort_params = ["order", "sort", "sort_unit"];
+
+                    $.each(sort_params, function(i, sort_param) {
+                        if (searchParams.has(sort_param)) {
+                            result.push({
+                                name: sort_param,
+                                value: searchParams.get(sort_param)
+                            });
+                        }
+                    });
 
                     $.each(form_array, function(i, field) {
                         var full_name = field.name,

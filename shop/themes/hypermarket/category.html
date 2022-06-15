@@ -11,9 +11,18 @@
         <div class="s-description-section s-user-content is-top">{$category.description}</div>
     {/if}
 
+    {$show_sorting = !empty($category.params.enable_sorting)}
+
     {if !empty($products)}
-        {include file="./products.html" show_sorting=!empty($category.params.enable_sorting) inline}
+        {include file="./products.html" show_sorting=$show_sorting inline}
     {else}
+        {if empty($short) && !empty($show_sorting)}
+            <section class="s-products-wrapper">
+                <div class="s-sorting-wrapper">
+                    {include file="./products.sorting.html" inline}
+                </div>
+            </section>
+        {/if}
 
         {$page = waRequest::get('page', 1, 'int')}
         {$_message = _w("This category does not contain any products.")}

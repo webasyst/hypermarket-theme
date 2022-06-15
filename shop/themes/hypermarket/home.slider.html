@@ -1,6 +1,6 @@
 {strip}
 
-<section class="s-slider-section {if !empty($products) && (empty($type) || $type !== "wide")}with-border{/if}">
+<section class="s-slider-section js-slider-section {if !empty($products) && (empty($type) || $type !== "wide")}with-border{/if}" style="visibility: hidden;">
     {if !empty($promocards)}
         <ul class="s-slide-list" id="js-home-slide-list" style="{if $theme_settings.slider_height}height: {$theme_settings.slider_height}px{/if}">
             {foreach $_promocards as $slide}
@@ -149,6 +149,8 @@
                     autoHover : true,
                     pager: slide_count > 1
                 });
+
+                $(".js-slider-section").css("visibility", "");
             }
         })(jQuery);
     </script>

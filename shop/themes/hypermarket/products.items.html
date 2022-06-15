@@ -117,10 +117,12 @@
                             <span class="s-base-price">{$_base_price}</span>
                         </div>
 
+                        {$_lang = substr($wa->locale(), 0, 2)}
+                        {$_delimiter = "."}{if ($_lang === "ru")}{$_delimiter = ","}{/if}
                         <div class="s-ratio-wrapper">
                             <span>{sprintf(_w("1 %s"), $_stock_unit["name_short"])}</span>
                             <span>&nbsp;=&nbsp;</span>
-                            <span class="js-stock-base-ratio">{$wa->shop->numberFormat($active_sku["stock_base_ratio"])}</span>&nbsp;<span>{$_base_unit["name_short"]}</span>
+                            <span class="js-stock-base-ratio">{$wa->shop->numberFormat($active_sku["stock_base_ratio"], null, $_delimiter)}</span>&nbsp;<span>{$_base_unit["name_short"]}</span>
                         </div>
                     {else}
                         {$_stock_price = shop_currency($active_sku["price"], ["in_currency" => $_currency, "format" => "price_wrapper"])}

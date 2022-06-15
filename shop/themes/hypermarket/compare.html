@@ -82,7 +82,7 @@
                                             {/for}
 
                                             {$_product_url = reset(ref(explode('?', $_product.frontend_url)))}
-                                            <a href="{$_product_url}reviews/" class="s-rating-hint"> {if !empty($_product.rating_count)}{$_product.rating_count}{else}0{/if}</a>
+                                            <a href="{$_product_url}reviews/" class="s-rating-hint"> {if isset($_product.reviews_count)}{$_product.reviews_count}{elseif !empty($_product.rating_count)}{$_product.rating_count}{else}0{/if}</a>
                                         </div>
 
                                         <div class="s-prices-section">

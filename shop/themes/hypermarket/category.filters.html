@@ -28,6 +28,9 @@
                 {if $wa->get('price_max')}
                     {$_is_selected = true}
                 {/if}
+                {if $wa->get('unit')}
+                    {$_is_selected = true}
+                {/if}
             {else}
                 {if $filter.type == 'boolean'}
                     {if $wa->get($filter.code)}
@@ -60,6 +63,7 @@
                     {$c = $wa->shop->currency(true)}
                     <h5 class="s-filter-header is-price">
                         <span class="s-filter-name js-filter-toggle">[`Price`]</span>
+                        {$_active_unit_id = null}
                         {if !empty($fractional_config) && $fractional_config["stock_units_enabled"]}
                             {if !empty($formatted_filter_units)}
                                 {* count($filter_stock_units) > 1 *}
@@ -67,12 +71,16 @@
                                     <div class="s-units-section">
                                         <span class="s-divider">[`per`]</span>
                                         <div class="dropdown" id="js-filter-units-dropdown">
-                                            <span class="dropdown-toggle">{$filter_unit.name_short|default:_w("product")|escape}</span>
+                                            <span class="dropdown-toggle">{$filter_unit.short_name|default:_w("product")|escape}</span>
                                             <div class="dropdown-body center">
-                                                <div class="dropdown-item {if empty($filter_unit)}selected{/if}" data-id="">{_w("product")|escape}</div>
+                                                <div class="dropdown-item {if empty($filter_unit)}selected{/if}" data-id="" data-min="{floor($filter.min)}" data-max="{ceil($filter.max)}">{_w("product")|escape}</div>
                                                 {foreach $formatted_filter_units as $_unit}
-                                                    {$_is_active = (!empty($filter_unit) && ($_unit.id === $filter_unit.id))}
-                                                    <div class="dropdown-item {if $_is_active}selected{/if}" data-id="{$_unit.id|escape}" title="{$_unit.name|escape}">{$_unit.name_short|escape}</div>
+                                                    {$_is_active = false}
+                                                    {if !empty($filter_unit) && $_unit.id === $filter_unit.id}
+                                                        {$_active_unit_id = $_unit.id}
+                                                        {$_is_active = true}
+                                                    {/if}
+                                                    <div class="dropdown-item {if $_is_active}selected{/if}" data-id="{$_unit.id|default:0|escape}" data-min="{$product_units_prices[$_unit.id]['min']|default:0|escape}" data-max="{$product_units_prices[$_unit.id]['max']|default:0|escape}" title="{$_unit.name|escape}">{$_unit.name_short|escape}</div>
                                                 {/foreach}
                                             </div>
                                         </div>
@@ -99,11 +107,15 @@
                                         <span class="s-divider">[`per`]</span>
                                         <div class="toggle small" id="js-filter-units-toggle">
                                             {if (count($filter_stock_units) > 1)}
-                                                <span class="{if empty($filter_unit)}selected{/if}" data-id="">{_w("product")|escape}</span>
+                                                <span class="{if empty($filter_unit)}selected{/if}" data-id="" data-min="{floor($filter.min)}" data-max="{ceil($filter.max)}">{_w("product")|escape}</span>
                                             {/if}
                                             {foreach $formatted_filter_units as $_unit}
-                                                {$_is_active = (!empty($filter_unit) && ($_unit.id === $filter_unit.id))}
-                                                <span class="{if $_is_active}selected{/if}" data-id="{$_unit.id|escape}" title="{$_unit.name|escape}">{$_unit.name_short|escape}</span>
+                                                {$_is_active = false}
+                                                {if !empty($filter_unit) && $_unit.id === $filter_unit.id}
+                                                    {$_active_unit_id = $_unit.id}
+                                                    {$_is_active = true}
+                                                {/if}
+                                                <span class="{if $_is_active}selected{/if}" data-id="{$_unit.id|escape}" data-min="{$product_units_prices[$_unit.id]['min']|default:0|escape}" data-max="{$product_units_prices[$_unit.id]['max']|default:0|escape}" title="{$_unit.name|escape}">{$_unit.name_short|escape}</span>
                                             {/foreach}
                                         </div>
                                         <input name="unit" type="hidden" value="{$filter_unit.id|default:""|escape}">
@@ -134,11 +146,18 @@
                         {/if}
                     </h5>
                     <div class="s-filter-wrapper">
-                        <div class="s-filter-item s-range-item" data-min="{floor($filter.min)}" data-max="{ceil($filter.max)}">
+                        {if isset($product_units_prices[$_active_unit_id])}
+                            {$_min = $product_units_prices[$_active_unit_id]['min']}
+                            {$_max = $product_units_prices[$_active_unit_id]['max']}
+                        {else}
+                            {$_min = $filter.min}
+                            {$_max = $filter.max}
+                        {/if}
+                        <div class="s-filter-item s-range-item" data-min="{floor($_min)}" data-max="{ceil($_max)}">
                             [`from`]
-                            <input type="text" class="min" name="price_min" {if $wa->get('price_min')}value="{(int)$wa->get('price_min')}"{/if} placeholder="{floor($filter.min)}">
+                            <input type="text" class="min" name="price_min" {if $wa->get('price_min')}value="{(int)$wa->get('price_min')}"{/if} placeholder="{floor($_min)}">
                             [`to`]
-                            <input type="text" class="max" name="price_max" {if $wa->get('price_max')}value="{(int)$wa->get('price_max')}"{/if} placeholder="{ceil($filter.max)}">
+                            <input type="text" class="max" name="price_max" {if $wa->get('price_max')}value="{(int)$wa->get('price_max')}"{/if} placeholder="{ceil($_max)}">
                             {$c.sign}
                         </div>
                     </div>
