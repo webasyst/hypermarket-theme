@@ -80,7 +80,15 @@
         {$data["sort"] = $_value}
 
         {if $_value === $_active}
-            {if !empty($data["order"]) && $data["order"] === "asc"}
+            {if empty($data["order"])}
+                {$data['order'] = "desc"}
+                {if !empty($category.sort_products)}
+                    {if substr(strtolower($category.sort_products), -3) == 'asc'}
+                        {$data['order'] = "asc"}
+                    {/if}
+                {/if}
+            {/if}
+            {if $data["order"] === "asc"}
                 {$data['order'] = "desc"}
             {else}
                 {$data['order'] = "asc"}
@@ -155,7 +163,13 @@
                 {$data[$filter_name] = null}
             {else}
                 {$data[$filter_name] = $filter_value}
-                {if !empty($_base_units_ids) && in_array($filter_value, $_base_units_ids) && count($filtered_stock_unit_ids) > 1}
+                {if isset($filtered_base_unit_ids)}
+                    {if !empty($filtered_base_unit_ids) && in_array($filter_value, $filtered_base_unit_ids)}
+                        {$data["sort"] = "base_price"}
+                    {else}
+                        {$data["sort"] = "price"}
+                    {/if}
+                {else if !empty($_base_units_ids) && in_array($filter_value, $_base_units_ids)}
                     {$data["sort"] = "base_price"}
                 {else}
                     {$data["sort"] = "price"}
