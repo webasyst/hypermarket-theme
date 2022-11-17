@@ -72,7 +72,18 @@
                         <div class="s-ratio-wrapper">
                             <span>{sprintf(_w("1 %s"), $_stock_unit["name_short"])}</span>
                             <span>&nbsp;=&nbsp;</span>
-                            <span class="js-stock-base-ratio">{$wa->shop->numberFormat($active_sku["stock_base_ratio"])}</span>&nbsp;<span>{$_base_unit["name_short"]}</span>
+                            {if (float)$active_sku['stock_base_ratio'] < 1}
+                                {$parts = explode('.', $active_sku['stock_base_ratio'], 2)}
+                                {if isset($parts[1])}
+                                    {$deleted_zero = ltrim($parts[1], '0')}
+                                    {$stock_base_ratio_round = round($active_sku['stock_base_ratio'], mb_strlen($parts[1]) - mb_strlen($deleted_zero) + 3)}
+                                {else}
+                                    {$stock_base_ratio_round = round($active_sku['stock_base_ratio'], 3)}
+                                {/if}
+                            {else}
+                                {$stock_base_ratio_round = round($active_sku['stock_base_ratio'], 3)}
+                            {/if}
+                            <span class="js-stock-base-ratio">{$wa->shop->numberFormat($stock_base_ratio_round)}</span>&nbsp;<span>{$_base_unit["name_short"]}</span>
                         </div>
                     {elseif !empty($fractional_config) && $fractional_config["stock_units_enabled"] && !empty($formatted_units) && !empty($formatted_units[$product["stock_unit_id"]])}
                         {$_stock_unit = $formatted_units[$product["stock_unit_id"]]}

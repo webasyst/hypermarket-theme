@@ -744,6 +744,17 @@
                 var result = number;
                 if (typeof number !== "string") { return result; }
 
+                var float_num = parseFloat(number);
+                if (float_num < 1) {
+                    var split_num = number.split(".");
+                    if (split_num.length === 2) {
+                        var decimal_part = split_num[1].replace(/^0+/, '');
+                        number = roundNumber(float_num, split_num[1].length - decimal_part.length + 3).toFixed(8);
+                    }
+                } else {
+                    number = roundNumber(float_num, 3).toFixed(8);
+                }
+
                 var parts = number.split(".");
                 if (parts.length === 2) {
                     var tail = parts[1],
@@ -766,6 +777,20 @@
                 }
 
                 return result;
+            }
+
+            function roundNumber(num, scale) {
+                if(!String(num).includes("e")) {
+                    return +(Math.round(num + "e+" + scale)  + "e-" + scale);
+                } else {
+                    var parts = String(num).split("e"),
+                        sig = "";
+
+                    if(+parts[1] + scale > 0) {
+                        sig = "+";
+                    }
+                    return +(Math.round(+parts[0] + "e" + sig + (+parts[1] + scale)) + "e-" + scale);
+                }
             }
         };
 
