@@ -78,6 +78,7 @@
             that.max = (that.max >= 0 ? that.max : 0);
             that.step = (typeof options["step"] !== "undefined" ? validate("float", options["step"]) : 1);
             that.step = (that.step > 0 ? that.step : 1);
+            that.currency = options["currency"];
 
             // DYNAMIC VARS
             that.value = getValue();
@@ -232,7 +233,7 @@
 
             function toggleDescription($button, $desc, limit, locale) {
                 var description = null,
-                    limit_string = locale.replace("%s", (limit ? "<span class=\"s-step\">"+limit+"</span>" : ""));
+                    limit_string = locale.replace("%s", (limit ? "<span class=\"s-step\">"+that.localizeNumber(limit)+"</span>" : ""));
 
                 $button
                     .removeClass(locked_class)
@@ -249,7 +250,7 @@
                             $button.addClass(near_limit_class);
                             description = limit_string;
                         } else {
-                            description = that.step;
+                            description = that.localizeNumber(that.step);
                         }
                     }
                 }
@@ -259,6 +260,87 @@
                 } else {
                     $desc.hide().html("");
                 }
+            }
+        };
+
+        Quantity.prototype.localizeNumber = function(number, remove_start_nulls) {
+            var that = this,
+                result = String(number),
+                format = that.currency;
+
+            if (!format) { return result; }
+
+            if (typeof result === "string") {
+                var parts = result.split(".");
+
+                if (remove_start_nulls) {
+                    let string_with_nulls = parts[0].split(""),
+                        string_without_nulls = [];
+
+                    $.each(string_with_nulls, function(i, letter) {
+                        if (string_without_nulls.length || (letter !== "0")) {
+                            string_without_nulls.push(letter);
+                        }
+                    });
+
+                    if (!string_without_nulls.length) {
+                        string_without_nulls.push(0);
+                    }
+
+                    parts[0] = string_without_nulls.join("");
+                }
+
+                if (format.group_size > 0) {
+                    parts[0] = getGroupedString(parts[0], format.group_size, format.group_divider);
+                }
+
+                result = parts.join(".");
+
+                if (format.fraction_divider) {
+                    result = result.replace(".", format.fraction_divider);
+                }
+            }
+
+            return result;
+
+            function getGroupedString(string, size, divider) {
+                var result = "";
+
+                if (!(size && string && divider)) {
+                    return string;
+                }
+
+                var string_array = string.split("").reverse();
+
+                var groups = [];
+                var group = [];
+
+                for (var i = 0; i < string_array.length; i++) {
+                    var letter = string_array[i],
+                        is_first = (i === 0),
+                        is_last = (i === string_array.length - 1),
+                        delta = (i % size);
+
+                    if (delta === 0 && !is_first) {
+                        groups.unshift(group);
+                        group = [];
+                    }
+
+                    group.unshift(letter);
+
+                    if (is_last) {
+                        groups.unshift(group);
+                    }
+                }
+
+                for (i = 0; i < groups.length; i++) {
+                    var is_last_group = (i === groups.length - 1),
+                        _group = groups[i].join("");
+
+                    result += _group + ( is_last_group ? "" : divider );
+                }
+
+                return result;
             }
         };
 

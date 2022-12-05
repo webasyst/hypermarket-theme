@@ -22,7 +22,22 @@
         </section>
     {else}
         {$_currency = $wa->shop->currency()}
-        {* $_currency_data = $wa->shop->getCurrencyData($_currency) *}
+        {if method_exists($wa->shop, "getCurrencyData")}
+            {$_currency_data = $wa->shop->getCurrencyData($_currency)}
+        {else}
+            {$_lang = substr($wa->locale(), 0, 2)}
+            {$_divider = "."}
+            {$_group_divider = ""}
+            {if ($_lang === "ru")}
+                {$_divider = ","}
+                {$_group_divider = " "}
+            {/if}
+            {$_currency_data = [
+                'fraction_divider' => $_divider,
+                'group_divider'    => $_group_divider,
+                'group_size'       => 3
+            ]}
+        {/if}
 
         <form method="post" class="s-cart-form">
 
@@ -155,7 +170,8 @@
                                                 step: {$active_sku["order_count_step"]|default:1|floatval|json_encode},
                                                 min: {$active_sku["order_count_min"]|default:1|floatval|json_encode},
                                                 max: {$_max|floatval|json_encode},
-                                                locales: {$_quantity_locales|json_encode}
+                                                locales: {$_quantity_locales|json_encode},
+                                                currency: {$_currency_data|default:""|json_encode}
                                             });
                                         })(jQuery);
                                     </script>
@@ -172,18 +188,7 @@
                                         <div class="s-ratio-wrapper">
                                             <span>{sprintf(_w("1 %s"), $_stock_unit["name_short"])}</span>
                                             <span>&nbsp;=&nbsp;</span>
-                                            {if (float)$active_sku['stock_base_ratio'] < 1}
-                                                {$parts = explode('.', $active_sku['stock_base_ratio'], 2)}
-                                                {if isset($parts[1])}
-                                                    {$deleted_zero = ltrim($parts[1], '0')}
-                                                    {$stock_base_ratio_round = round($active_sku['stock_base_ratio'], mb_strlen($parts[1]) - mb_strlen($deleted_zero) + 3)}
-                                                {else}
-                                                    {$stock_base_ratio_round = round($active_sku['stock_base_ratio'], 3)}
-                                                {/if}
-                                            {else}
-                                                {$stock_base_ratio_round = round($active_sku['stock_base_ratio'], 3)}
-                                            {/if}
-                                            <span class="js-stock-base-ratio">{$wa->shop->numberFormat($stock_base_ratio_round)}</span>&nbsp;<span>{$_base_unit["name_short"]}</span>
+                                            <span class="js-stock-base-ratio">{$wa->shop->roundNumber($active_sku['stock_base_ratio'], 3, null, null)}</span>&nbsp;<span>{$_base_unit["name_short"]}</span>
                                         </div>
 
                                         <div class="s-price-wrapper">

@@ -1,5 +1,45 @@
 ( function($) {
 
+    function getGroupedString(string, size, divider) {
+        var result = "";
+
+        if (!(size && string && divider)) {
+            return string;
+        }
+
+        var string_array = string.split("").reverse();
+
+        var groups = [];
+        var group = [];
+
+        for (var i = 0; i < string_array.length; i++) {
+            var letter = string_array[i],
+                is_first = (i === 0),
+                is_last = (i === string_array.length - 1),
+                delta = (i % size);
+
+            if (delta === 0 && !is_first) {
+                groups.unshift(group);
+                group = [];
+            }
+
+            group.unshift(letter);
+
+            if (is_last) {
+                groups.unshift(group);
+            }
+        }
+
+        for (i = 0; i < groups.length; i++) {
+            var is_last_group = (i === groups.length - 1),
+                _group = groups[i].join("");
+
+            result += _group + ( is_last_group ? "" : divider );
+        }
+
+        return result;
+    }
+
     var waTheme = {
         // VARS
         site_url: "",
@@ -68,6 +108,54 @@
             }
         },
 
+        localizeNumber: function(number, options) {
+            var self = this,
+                result = String(number);
+
+            options = (typeof options !== "undefined" ? options : {});
+            options.currency = (typeof options.currency === "string" ? options.currency : "default");
+            options.remove_start_nulls = (typeof options.remove_start_nulls === "boolean" ? options.remove_start_nulls : false);
+
+            if (!options.currency || !self.currencies[options.currency]) {
+                console.error("ERROR: Currency is not exist");
+                return result;
+            }
+            var format = self.currencies[options.currency];
+
+            if (typeof result === "string") {
+                var parts = result.split(".");
+
+                if (options.remove_start_nulls) {
+                    let string_with_nulls = parts[0].split(""),
+                        string_without_nulls = [];
+
+                    $.each(string_with_nulls, function(i, letter) {
+                        if (string_without_nulls.length || (letter !== "0")) {
+                            string_without_nulls.push(letter);
+                        }
+                    });
+
+                    if (!string_without_nulls.length) {
+                        string_without_nulls.push(0);
+                    }
+
+                    parts[0] = string_without_nulls.join("");
+                }
+
+                if (format.group_size > 0) {
+                    parts[0] = getGroupedString(parts[0], format.group_size, format.group_divider);
+                }
+
+                result = parts.join(".");
+
+                if (format.fraction_divider) {
+                    result = result.replace(".", format.fraction_divider);
+                }
+            }
+
+            return result;
+        },
+
         /**
          * @param {string|number} price
          * @param {object?} options
@@ -121,46 +209,6 @@
             }
 
             return result;
-
-            function getGroupedString(string, size, divider) {
-                var result = "";
-
-                if (!(size && string && divider)) {
-                    return string;
-                }
-
-                var string_array = string.split("").reverse();
-
-                var groups = [];
-                var group = [];
-
-                for (var i = 0; i < string_array.length; i++) {
-                    var letter = string_array[i],
-                        is_first = (i === 0),
-                        is_last = (i === string_array.length - 1),
-                        delta = (i % size);
-
-                    if (delta === 0 && !is_first) {
-                        groups.unshift(group);
-                        group = [];
-                    }
-
-                    group.unshift(letter);
-
-                    if (is_last) {
-                        groups.unshift(group);
-                    }
-                }
-
-                for (i = 0; i < groups.length; i++) {
-                    var is_last_group = (i === groups.length - 1),
-                        _group = groups[i].join("");
-
-                    result += _group + ( is_last_group ? "" : divider );
-                }
-
-                return result;
-            }
 
             function getFractionString(number) {
                 var result = "";

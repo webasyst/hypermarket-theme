@@ -142,7 +142,7 @@
                                     </td>
                                     <td>
                                         <span class="s-value">{wa_currency_html($item.price, $order.currency)}</span>
-                                        <span class="s-bold"> x {$item.quantity}</span>
+                                        <span class="s-bold"> x {shop_number_format($item.quantity, null, null, null)}</span>
                                     </td>
                                     <td>
                                         <span class="s-value">{wa_currency_html($item.price * $item.quantity, $order.currency)}</span>

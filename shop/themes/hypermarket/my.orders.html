@@ -61,7 +61,7 @@
                                     <ul class="s-items-list">
                                         {foreach $_order.items as $i}
                                             <li class="s-item">
-                                                <span class="s-name">{$i.name|escape}</span> x {$i.quantity}
+                                                <span class="s-name">{$i.name|escape}</span> x {shop_number_format($i.quantity, null, null, null)}
                                             </li>
                                         {/foreach}
                                     </ul>

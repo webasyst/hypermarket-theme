@@ -699,7 +699,7 @@
             if (that.$stock_base_ratio.length) {
                 if (stock_base_ratio) {
                     that.$stock_base_ratio
-                        .html(formatNumber(that.sku.stock_base_ratio))
+                        .html(waTheme.localizeNumber(formatNumber(that.sku.stock_base_ratio), { currency: that.currency }))
                         .show();
                 } else {
                     that.$stock_base_ratio

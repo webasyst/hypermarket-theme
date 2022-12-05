@@ -57,7 +57,7 @@
                         <td class="s-column-amount">
 
                             {* AMOUNT *}
-                            <div class="s-value">{shop_currency_html($item.price, $item.currency)} <span class="bold">&times; {$item.quantity}</span></div>
+                            <div class="s-value">{shop_currency_html($item.price, $item.currency)} <span class="bold">&times; {shop_number_format($item.quantity, null, null, null)}</span></div>
 
                         </td>
                         <td class="s-column-total">

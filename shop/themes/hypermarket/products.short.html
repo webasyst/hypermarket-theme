@@ -86,23 +86,10 @@
                         </div>
 
                         {if empty($hide_buttons)}
-                            {$_lang = substr($wa->locale(), 0, 2)}
-                            {$_delimiter = "."}{if ($_lang === "ru")}{$_delimiter = ","}{/if}
                             <div class="s-ratio-wrapper">
                                 <span>{sprintf(_w("1 %s"), $_stock_unit["name_short"])}</span>
                                 <span>&nbsp;=&nbsp;</span>
-                                {if (float)$active_sku['stock_base_ratio'] < 1}
-                                    {$parts = explode('.', $active_sku['stock_base_ratio'], 2)}
-                                    {if isset($parts[1])}
-                                        {$deleted_zero = ltrim($parts[1], '0')}
-                                        {$stock_base_ratio_round = round($active_sku['stock_base_ratio'], mb_strlen($parts[1]) - mb_strlen($deleted_zero) + 3)}
-                                    {else}
-                                        {$stock_base_ratio_round = round($active_sku['stock_base_ratio'], 3)}
-                                    {/if}
-                                {else}
-                                    {$stock_base_ratio_round = round($active_sku['stock_base_ratio'], 3)}
-                                {/if}
-                                <span class="js-stock-base-ratio">{$wa->shop->numberFormat($stock_base_ratio_round, null, $_delimiter)}</span>&nbsp;<span>{$_base_unit["name_short"]}</span>
+                                <span class="js-stock-base-ratio">{$wa->shop->roundNumber($active_sku['stock_base_ratio'], 3, null, null)}</span>&nbsp;<span>{$_base_unit["name_short"]}</span>
                             </div>
                         {/if}
                     {else}
