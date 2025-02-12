@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE theme PUBLIC "wa-app-theme" "http://www.webasyst.com/wa-content/xml/wa-app-theme.dtd">
-<theme id="hypermarket" app="shop" vendor="webasyst" author="webasyst" parent_theme_id="site:hypermarket" version="1.5.9">
+<theme id="hypermarket" app="shop" vendor="webasyst" author="webasyst" parent_theme_id="site:hypermarket" version="1.5.10">
     <name locale="en_US">Hypermarket</name>
     <name locale="ru_RU">Гипермаркет</name>
     <files>

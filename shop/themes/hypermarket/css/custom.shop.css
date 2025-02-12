@@ -3947,7 +3947,7 @@ html body .ui-datepicker .ui-button.ui-state-active:hover {
   font-family: 'Fira Sans', Verdana, Arial, sans-serif;
   font-weight: bold;
   color: #fff;
-  background: #dbba2c !important;
+  background: #dbba2c;
 }
 .s-badge-wrapper .badge.new {
   background: #c8405f !important;

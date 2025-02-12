@@ -60,10 +60,10 @@
                     {if !empty($_show_fractional)}
                         {$_stock_unit = $formatted_units[$product["stock_unit_id"]]}
                         {$_base_unit = $formatted_units[$product["base_unit_id"]]}
-                        {$_stock_price = shop_currency($product["price"], ["unit" => $_stock_unit["name_short"], "in_currency" => $_currency, "format" => "price_wrapper"])}
-                        {$_stock_compare_price = shop_currency($product["compare_price"], ["unit" => $_stock_unit["name_short"], "in_currency" => $_currency, "format" => "price_wrapper"])}
+                        {$_stock_price = shop_currency($product["price"], ["unit" => $_stock_unit["name_short"]|escape, "in_currency" => $_currency, "format" => "price_wrapper"])}
+                        {$_stock_compare_price = shop_currency($product["compare_price"], ["unit" => $_stock_unit["name_short"]|escape, "in_currency" => $_currency, "format" => "price_wrapper"])}
                         {$_base_price = ($active_sku["price"]/$active_sku["stock_base_ratio"])}
-                        {$_base_price = shop_currency($_base_price, ["unit" => $_base_unit["name_short"], "in_currency" => $_currency, "format" => "price_wrapper"])}
+                        {$_base_price = shop_currency($_base_price, ["unit" => $_base_unit["name_short"]|escape, "in_currency" => $_currency, "format" => "price_wrapper"])}
 
                         <div class="s-price-columns">
                             <div class="s-column">
@@ -87,9 +87,9 @@
 
                         {if empty($hide_buttons)}
                             <div class="s-ratio-wrapper">
-                                <span>{sprintf(_w("1 %s"), $_stock_unit["name_short"])}</span>
+                                <span>{sprintf(_w("1 %s"), $_stock_unit["name_short"]|escape)}</span>
                                 <span>&nbsp;=&nbsp;</span>
-                                <span class="js-stock-base-ratio">{$wa->shop->roundNumber($active_sku['stock_base_ratio'], 3, null, null)}</span>&nbsp;<span>{$_base_unit["name_short"]}</span>
+                                <span class="js-stock-base-ratio">{$wa->shop->roundNumber($active_sku['stock_base_ratio'], 3, null, null)}</span>&nbsp;<span>{$_base_unit["name_short"]|escape}</span>
                             </div>
                         {/if}
                     {else}
@@ -99,8 +99,8 @@
                         {if !empty($formatted_units) && $formatted_units[$product["stock_unit_id"]]}
                             {$_stock_unit = $formatted_units[$product["stock_unit_id"]]}
                             {if !empty($fractional_config) && $fractional_config["stock_units_enabled"]}
-                                {$_stock_price = shop_currency($active_sku["price"], ["unit" => $_stock_unit["name_short"], "in_currency" => $_currency, "format" => "price_wrapper"])}
-                                {$_stock_compare_price = shop_currency($active_sku["compare_price"], ["unit" => $_stock_unit["name_short"], "in_currency" => $_currency, "format" => "price_wrapper"])}
+                                {$_stock_price = shop_currency($active_sku["price"], ["unit" => $_stock_unit["name_short"]|escape, "in_currency" => $_currency, "format" => "price_wrapper"])}
+                                {$_stock_compare_price = shop_currency($active_sku["compare_price"], ["unit" => $_stock_unit["name_short"]|escape, "in_currency" => $_currency, "format" => "price_wrapper"])}
                             {/if}
                         {/if}
 
