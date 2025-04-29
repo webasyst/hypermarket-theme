@@ -1,0 +1,212 @@
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Fira%20Sans:wght@500&family=Fira%20Sans:wght@400&family=Fira%20Sans:wght@700&display=swap');
+
+:root {
+  --cnt: 1240px;
+  
+  --fnt-f-1: "Fira Sans", sans-serif;
+  --fnt-w-1: 400;
+  --fnt-f-2: "Fira Sans", sans-serif;
+  --fnt-w-2: 500;
+  --fnt-f-3: "Fira Sans", sans-serif;
+  --fnt-w-3: 500;
+  
+  --b-r-s: 5px;
+  --b-r-m: 5px;
+  --b-r-l: 5x;
+
+  --sh-1: 0 5px 30px rgba(0, 0, 0, 0.06);
+  --sh-2: 0 6px 40px rgba(0, 0, 0, 0.07);  
+  --sh-3: 0 8px 50px rgba(0, 0, 0, 0.08);  
+  --sh-4: 0 10px 60px rgba(0, 0, 0, 0.1); 
+  
+  --bw-1: hsla(60, 0%, 7%, 1);
+  --bw-2: hsla(60, 0%, 21%, 1);
+  --bw-3: hsla(60, 0%, 30%, 1);
+  --bw-4: hsla(60, 0%, 40%, 1);
+  --bw-5: hsla(60, 0%, 60%, 1);
+  --bw-6: hsla(60, 0%, 75%, 1);
+  --bw-7: hsla(60, 0%, 89%, 1);
+  --bw-8: hsla(60, 0%, 94%, 1);
+  
+  --t-rgl: var(--t-hdn);
+  
+  --brn-a: var(--yl-3-6);
+  --brn-a-1: var(--yl-3-1);
+  --brn-a-2: var(--yl-3-2);
+  --brn-a-8: var(--yl-3-8);
+  --brn-a-9: var(--yl-3-9);
+  --brn-b: var(--in-9-6);
+  --brn-b-1: var(--in-9-1);
+  --brn-b-2: var(--in-9-2);
+  --brn-b-8: var(--in-9-8);
+  --brn-b-9: var(--in-9-9);
+  --brn-c: var(--cn-7-6);
+  --brn-c-1: var(--cn-7-1);
+  --brn-c-2: var(--cn-7-2);
+  --brn-c-8: var(--cn-7-8);
+  --brn-c-9: var(--cn-7-9);
+  --brn-d: var(--mg-11-6);
+  --brn-d-1: var(--mg-11-1);
+  --brn-d-2: var(--mg-11-2);
+  --brn-d-8: var(--mg-11-8);
+  --brn-d-9: var(--mg-11-9);
+  --brn-e: var(--pn-12-6);
+  --brn-e-1: var(--pn-12-1);
+  --brn-e-2: var(--pn-12-2);
+  --brn-e-8: var(--pn-12-8);
+  --brn-e-9: var(--pn-12-9);
+  --brn-f: hsla(15, 95%, 45%, 1);
+  --brn-f-1: hsla(15, 90%, 96%, 1);
+  --brn-f-2: hsla(15, 90%, 90%, 1);
+  --brn-f-8: hsla(15, 95%, 25%, 1);
+  --brn-f-9: hsla(15, 95%, 15%, 1);
+  --brn-g: var(--bl-8-6);
+  --brn-g-1: var(--bl-8-1);
+  --brn-g-2: var(--bl-8-2);
+  --brn-g-8: var(--bl-8-8);
+  --brn-g-9: var(--bl-8-9);
+  --brn-h: var(--pr-10-6);
+  --brn-h-1: var(--pr-10-1);
+  --brn-h-2: var(--pr-10-2);
+  --brn-h-8: var(--pr-10-8);
+  --brn-h-9: var(--pr-10-9);
+  --brn-i: ;
+  --brn-i-1: ;
+  --brn-i-2: ;
+  --brn-i-8: ;
+  --brn-i-9: ;
+  --brn-j: var(--or-2-6);
+  --brn-j-1: var(--or-2-1);
+  --brn-j-2: var(--or-2-2);
+  --brn-j-8: var(--or-2-8);
+  --brn-j-9: var(--or-2-9);
+  --brn-k: var(--lm-4-6);
+  --brn-k-1: var(--lm-4-1);
+  --brn-k-2: var(--lm-4-2);
+  --brn-k-8: var(--lm-4-8);
+  --brn-k-9: var(--lm-4-9);
+
+  --rd-1-1: hsla(-15, 90%, 96%, 1);
+  --rd-1-2: hsla(-15, 90%, 90%, 1);
+  --rd-1-3: hsla(-15, 90%, 80%, 1);
+  --rd-1-4: hsla(-15, 90%, 65%, 1);
+  --rd-1-5: hsla(-15, 92%, 55%, 1);
+  --rd-1-6: hsla(-15, 95%, 45%, 1);
+  --rd-1-7: hsla(-15, 95%, 35%, 1);
+  --rd-1-8: hsla(-15, 95%, 25%, 1);
+  --rd-1-9: hsla(-15, 95%, 15%, 1);
+  --or-2-1: hsla(15, 90%, 96%, 1);
+  --or-2-2: hsla(15, 90%, 90%, 1);
+  --or-2-3: hsla(15, 90%, 80%, 1);
+  --or-2-4: hsla(15, 90%, 65%, 1);
+  --or-2-5: hsla(15, 92%, 55%, 1);
+  --or-2-6: hsla(15, 95%, 45%, 1);
+  --or-2-7: hsla(15, 95%, 35%, 1);
+  --or-2-8: hsla(15, 95%, 25%, 1);
+  --or-2-9: hsla(15, 95%, 15%, 1);
+  --yl-3-1: hsla(45, 95%, 88%, 1);
+  --yl-3-2: hsla(45, 95%, 82%, 1);
+  --yl-3-3: hsla(45, 98%, 74%, 1);
+  --yl-3-4: hsla(45, 98%, 64%, 1);
+  --yl-3-5: hsla(45, 98%, 54%, 1);
+  --yl-3-6: hsla(45, 98%, 40%, 1);
+  --yl-3-7: hsla(45, 98%, 30%, 1);
+  --yl-3-8: hsla(45, 98%, 20%, 1);
+  --yl-3-9: hsla(45, 98%, 10%, 1);
+  --lm-4-1: hsla(75, 90%, 96%, 1);
+  --lm-4-2: hsla(75, 90%, 90%, 1);
+  --lm-4-3: hsla(75, 90%, 80%, 1);
+  --lm-4-4: hsla(75, 90%, 65%, 1);
+  --lm-4-5: hsla(75, 92%, 55%, 1);
+  --lm-4-6: hsla(75, 95%, 45%, 1);
+  --lm-4-7: hsla(75, 95%, 35%, 1);
+  --lm-4-8: hsla(75, 95%, 25%, 1);
+  --lm-4-9: hsla(75, 95%, 15%, 1);
+  --gr-5-1: hsla(105, 90%, 96%, 1);
+  --gr-5-2: hsla(105, 90%, 90%, 1);
+  --gr-5-3: hsla(105, 90%, 80%, 1);
+  --gr-5-4: hsla(105, 90%, 65%, 1);
+  --gr-5-5: hsla(105, 92%, 55%, 1);
+  --gr-5-6: hsla(105, 92%, 45%, 1);
+  --gr-5-7: hsla(105, 92%, 35%, 1);
+  --gr-5-8: hsla(105, 92%, 25%, 1);
+  --gr-5-9: hsla(105, 92%, 15%, 1);
+  --tl-6-1: hsla(135, 90%, 96%, 1);
+  --tl-6-2: hsla(135, 90%, 90%, 1);
+  --tl-6-3: hsla(135, 90%, 80%, 1);
+  --tl-6-4: hsla(135, 90%, 65%, 1);
+  --tl-6-5: hsla(135, 92%, 55%, 1);
+  --tl-6-6: hsla(135, 95%, 45%, 1);
+  --tl-6-7: hsla(135, 95%, 35%, 1);
+  --tl-6-8: hsla(135, 95%, 25%, 1);
+  --tl-6-9: hsla(135, 95%, 15%, 1);
+  --cn-7-1: hsla(160, 90%, 96%, 1);
+  --cn-7-2: hsla(160, 90%, 90%, 1);
+  --cn-7-3: hsla(160, 90%, 80%, 1);
+  --cn-7-4: hsla(160, 90%, 65%, 1);
+  --cn-7-5: hsla(160, 92%, 55%, 1);
+  --cn-7-6: hsla(160, 95%, 45%, 1);
+  --cn-7-7: hsla(160, 95%, 35%, 1);
+  --cn-7-8: hsla(160, 95%, 25%, 1);
+  --cn-7-9: hsla(160, 95%, 15%, 1);
+  --bl-8-1: hsla(195, 90%, 96%, 1);
+  --bl-8-2: hsla(195, 90%, 90%, 1);
+  --bl-8-3: hsla(195, 90%, 80%, 1);
+  --bl-8-4: hsla(195, 90%, 65%, 1);
+  --bl-8-5: hsla(195, 92%, 55%, 1);
+  --bl-8-6: hsla(195, 95%, 45%, 1);
+  --bl-8-7: hsla(195, 95%, 35%, 1);
+  --bl-8-8: hsla(195, 95%, 25%, 1);
+  --bl-8-9: hsla(195, 95%, 15%, 1);
+  --in-9-1: hsla(215, 90%, 96%, 1);
+  --in-9-2: hsla(215, 90%, 90%, 1);
+  --in-9-3: hsla(215, 90%, 80%, 1);
+  --in-9-4: hsla(215, 90%, 65%, 1);
+  --in-9-5: hsla(215, 92%, 55%, 1);
+  --in-9-6: hsla(215, 95%, 45%, 1);
+  --in-9-7: hsla(215, 95%, 35%, 1);
+  --in-9-8: hsla(215, 95%, 25%, 1);
+  --in-9-9: hsla(225, 95%, 15%, 1);
+  --pr-10-1: hsla(255, 85%, 96%, 1);
+  --pr-10-2: hsla(255, 85%, 90%, 1);
+  --pr-10-3: hsla(255, 85%, 80%, 1);
+  --pr-10-4: hsla(255, 85%, 65%, 1);
+  --pr-10-5: hsla(255, 90%, 55%, 1);
+  --pr-10-6: hsla(255, 95%, 45%, 1);
+  --pr-10-7: hsla(255, 95%, 35%, 1);
+  --pr-10-8: hsla(255, 95%, 25%, 1);
+  --pr-10-9: hsla(255, 95%, 15%, 1);
+  --mg-11-1: hsla(285, 85%, 96%, 1);
+  --mg-11-2: hsla(285, 85%, 90%, 1);
+  --mg-11-3: hsla(285, 85%, 80%, 1);
+  --mg-11-4: hsla(285, 85%, 65%, 1);
+  --mg-11-5: hsla(285, 90%, 55%, 1);
+  --mg-11-6: hsla(285, 95%, 45%, 1);
+  --mg-11-7: hsla(285, 95%, 35%, 1);
+  --mg-11-8: hsla(285, 95%, 25%, 1);
+  --mg-11-9: hsla(285, 95%, 15%, 1);
+  --pn-12-1: hsla(315, 90%, 96%, 1);
+  --pn-12-2: hsla(315, 90%, 90%, 1);
+  --pn-12-3: hsla(315, 90%, 80%, 1);
+  --pn-12-4: hsla(315, 90%, 65%, 1);
+  --pn-12-5: hsla(315, 92%, 55%, 1);
+  --pn-12-6: hsla(315, 95%, 45%, 1);
+  --pn-12-7: hsla(315, 95%, 35%, 1);
+  --pn-12-8: hsla(315, 95%, 25%, 1);
+  --pn-12-9: hsla(315, 95%, 15%, 1);
+}
+    
+.js-seq-wrapper .seq-child > section:not(.app-template) a:not(.btn), .js-seq-wrapper .seq-child > section:not(.app-template) b > a, .js-seq-wrapper .seq-child > section:not(.app-template) strong > a {
+    color:var(--brn-b)
+}
+
+.js-seq-wrapper .seq-child > section:not(.app-template) a:not(.btn):hover, .js-seq-wrapper .seq-child > section:not(.app-template) b > a:hover, .js-seq-wrapper .seq-child > section:not(.app-template) strong > a:hover {
+color: var(--brn-b-8)
+}
+
+</style>
+
+{$content}
+    

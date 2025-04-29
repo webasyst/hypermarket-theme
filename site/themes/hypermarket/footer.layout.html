@@ -1,12 +1,17 @@
 {strip}
-
+{if !empty($is_bp_header)}
+    <!-- css -->
+    <link href="{$wa_theme_url}css/custom.css?v={$wa_theme_version}" rel="stylesheet" />
+    <script src="{$wa_theme_url}js/waTheme.js?v={$wa_theme_version}"></script>
+    <script src="{$wa_theme_url}js/custom.js?v={$wa_theme_version}"></script>
+{/if}
 {$_name = ""}
 {if $wa->shop}
     {$_name = $wa->shop->settings('name')}
     {$_phone = $wa->shop->settings('phone')}
 {/if}
 
-<footer class="s-footer-wrapper" id="js-footer-wrapper">
+<footer class="s-footer-wrapper {if !empty($is_bp_header)}cnt{/if}" id="js-footer-wrapper">
     <div class="s-footer-block">
 
         <div class="s-footer-top">
@@ -262,5 +267,7 @@
         })(jQuery, window.waTheme);
     </script>
 </footer>
-
+{if $wa->shop && empty($_hide_pane) && !empty($is_bp_header)}
+    {include file="`$wa_active_theme_path`/pane.html" inline}
+{/if}
 {/strip}

@@ -1,5 +1,10 @@
 {strip}
-
+{if !empty($is_bp_header)}
+    <!-- css -->
+    <link href="{$wa_theme_url}css/custom.css?v={$wa_theme_version}" rel="stylesheet" />
+    <script src="{$wa_theme_url}js/waTheme.js?v={$wa_theme_version}"></script>
+    <script src="{$wa_theme_url}js/custom.js?v={$wa_theme_version}"></script>
+{/if}
 {$_name = ""}
 {if $wa->shop}
     {$_name = $wa->shop->settings('name')}
@@ -8,7 +13,7 @@
 
 {$_is_personal_area = $wa->globals("isMyAccount")}
 
-<header class="s-header-wrapper" id="s-header-wrapper">
+<header class="s-header-wrapper {if !empty($is_bp_header)}cnt{/if}" id="s-header-wrapper">
     <section class="s-header-section">
         <div class="s-header-top s-layout">
             <div class="s-column left">
@@ -323,7 +328,6 @@
             </div>
         </div>
     {/if}
-
     {include file="`$wa_active_theme_path`/header.html" inline}
 </header>
 
