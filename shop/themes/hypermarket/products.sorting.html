@@ -90,8 +90,10 @@
             {/if}
             {if $data["order"] === "asc"}
                 {$data['order'] = "desc"}
-            {else}
+            {elseif !empty($data["order"]) && $data["order"] === "desc"}
                 {$data['order'] = "asc"}
+            {else}
+                {$data['order'] = "desc"}
             {/if}
         {else}
             {$data['order'] = null}
